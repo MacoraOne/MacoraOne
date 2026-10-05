@@ -6,23 +6,26 @@
 
 Our goal is to bring independent developer projects together under one unified technology ecosystem, making software development more accessible, practical, and extensible.
 
-From programming languages to server infrastructure and AI-oriented datasets, MacoraOne brings together tools designed to support developers, learners, and technology builders.
+From programming languages and runtime systems to server infrastructure, command-line tools, and AI-oriented datasets, MacoraOne brings together technologies designed to support developers, learners, and technology builders.
 
 ---
 
 ## About MacoraOne
 
-MacoraOne is the unified technology identity for a collection of software development projects created by Dominex Macedon.
+MacoraOne is the unified technology identity for a collection of software development projects created by **Dominex Macedon**.
 
-The ecosystem includes programming languages, runtime components, server development utilities, command-line tools, and data resources for AI-related research and development.
+The ecosystem includes programming languages, runtime components, virtual machines, server development utilities, command-line tools, developer tooling, and data resources for AI-related research and development.
 
 Each project serves a different purpose while contributing to a broader vision: building practical software technologies that developers can explore, use, and extend.
+
+For information about the creator and developer behind MacoraOne, see [`ABOUT_DEVELOPER.md`](ABOUT_DEVELOPER.md).
 
 ### Our Focus
 
 * Programming language development
 * Server-side programming
 * Developer tools and runtime systems
+* Virtual-machine and bytecode technologies
 * Command-line software
 * AI-oriented programming language datasets
 * Open-source software experimentation
@@ -43,9 +46,11 @@ Puma is a programming language project with a custom runtime and `.pulsar` sourc
 The project documentation describes language features such as variables, functions, control flow, asynchronous tasks, web server utilities, and networking-related functionality.
 
 **Repository:**
+
 https://github.com/dominexmacedon-docs/puma
 
 **Language and runtime repository:**
+
 https://github.com/dominexmacedon-docs/puma-programming-language
 
 **Key areas:**
@@ -66,6 +71,7 @@ https://github.com/dominexmacedon-docs/puma-programming-language
 This project is part of the Puma ecosystem and is intended to support work involving programming language data and AI-oriented development.
 
 **Repository:**
+
 https://github.com/dominexmacedon-docs/puma-data-for-ai-models
 
 **Project area:**
@@ -79,29 +85,29 @@ Refer to the repository documentation for the exact dataset structure, licensing
 
 ---
 
-### 3. greenServe
+### 3. greenServeFE-
 
-**A programming language specially built for server implementation.**
+**A fast-execution programming language runtime and virtual-machine-based development platform.**
 
-greenServe is a dedicated programming language project focused on server-oriented development.
+greenServeFE- is focused on fast program execution through a custom interpreter, compiler, bytecode system, virtual machine, and native module architecture.
 
-The ecosystem includes the greenServe language repository and a separate modules repository for related server functionality.
+The ecosystem includes the greenServeFE- runtime, VM execution system, native modules, server-related functionality, and developer resources.
 
-**Language repository:**
-https://github.com/dominexmacedon-docs/greenServe-lang
+**Project repository:**
 
-**Modules repository:**
-https://github.com/dominexmacedon-docs/greenServe-modules
+https://github.com/dominexmacedon-docs/greenServeFE-
+
 
 **Project area:**
 
-* Server-oriented programming
-* Custom language development
-* Runtime functionality
-* Extensible server modules
-* Developer tooling
-
-Explore the individual repositories for installation instructions, supported language features, and available modules.
+* Programming language runtime development
+* Interpreter and compiler development
+* Bytecode execution
+* Virtual-machine architecture
+* Native C modules
+* Server-side development
+* Runtime and developer tooling
+* Fast program execution
 
 ---
 
@@ -114,6 +120,7 @@ CMLL is a command-line language project focused on multi-line execution, scripti
 The project is intended to provide a language environment for executing commands and developing scripts with a custom syntax.
 
 **Repository:**
+
 https://github.com/dominexmacedon-docs/CMLL
 
 **Project area:**
@@ -138,8 +145,12 @@ MacoraOne
 │   │   ├── Puma Language
 │   │   └── Puma Runtime
 │   │
-│   ├── greenServe
-│   │   └── Server Modules
+│   ├── greenServeFE-
+│   │   ├── Interpreter
+│   │   ├── Compiler
+│   │   ├── Bytecode
+│   │   ├── Virtual Machine
+│   │   └── Native Modules
 │   │
 │   └── CMLL
 │       └── Command-Line Programming
@@ -150,6 +161,7 @@ MacoraOne
 └── Developer Ecosystem
     ├── Language Tooling
     ├── Runtime Systems
+    ├── Virtual Machines
     └── Open-Source Projects
 ```
 
@@ -159,11 +171,11 @@ MacoraOne
 
 Software development is built on different layers of technology.
 
-Programming languages provide the foundation. Runtime systems execute applications. Server tools support backend development. Command-line utilities simplify workflows. Data resources support experimentation and research.
+Programming languages provide the foundation. Runtime systems execute applications. Virtual machines provide execution environments. Server tools support backend development. Command-line utilities simplify workflows. Data resources support experimentation and research.
 
 MacoraOne brings these areas together under one recognizable identity.
 
-The ecosystem is designed around three principles:
+The ecosystem is designed around three principles.
 
 ### Accessibility
 
@@ -175,7 +187,7 @@ Focus on tools and programming technologies that can be explored through real de
 
 ### Continuous Innovation
 
-Experiment with programming languages, runtimes, developer utilities, and new approaches to software development.
+Experiment with programming languages, runtimes, virtual machines, developer utilities, and new approaches to software development.
 
 ---
 
@@ -188,6 +200,7 @@ MacoraOne's project ecosystem covers several areas of software engineering.
 | Programming Languages | Custom language development and syntax design             |
 | Server Development    | Tools and languages for server-oriented programming       |
 | Runtime Systems       | Components that execute and support programming languages |
+| Virtual Machines      | Bytecode-based execution and runtime systems              |
 | Command-Line Tools    | Utilities and languages for terminal workflows            |
 | AI Data Resources     | Programming-related data and AI-oriented resources        |
 | Developer Tooling     | Supporting tools for programming and software development |
@@ -200,7 +213,7 @@ The exact features and maturity of each project depend on its individual reposit
 
 MacoraOne's projects are developed through public GitHub repositories.
 
-Developers can explore the source code, review project documentation, test available software, and contribute where the individual repository supports contributions.
+Developers can explore source code, review project documentation, test available software, and contribute where the individual repository supports contributions.
 
 Project-specific licenses and contribution guidelines apply.
 
@@ -212,13 +225,12 @@ Project-specific licenses and contribution guidelines apply.
 
 * [Puma](https://github.com/dominexmacedon-docs/puma)
 * [Puma Programming Language](https://github.com/dominexmacedon-docs/puma-programming-language)
-* [greenServe](https://github.com/dominexmacedon-docs/greenServe-lang)
+* [greenServeFE-](https://github.com/dominexmacedon-docs/greenServeFE-)
 * [CMLL](https://github.com/dominexmacedon-docs/CMLL)
 
 ### Data and Resources
 
 * [Puma Data for AI Models](https://github.com/dominexmacedon-docs/puma-data-for-ai-models)
-* [greenServe Modules](https://github.com/dominexmacedon-docs/greenServe-modules)
 
 ---
 
@@ -226,25 +238,17 @@ Project-specific licenses and contribution guidelines apply.
 
 To explore MacoraOne, choose a project based on your interests.
 
-**Programming languages:** Explore Puma, greenServe, or CMLL.
+**Programming languages:** Explore Puma, greenServeFE-, or CMLL.
 
-**Server development:** Explore the Puma and greenServe projects and review their respective runtime and server documentation.
+**Server development:** Explore the Puma and greenServeFE- projects and review their respective runtime and server documentation.
 
 **AI and data:** Explore the Puma data repository for its available resources and documentation.
 
 **Command-line development:** Explore CMLL and its supported scripting and execution features.
 
+**Runtime and VM development:** Explore greenServeFE- and its interpreter, compiler, bytecode, VM, and native-module architecture.
+
 Each repository contains its own installation and usage instructions.
-
----
-
-## Vision
-
-MacoraOne aims to develop a connected ecosystem of software projects that supports programming education, experimentation, and practical developer workflows.
-
-Through programming languages, server tools, command-line utilities, and data resources, the platform provides a foundation for exploring different areas of software technology.
-
-**One identity. Multiple projects. A growing technology ecosystem.**
 
 ---
 
@@ -254,8 +258,21 @@ Through programming languages, server tools, command-line utilities, and data re
 
 Creator and developer of the MacoraOne project ecosystem.
 
-GitHub:
+For detailed information about Dominex Macedon, see [`ABOUT_DEVELOPER.md`](ABOUT_DEVELOPER.md).
+
+**GitHub:**
+
 https://github.com/dominexmacedon-docs
+
+---
+
+## Vision
+
+MacoraOne aims to develop a connected ecosystem of software projects that supports programming education, experimentation, and practical developer workflows.
+
+Through programming languages, server tools, command-line utilities, virtual machines, runtime systems, and data resources, the platform provides a foundation for exploring different areas of software technology.
+
+**One identity. Multiple projects. A growing technology ecosystem.**
 
 ---
 
