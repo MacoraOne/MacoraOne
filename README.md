@@ -87,6 +87,57 @@ Developers use:
 
 The repository is intended to provide a clean starting point rather than hide Android development behind another abstraction.
 
+## MacoraOne One Commands
+
+The MacoraOne `one` command provides the standard workflow for creating and building NativeFlexi Android applications.
+
+### Create an application
+
+```text
+one create AppName
+```
+
+### Build an application
+
+Build using the default build mode:
+
+```text
+one build AppName
+```
+
+Build all available Android artifacts:
+
+```text
+one build AppName all
+```
+
+Build the debug APK:
+
+```text
+one build AppName debug
+```
+
+Build the release APK and AAB:
+
+```text
+one build AppName release
+```
+
+### Command information
+
+Show the installed MacoraOne version:
+
+```text
+one --version
+```
+
+Show command help:
+
+```text
+one --help
+```
+
+
 ---
 
 # Choose Java or Kotlin
