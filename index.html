@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MacoraOne — One Technology Ecosystem. Multiple Possibilities.</title>
+  <meta name="description" content="MacoraOne is a technology ecosystem created by Dominex Macedon, bringing together programming languages, Android development, server development, runtime systems, virtual machines, command-line tools, developer tooling, and AI-oriented resources.">
+  <meta name="keywords" content="MacoraOne, Dominex Macedon, programming languages, Puma, greenServeFE, CMLL, NativeFlexi Android, Android development, server development, virtual machine, bytecode, command line, developer tools">
+  <meta name="author" content="Dominex Macedon">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="MacoraOne — One Technology Ecosystem. Multiple Possibilities.">
+  <meta property="og:description" content="Programming languages, Android development, server development, runtime systems, virtual machines, command-line tools, developer tooling, and AI-oriented resources.">
+  <meta property="og:url" content="https://github.com/MacoraOne/MacoraOne">
+  <meta property="og:site_name" content="MacoraOne">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MacoraOne — One Technology Ecosystem. Multiple Possibilities.">
+  <meta name="twitter:description" content="A unified technology ecosystem created by Dominex Macedon.">
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07090d;
+      --panel: #0d1118;
+      --panel-2: #111722;
+      --line: #202936;
+      --text: #f3f6fa;
+      --muted: #9ba7b7;
+      --accent: #8ab4ff;
+      --accent-2: #b9d2ff;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(77, 124, 190, 0.13), transparent 34rem),
+        radial-gradient(circle at 90% 15%, rgba(110, 90, 180, 0.10), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-2);
+      text-decoration: underline;
+    }
+
+    .wrap {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 84px 0 58px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 72px;
+    }
+
+    .brand {
+      color: var(--text);
+      font-weight: 750;
+      letter-spacing: -0.03em;
+      font-size: 1.15rem;
+    }
+
+    nav .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 0.92rem;
+    }
+
+    nav .links a {
+      color: var(--muted);
+    }
+
+    nav .links a:hover {
+      color: var(--text);
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin: 12px 0 22px;
+      font-size: clamp(2.8rem, 7vw, 5.9rem);
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+    }
+
+    .lead {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 17px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      font-weight: 650;
+    }
+
+    .button.primary {
+      background: var(--text);
+      color: #080a0d;
+      border-color: var(--text);
+    }
+
+    main {
+      padding: 70px 0;
+    }
+
+    section {
+      padding: 42px 0;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 28px;
+    }
+
+    section:last-child {
+      border-bottom: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1.18rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-intro {
+      max-width: 760px;
+      margin: 0 0 30px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(17, 23, 34, 0.92), rgba(10, 13, 18, 0.92));
+    }
+
+    .card p {
+      color: var(--muted);
+      margin: 8px 0 16px;
+    }
+
+    .route {
+      display: block;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(0, 0, 0, 0.16);
+      overflow-wrap: anywhere;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.83rem;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .list a {
+      display: block;
+      padding: 15px 17px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--panel);
+    }
+
+    .list strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .list span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .about {
+      max-width: 820px;
+    }
+
+    .about p {
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 38px 0 58px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .wrap {
+        width: min(calc(100% - 28px), var(--max));
+      }
+
+      header {
+        padding-top: 42px;
+      }
+
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 54px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MacoraOne",
+    "description": "One Technology Ecosystem. Multiple Possibilities.",
+    "url": "https://github.com/MacoraOne/MacoraOne",
+    "creator": {
+      "@type": "Person",
+      "name": "Dominex Macedon",
+      "url": "https://github.com/dominexmacedon-docs"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <header id="top">
+    <div class="wrap">
+      <nav aria-label="Primary navigation">
+        <a class="brand" href="#top">MacoraOne</a>
+        <div class="links">
+          <a href="#projects">Projects</a>
+          <a href="#developer">Developer</a>
+          <a href="#routes">Routes</a>
+          <a href="#focus">Focus</a>
+          <a href="#github">GitHub</a>
+        </div>
+      </nav>
+
+      <div class="eyebrow">MacoraOne</div>
+      <h1>One Technology Ecosystem. Multiple Possibilities.</h1>
+      <p class="lead">
+        MacoraOne brings programming languages, Android development, server development,
+        runtime systems, virtual machines, command-line tools, developer tooling, and
+        AI-oriented resources together under one technology identity.
+      </p>
+
+      <div class="actions">
+        <a class="button primary" href="#projects">Explore projects</a>
+        <a class="button" href="https://github.com/MacoraOne/MacoraOne">GitHub repository</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section id="projects">
+        <div class="eyebrow">Projects</div>
+        <h2>MacoraOne ecosystem</h2>
+        <p class="section-intro">
+          These are the projects and repositories listed in the MacoraOne README.
+          Every link below points directly to its GitHub repository.
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Puma Programming Language</h3>
+            <p>A programming language project focused on server-related development and beginner-friendly programming.</p>
+            <a class="route" href="https://github.com/dominexmacedon-docs/puma">github.com/dominexmacedon-docs/puma</a>
+            <p>Language and runtime:</p>
+            <a class="route" href="https://github.com/dominexmacedon-docs/puma-programming-language">github.com/dominexmacedon-docs/puma-programming-language</a>
+          </article>
+
+          <article class="card">
+            <h3>Puma Data for AI Models</h3>
+            <p>Programming-language data and resources associated with the Puma ecosystem.</p>
+            <a class="route" href="https://github.com/dominexmacedon-docs/puma-data-for-ai-models">github.com/dominexmacedon-docs/puma-data-for-ai-models</a>
+          </article>
+
+          <article class="card">
+            <h3>greenServeFE-</h3>
+            <p>A fast-execution runtime and virtual-machine-oriented programming-language project.</p>
+            <a class="route" href="https://github.com/dominexmacedon-docs/greenServeFE-">github.com/dominexmacedon-docs/greenServeFE-</a>
+          </article>
+
+          <article class="card">
+            <h3>CMLL</h3>
+            <p>A command-line programming language designed for multiline execution, scripting, and terminal workflows.</p>
+            <a class="route" href="https://github.com/dominexmacedon-docs/CMLL">github.com/dominexmacedon-docs/CMLL</a>
+          </article>
+
+          <article class="card">
+            <h3>NativeFlexi Android</h3>
+            <p>A conventional Android development template with independent Java and Kotlin projects.</p>
+            <a class="route" href="https://github.com/dominexmacedon-docs/NativeFlexi-android">github.com/dominexmacedon-docs/NativeFlexi-android</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="developer">
+        <div class="eyebrow">About</div>
+        <h2>About Dominex Macedon</h2>
+        <div class="about">
+          <p>
+            <strong>Dominex Macedon</strong> is the creator and developer behind the
+            MacoraOne project ecosystem. The work spans programming-language development,
+            server-side programming, Android development, runtime systems, virtual
+            machines, command-line software, developer tooling, and programming-related
+            data resources.
+          </p>
+          <p>
+            The MacoraOne ecosystem brings these independent projects together while
+            allowing each repository to remain focused on its own technology and purpose.
+          </p>
+          <p>
+            <a href="https://github.com/dominexmacedon-docs">Dominex Macedon GitHub profile</a>
+          </p>
+        </div>
+      </section>
+
+      <section id="focus">
+        <div class="eyebrow">Technology</div>
+        <h2>What MacoraOne focuses on</h2>
+        <div class="grid">
+          <div class="card"><h3>Programming Languages</h3><p>Language syntax, runtimes, interpreters, compilers, and execution environments.</p></div>
+          <div class="card"><h3>Server Development</h3><p>Server-oriented programming technologies and backend development workflows.</p></div>
+          <div class="card"><h3>Android Development</h3><p>Native Java and Kotlin application development using standard Android tooling.</p></div>
+          <div class="card"><h3>Runtime Systems</h3><p>Bytecode, virtual machines, native modules, and other execution technologies.</p></div>
+          <div class="card"><h3>Command-Line Software</h3><p>Terminal-oriented programming languages, utilities, and developer workflows.</p></div>
+          <div class="card"><h3>AI & Data Resources</h3><p>Programming-language datasets and resources for AI-oriented development and research.</p></div>
+        </div>
+      </section>
+
+      <section id="routes">
+        <div class="eyebrow">Routes</div>
+        <h2>GitHub routes</h2>
+        <p class="section-intro">
+          Crawlable direct links are used instead of JavaScript-only navigation so search
+          engines and users can discover the individual repositories.
+        </p>
+
+        <div class="list">
+          <a href="https://github.com/MacoraOne/MacoraOne">
+            <strong>MacoraOne repository</strong>
+            <span>github.com/MacoraOne/MacoraOne</span>
+          </a>
+          <a href="https://github.com/dominexmacedon-docs/puma">
+            <strong>Puma</strong>
+            <span>github.com/dominexmacedon-docs/puma</span>
+          </a>
+          <a href="https://github.com/dominexmacedon-docs/puma-programming-language">
+            <strong>Puma Programming Language</strong>
+            <span>github.com/dominexmacedon-docs/puma-programming-language</span>
+          </a>
+          <a href="https://github.com/dominexmacedon-docs/puma-data-for-ai-models">
+            <strong>Puma Data for AI Models</strong>
+            <span>github.com/dominexmacedon-docs/puma-data-for-ai-models</span>
+          </a>
+          <a href="https://github.com/dominexmacedon-docs/greenServeFE-">
+            <strong>greenServeFE-</strong>
+            <span>github.com/dominexmacedon-docs/greenServeFE-</span>
+          </a>
+          <a href="https://github.com/dominexmacedon-docs/CMLL">
+            <strong>CMLL</strong>
+            <span>github.com/dominexmacedon-docs/CMLL</span>
+          </a>
+          <a href="https://github.com/dominexmacedon-docs/NativeFlexi-android">
+            <strong>NativeFlexi Android</strong>
+            <span>github.com/dominexmacedon-docs/NativeFlexi-android</span>
+          </a>
+          <a href="https://github.com/dominexmacedon-docs">
+            <strong>Dominex Macedon GitHub profile</strong>
+            <span>github.com/dominexmacedon-docs</span>
+          </a>
+        </div>
+      </section>
+
+      <section id="github">
+        <div class="eyebrow">Source</div>
+        <h2>Open source</h2>
+        <p class="section-intro">
+          MacoraOne projects are developed through GitHub repositories. Explore the source,
+          documentation, project structure, and individual project licenses from the
+          repositories themselves.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/MacoraOne/MacoraOne">MacoraOne on GitHub</a>
+          <a class="button" href="https://github.com/dominexmacedon-docs">Dominex Macedon on GitHub</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>MacoraOne</strong>
+      <div>Programming Languages • Android Development • Server Development • Developer Tools • AI Resources • Open Source</div>
+      <div class="footer-links">
+        <a href="#top">Top</a>
+        <a href="#projects">Projects</a>
+        <a href="#developer">Developer</a>
+        <a href="#routes">Routes</a>
+        <a href="https://github.com/MacoraOne/MacoraOne">Repository</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
