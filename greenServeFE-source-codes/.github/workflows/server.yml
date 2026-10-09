@@ -1,0 +1,47 @@
+name: Build server module
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install server dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcurl4-openssl-dev libssl-dev
+
+      - name: Build server.so
+        run: |
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/server.so server.c -lcurl -lssl -lcrypto
+          test -f dist/server.so
+          ldd dist/server.so
+
+      - name: Test server module ABI
+        run: |
+          nm -D dist/server.so | grep greenServeFE_module_init
+
+      - name: Package server module
+        run: |
+          cp server.c dist/server.c
+          zip -j dist/server-linux-x86_64.zip dist/server.so dist/server.c
+          sha256sum dist/server.so > dist/server.so.sha256
+          sha256sum dist/server-linux-x86_64.zip > dist/server-linux-x86_64.zip.sha256
+          ls -lh dist
+
+      - name: Upload server module
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-linux-x86_64
+          path: |
+            dist/server.so
+            dist/server.c
+            dist/server-linux-x86_64.zip
+            dist/server.so.sha256
+            dist/server-linux-x86_64.zip.sha256

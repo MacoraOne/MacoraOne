@@ -1,0 +1,83 @@
+name: Build and Test greenServeFE with gs_object
+
+on:
+  workflow_dispatch:
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build greenServeFE
+        run: |
+          make clean all
+          test -x ./greenServeFE
+
+      - name: Build gs_object native module
+        run: |
+          mkdir -p modules
+          cc -std=c11 -O2 -Wall -Wextra -Wpedantic             -fPIC -shared -I. gs_object.c             -o modules/gs_object.so
+          test -f modules/gs_object.so
+
+      - name: Test .gsob import, nested values, read and write
+        run: |
+          cat > sample.gsve <<'EOF'
+          import gs_object;
+
+          define data = {
+            name: "greenServeFE",
+            version: 1.0,
+            active: true,
+            paths: {
+              source: "src",
+              binary: "build/greenServeFE"
+            },
+            files: [
+              "main.c",
+              "vm.c",
+              "compiler.c"
+            ]
+          };
+
+          define saved = gs_object.write("sample.gsob", data);
+          define loaded = gs_object.read("sample.gsob");
+
+          print(saved);
+          print(loaded.name);
+          print(loaded.paths.source);
+          print(loaded.files[1]);
+          print(gs_object.exists("sample.gsob"));
+          EOF
+
+          GREENSERVE_MODULE_PATH="$PWD/modules" ./greenServeFE sample.gsve > output.txt
+          grep -Fx "true" output.txt
+          grep -Fx "greenServeFE" output.txt
+          grep -Fx "src" output.txt
+          grep -Fx "vm.c" output.txt
+
+          test -f sample.gsob
+
+      - name: Show generated .gsob
+        run: |
+          cat sample.gsob
+
+      - name: Package executable and module
+        run: |
+          mkdir -p dist
+          cp greenServeFE dist/
+          cp modules/gs_object.so dist/
+          cp module.h value.h dist/
+          tar -czf dist/greenServeFE-gs-object-linux-x86_64.tar.gz             -C dist greenServeFE gs_object.so module.h value.h
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: greenServeFE-gs-object-linux-x86_64
+          path: |
+            dist/greenServeFE
+            dist/gs_object.so
+            dist/module.h
+            dist/value.h
+            dist/greenServeFE-gs-object-linux-x86_64.tar.gz

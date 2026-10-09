@@ -1,0 +1,7 @@
+define a = 20;
+define b = 6;
+print(a + b);
+print(a - b);
+print(a * b);
+print(a / b);
+print(a % b);

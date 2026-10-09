@@ -1,0 +1,9 @@
+define data = {
+    user: {
+        name: "Alex",
+        roles: ["developer", "writer"]
+    },
+    enabled: true
+};
+print(data.user.name);
+print(data.user.roles[1]);

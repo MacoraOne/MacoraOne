@@ -1,0 +1,46 @@
+name: Build gsnum module
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Build gsnum.so
+        run: |
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gsnum.so gsnum.c -lm
+          test -f dist/gsnum.so
+          file dist/gsnum.so
+
+      - name: Test gsnum.so
+        run: |
+          nm -D dist/gsnum.so | grep greenServeFE_module_init
+
+      - name: Package module
+        run: |
+          cp gsnum.c dist/gsnum.c
+          zip -j dist/gsnum-linux-x86_64.zip dist/gsnum.so dist/gsnum.c
+          sha256sum dist/gsnum.so > dist/gsnum.so.sha256
+          sha256sum dist/gsnum-linux-x86_64.zip > dist/gsnum-linux-x86_64.zip.sha256
+          ls -lh dist
+
+      - name: Upload gsnum module
+        uses: actions/upload-artifact@v4
+        with:
+          name: gsnum-linux-x86_64
+          path: |
+            dist/gsnum.so
+            dist/gsnum.c
+            dist/gsnum-linux-x86_64.zip
+            dist/gsnum.so.sha256
+            dist/gsnum-linux-x86_64.zip.sha256

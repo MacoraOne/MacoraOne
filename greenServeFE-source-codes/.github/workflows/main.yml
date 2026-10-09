@@ -1,0 +1,38 @@
+name: Build and Package greenServeFE
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build greenServeFE
+        run: |
+          make clean all
+          test -x ./greenServeFE
+          ./greenServeFE --help || true
+
+      - name: Package binary
+        run: |
+          mkdir -p dist
+          cp ./greenServeFE dist/greenServeFE
+          chmod +x dist/greenServeFE
+          zip -j dist/greenServeFE-linux-x86_64.zip dist/greenServeFE
+          sha256sum dist/greenServeFE > dist/greenServeFE.sha256
+          sha256sum dist/greenServeFE-linux-x86_64.zip > dist/greenServeFE-linux-x86_64.zip.sha256
+          ls -lh dist
+
+      - name: Upload greenServeFE binary and zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: greenServeFE-linux-x86_64
+          path: |
+            dist/greenServeFE
+            dist/greenServeFE-linux-x86_64.zip
+            dist/greenServeFE.sha256
+            dist/greenServeFE-linux-x86_64.zip.sha256

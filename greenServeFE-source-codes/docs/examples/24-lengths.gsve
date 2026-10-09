@@ -1,0 +1,7 @@
+define text = "greenServe";
+define items = [1, 2, 3, 4];
+define object = {a: 1, b: 2};
+
+print(len(text));
+print(len(items));
+print(len(object));

@@ -1,0 +1,79 @@
+name: Build CMLL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc
+
+      - name: Compile CMLL
+        run: |
+          gcc \
+            -std=c11 \
+            -Wall \
+            -Wextra \
+            -Wpedantic \
+            -O2 \
+            common.c \
+            lexer.c \
+            parser.c \
+            runtime.c \
+            main.c \
+            -lm \
+            -o cmll
+
+      - name: Check version
+        run: |
+          ./cmll --version
+
+      - name: Create example
+        run: |
+          cat > example.cmll <<'EOF'
+          project "CMLL Example"
+
+          set name = "CMLL"
+          set numbers = [10, 20, 30]
+
+          func add(a, b) {
+              return a + b
+          }
+
+          task hello(message) {
+              say message
+          }
+
+          hello("Hello from " + name)
+
+          set result = add(40, 2)
+
+          if result > 40 {
+              say "The result is greater than 40."
+          }
+          else {
+              say "The result is 40 or less."
+          }
+
+          for number in numbers {
+              show number
+          }
+          EOF
+
+      - name: Run example
+        run: |
+          ./cmll example.cmll
+
+      - name: Upload CMLL binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: cmll-linux-x86_64
+          path: cmll

@@ -1,0 +1,4 @@
+from gsnum import sum, average;
+
+print(sum(1, 2, 3, 4));
+print(average(10, 20, 30));

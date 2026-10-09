@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NativeFlexi Java</string>
+    <string name="welcome">Native Android Java project</string>
+    <string name="example_button">Example button</string>
+</resources>

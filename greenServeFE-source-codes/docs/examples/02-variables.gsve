@@ -1,0 +1,4 @@
+define name = "greenServeFE";
+define version = 1;
+define message = name + " " + str(version);
+print(message);

@@ -1,0 +1,15 @@
+func total_price(items) {
+    define total = 0;
+    for (item in items) {
+        total = total + item.price;
+    }
+    return total;
+}
+
+define items = [
+    {name: "Book", price: 20},
+    {name: "Pen", price: 5},
+    {name: "Bag", price: 30}
+];
+
+print(total_price(items));

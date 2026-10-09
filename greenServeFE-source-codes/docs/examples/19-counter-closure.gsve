@@ -1,0 +1,15 @@
+func counter() {
+    define value = 0;
+
+    func next() {
+        value = value + 1;
+        return value;
+    }
+
+    return next;
+}
+
+define next_value = counter();
+print(next_value());
+print(next_value());
+print(next_value());

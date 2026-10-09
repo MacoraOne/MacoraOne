@@ -1,0 +1,21 @@
+name: Build gs_path module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          set -e
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_path.so gs_path.c
+          nm -D dist/gs_path.so | grep greenServeFE_module_init
+          cp gs_path.c dist/gs_path.c
+          zip -j dist/gs_path-linux-x86_64.zip dist/gs_path.so dist/gs_path.c
+          sha256sum dist/gs_path.so > dist/gs_path.so.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_path-linux-x86_64
+          path: dist/*

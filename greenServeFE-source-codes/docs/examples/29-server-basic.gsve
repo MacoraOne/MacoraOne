@@ -1,0 +1,12 @@
+import server;
+
+func home(req, res) {
+    res.send("Hello from greenServeFE");
+}
+
+server.get("/", home);
+
+server.serve(".", 8080, {
+    index: "index.html",
+    static: true
+});

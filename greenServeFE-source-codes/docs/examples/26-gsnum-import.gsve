@@ -1,0 +1,5 @@
+import gsnum;
+
+print(gsnum.sum(1, 2, 3, 4));
+print(gsnum.mean([10, 20, 30]));
+print(gsnum.sqrt(144));

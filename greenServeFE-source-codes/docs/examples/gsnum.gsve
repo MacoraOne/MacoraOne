@@ -1,0 +1,6 @@
+import gsnum;
+
+print(gsnum.sum(1, 2, 3, 4));
+print(gsnum.product(2, 3, 4));
+print(gsnum.sqrt(81));
+print(gsnum.factorial(5));

@@ -1,0 +1,12 @@
+define user = {
+    name: "Alex",
+    role: "developer",
+    active: true
+};
+print(user.name);
+user.active = false;
+print(user.active);
+for (key in user) {
+    print(key);
+    print(user[key]);
+}

@@ -1,0 +1,4 @@
+define a = 2;
+define b = 3;
+define total = a * b + 4;
+print(total);

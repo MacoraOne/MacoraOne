@@ -1,0 +1,13 @@
+define products = [
+    {name: "Notebook", price: 12},
+    {name: "Keyboard", price: 45},
+    {name: "Mouse", price: 25}
+];
+
+define total = 0;
+
+for (product in products) {
+    total = total + product.price;
+}
+
+print(total);

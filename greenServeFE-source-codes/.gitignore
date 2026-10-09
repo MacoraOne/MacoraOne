@@ -1,0 +1,4 @@
+greenServeFE
+*.o
+*.a
+build/

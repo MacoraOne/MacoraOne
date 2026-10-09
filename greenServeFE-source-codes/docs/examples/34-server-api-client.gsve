@@ -1,0 +1,18 @@
+import server;
+
+define response = server.http_get("https://example.com/");
+
+func home(req, res) {
+    res.json({
+        status: response.status,
+        contentType: response.contentType,
+        url: response.url,
+        error: response.error
+    });
+}
+
+server.get("/", home);
+
+server.serve(".", 8080, {
+    static: true
+});

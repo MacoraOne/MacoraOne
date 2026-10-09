@@ -1,0 +1,6 @@
+func multiply(a, b) {
+    return a * b;
+}
+
+define operation = multiply;
+print(operation(6, 7));

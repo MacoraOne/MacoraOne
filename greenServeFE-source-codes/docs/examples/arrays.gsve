@@ -1,0 +1,10 @@
+define numbers = [1, 2, 3, 4];
+define total = 0;
+
+for (n in numbers) {
+    total = total + n;
+}
+
+print("numbers:", numbers);
+print("total:", total);
+print("first:", numbers[0]);

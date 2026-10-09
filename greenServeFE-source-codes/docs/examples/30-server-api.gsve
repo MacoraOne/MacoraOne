@@ -1,0 +1,17 @@
+import server;
+
+func status(req, res) {
+    res.status(200);
+    res.set("X-App", "greenServeFE");
+    res.json({
+        ok: true,
+        method: req.method,
+        path: req.path
+    });
+}
+
+server.get("/api/status", status);
+
+server.serve(".", 8080, {
+    static: true
+});
