@@ -1,8 +1,8 @@
-# MarocaOne
+# MacoraOne
 
-## Unified Command-Line System for the MarocaOne Ecosystem
+## Unified Command-Line System for the MacoraOne Ecosystem
 
-MarocaOne is the command-line controller for the related Dominex Macedon development projects:
+MacoraOne is the command-line controller for the related Dominex Macedon development projects:
 
 - `greenServeFE-build`
 - `greenServeFE-`
@@ -13,7 +13,7 @@ MarocaOne is the command-line controller for the related Dominex Macedon develop
 
 The implementation is a native C program compiled to a Linux executable named `one`.
 
-The controller deliberately uses the existing project repositories instead of replacing their build systems. The greenServeFE build repository keeps its C11/Makefile structure, CMLL keeps its C11 build structure, and NativeFlexi Android remains a conventional Java/Kotlin Android project with Gradle and GitHub Actions. The repository layouts inspected by MarocaOne are therefore the existing layouts, not a second custom project format.
+The controller deliberately uses the existing project repositories instead of replacing their build systems. The greenServeFE build repository keeps its C11/Makefile structure, CMLL keeps its C11 build structure, and NativeFlexi Android remains a conventional Java/Kotlin Android project with Gradle and GitHub Actions. The repository layouts inspected by MacoraOne are therefore the existing layouts, not a second custom project format.
 
 ## Build
 
@@ -56,13 +56,13 @@ sudo make uninstall
 
 `one create`, `one push`, and `one build` use the official GitHub CLI authentication state.
 
-When no authenticated GitHub account is detected, MarocaOne asks:
+When no authenticated GitHub account is detected, MacoraOne asks:
 
 ```text
 Do you have a GitHub account? [Y/n]:
 ```
 
-If the answer is no, MarocaOne opens:
+If the answer is no, MacoraOne opens:
 
 ```text
 https://github.com/signup
@@ -70,17 +70,17 @@ https://github.com/signup
 
 The developer must create the account first and then run the command again.
 
-If the answer is yes, MarocaOne starts:
+If the answer is yes, MacoraOne starts:
 
 ```text
 gh auth login --hostname github.com --git-protocol https --web
 ```
 
-This uses GitHub CLI's browser-based authorization flow rather than storing a GitHub password or token inside MarocaOne.
+This uses GitHub CLI's browser-based authorization flow rather than storing a GitHub password or token inside MacoraOne.
 
 ## `one install`
 
-`one install` refreshes the local MarocaOne ecosystem installation.
+`one install` refreshes the local MacoraOne ecosystem installation.
 
 The installation root is:
 
@@ -104,7 +104,7 @@ It contains:
 
 Existing copies are removed before the repositories are cloned again. This prevents stale or duplicated installed copies from being used.
 
-After cloning, MarocaOne also attempts to build:
+After cloning, MacoraOne also attempts to build:
 
 ```text
 greenServeFE-build -> greenServeFE
@@ -113,7 +113,7 @@ CMLL-build         -> cmll
 
 ## `one uninstall`
 
-Remove the managed MarocaOne installation:
+Remove the managed MacoraOne installation:
 
 ```text
 one uninstall
@@ -133,7 +133,7 @@ Example:
 one create WeatherApp
 ```
 
-MarocaOne performs the following sequence:
+MacoraOne performs the following sequence:
 
 ```text
 1. Check for GitHub CLI.
@@ -160,11 +160,11 @@ The generated project is stored locally at:
 ~/.macoraone/projects/AppName/
 ```
 
-The generated project remains a normal Android project. MarocaOne does not introduce `.nfx` files, a custom UI language, a custom Android compiler, or a custom Android runtime.
+The generated project remains a normal Android project. MacoraOne does not introduce `.nfx` files, a custom UI language, a custom Android compiler, or a custom Android runtime.
 
 ## Java Selection
 
-When Java is selected, MarocaOne uses:
+When Java is selected, MacoraOne uses:
 
 ```text
 NativeFlexi-java/
@@ -175,7 +175,7 @@ The Java workflow is the NativeFlexi Android Java workflow. It uses JDK 17, Andr
 
 ## Kotlin Selection
 
-When Kotlin is selected, MarocaOne uses:
+When Kotlin is selected, MacoraOne uses:
 
 ```text
 NativeFlexi-kotlin/
@@ -206,7 +206,7 @@ or:
 one push WeatherApp dominexmacedon-docs/WeatherApp
 ```
 
-MarocaOne finds:
+MacoraOne finds:
 
 ```text
 ~/.macoraone/projects/WeatherApp/
@@ -224,7 +224,7 @@ Build the generated Android application through its selected GitHub Actions work
 one build WeatherApp
 ```
 
-MarocaOne reads the stored Java/Kotlin selection and chooses:
+MacoraOne reads the stored Java/Kotlin selection and chooses:
 
 ```text
 Java   -> .github/workflows/android-java.yml
@@ -246,7 +246,7 @@ The artifact page is the GitHub Actions artifact location for the completed work
 
 ## Custom Terminal Output
 
-MarocaOne provides concise terminal status messages with ANSI colors, for example:
+MacoraOne provides concise terminal status messages with ANSI colors, for example:
 
 ```text
 [MacoraOne] Dispatching android-kotlin.yml for dominexmacedon-docs/WeatherApp.
@@ -256,11 +256,11 @@ MarocaOne provides concise terminal status messages with ANSI colors, for exampl
 [MacoraOne] Artifact URL: https://github.com/dominexmacedon-docs/WeatherApp/actions/runs/123456789/artifacts
 ```
 
-The GitHub Actions logs themselves remain visible because MarocaOne follows the actual workflow run rather than hiding the build behind a separate build system.
+The GitHub Actions logs themselves remain visible because MacoraOne follows the actual workflow run rather than hiding the build behind a separate build system.
 
 ## NativeFlexi Android Integration
 
-NativeFlexi Android is the final conventional Android template used by MarocaOne.
+NativeFlexi Android is the final conventional Android template used by MacoraOne.
 
 Its repository provides:
 
@@ -297,7 +297,7 @@ https://github.com/dominexmacedon-docs/greenServeFE-build
 https://github.com/dominexmacedon-docs/greenServeFE-
 ```
 
-The build repository uses a C11 Makefile and compiles the runtime from `main.c`, lexer, parser, value, bytecode, compiler, and VM components. MarocaOne installs the build source and invokes its existing Makefile rather than reproducing the VM build logic. 
+The build repository uses a C11 Makefile and compiles the runtime from `main.c`, lexer, parser, value, bytecode, compiler, and VM components. MacoraOne installs the build source and invokes its existing Makefile rather than reproducing the VM build logic. 
 
 ### CMLL
 
@@ -306,7 +306,7 @@ https://github.com/dominexmacedon-docs/CMLL-build
 https://github.com/dominexmacedon-docs/CMLL
 ```
 
-The CMLL build repository contains the C11 command-line language implementation, including `common.c/.h`, `lexer.c/.h`, `parser.c/.h`, `runtime.c/.h`, and `main.c`. Its existing GitHub workflow compiles the native Linux executable. MarocaOne uses the same C source/build model when refreshing the local component.
+The CMLL build repository contains the C11 command-line language implementation, including `common.c/.h`, `lexer.c/.h`, `parser.c/.h`, `runtime.c/.h`, and `main.c`. Its existing GitHub workflow compiles the native Linux executable. MacoraOne uses the same C source/build model when refreshing the local component.
 
 ### NativeFlexi
 
@@ -319,7 +319,7 @@ NativeFlexi Android is the Android application template used by `one create`, `o
 
 ## Repository Source
 
-MarocaOne itself is maintained here:
+MacoraOne itself is maintained here:
 
 ```text
 https://github.com/dominexmacedon-docs/MarocaOne-build
@@ -329,7 +329,7 @@ The Linux executable is built from:
 
 ```text
 main.c
-marocaone.h
+macoraone.h
 ```
 
 and the project is compiled with standard C11 tooling through `Makefile` and `.github/workflows/build.yml`.
@@ -374,12 +374,12 @@ Run the selected Android GitHub Actions workflow:
 one build MyAndroidApp
 ```
 
-After the workflow succeeds, MarocaOne prints and opens the artifact page.
+After the workflow succeeds, MacoraOne prints and opens the artifact page.
 
 ## Architecture
 
 ```text
-                         MarocaOne
+                         MacoraOne
                              |
        +---------------------+---------------------+
        |                     |                     |
@@ -403,4 +403,4 @@ After the workflow succeeds, MarocaOne prints and opens the artifact page.
 
 ## License
 
-See the repository license for the licensing terms of MarocaOne. The projects managed by MarocaOne have their own repositories and licenses; consult each project before redistributing its source or generated software.
+See the repository license for the licensing terms of MacoraOne. The projects managed by MacoraOne have their own repositories and licenses; consult each project before redistributing its source or generated software.

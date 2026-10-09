@@ -1,4 +1,4 @@
-name: Build MarocaOne
+name: Build MacoraOne
 
 on:
   workflow_dispatch:
@@ -28,5 +28,5 @@ jobs:
       - name: Upload Linux executable
         uses: actions/upload-artifact@v4
         with:
-          name: marocaone-linux-x86_64
+          name: macoraone-linux-x86_64
           path: one

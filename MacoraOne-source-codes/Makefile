@@ -13,7 +13,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
 
-main.o: main.c marocaone.h
+main.o: main.c macoraone.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 install: $(TARGET)

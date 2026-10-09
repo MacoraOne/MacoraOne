@@ -1,8 +1,8 @@
-# MarocaOne Source Code Archive
+# MacoraOne Source Code Archive
 
 # Purpose
 
-Browse MarocaOne source code, build files, command-line implementation, and project documentation.
+Browse MacoraOne source code, build files, command-line implementation, and project documentation.
 
 # Source repository
 
@@ -25,4 +25,4 @@ Original files are preserved without inserting comments that could break their l
 - `Makefile`
 - `README.md`
 - `main.c`
-- `marocaone.h`
+- `macoraone.h`
