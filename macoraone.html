@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MacoraOne CLI — Install, Create, Build and Manage Projects</title>
+<meta name="description" content="Learn the MacoraOne one command-line controller: install ecosystem components, create Java or Kotlin Android apps, push project changes and run GitHub Actions builds.">
+<meta name="keywords" content="MacoraOne CLI, one command, Android project generator, NativeFlexi, greenServeFE packages, CMLL, GitHub Actions, Dominex Macedon">
+<meta name="author" content="Dominex Macedon">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#080b10">
+<link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/macoraone.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MacoraOne">
+<meta property="og:title" content="MacoraOne CLI — Install, Create, Build and Manage Projects">
+<meta property="og:description" content="Learn the MacoraOne one command-line controller: install ecosystem components, create Java or Kotlin Android apps, push project changes and run GitHub Actions builds.">
+<meta property="og:url" content="https://macoraone.dominextechdocumentary.workers.dev/macoraone.html">
+<meta property="og:image" content="https://macoraone.dominextechdocumentary.workers.dev/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MacoraOne CLI — Install, Create, Build and Manage Projects">
+<meta name="twitter:description" content="Learn the MacoraOne one command-line controller: install ecosystem components, create Java or Kotlin Android apps, push project changes and run GitHub Actions builds.">
+<meta name="twitter:image" content="https://macoraone.dominextechdocumentary.workers.dev/og-card.png">
+<link rel="icon" href="https://github.com/favicon.ico" sizes="any">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="/assets/site.css">
+<script defer src="/assets/site.js"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"MacoraOne CLI guide","description":"Commands and workflow for the MacoraOne one CLI.","url":"https://macoraone.dominextechdocumentary.workers.dev/macoraone.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"mainEntityOfPage":"https://github.com/MacoraOne/MacoraOne"}</script></head><body><a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap nav">
+<a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></span>MacoraOne</a>
+<nav class="navlinks" aria-label="Main navigation">
+<a href="/index.html">Overview</a>
+<a href="/macoraone.html" aria-current="page">MacoraOne CLI</a>
+<a href="/nativeflexi.html">NativeFlexi</a>
+<a href="/cmll.html">CMLL</a>
+<a href="/greenservefe.html">greenServeFE</a>
+<a href="https://github.com/MacoraOne/MacoraOne" aria-label="MacoraOne on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+</nav></div></div>
+<header class="hero"><div class="wrap"><div class="breadcrumbs"><a href="/index.html">Home</a> / MacoraOne CLI</div><div class="eyebrow"><i class="fa-solid fa-terminal"></i> Ecosystem controller</div><h1>One command.<br>Connected workflows.</h1><p class="lead">MacoraOne is a native C command-line controller that coordinates the ecosystem's existing repositories and build systems. It is designed to reuse real project templates and published release assets—not duplicate each project's compiler or build logic.</p><div class="actions"><a class="btn primary" href="https://github.com/MacoraOne/MacoraOne"><i class="fa-brands fa-github"></i> View source</a><a class="btn" href="https://github.com/dominexmacedon-docs/NativeFlexi-android"><i class="fa-brands fa-android"></i> NativeFlexi templates</a></div></div></header>
+<main id="main" class="wrap"><section class="section"><div class="section-head"><div class="eyebrow">Find anything</div><h2>Search the documentation</h2><p>Search commands, components, examples and project guides. The index is separate from page markup so new entries can be added without rebuilding the page layout.</p><div class="search-wrap" role="search"><label class="search-box"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input data-site-search type="search" placeholder="Search projects, commands, examples…" aria-label="Search the MacoraOne documentation" autocomplete="off"><span class="tag">/</span></label><div class="search-results" data-search-results role="listbox" aria-label="Search results"></div></div></div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Quick start</div><h2>Build and install the CLI</h2><p>Build from the repository on Linux with a C11 compiler and Make.</p></div><pre class="code">git clone https://github.com/MacoraOne/MacoraOne.git
+cd MacoraOne
+make clean all
+make test
+./one --version
+./one --help</pre><p class="muted">To install the executable system-wide, the repository documents <code class="inline-code">sudo make install</code>. Review the Makefile and source before installing software with elevated privileges.</p></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Commands</div><h2>Core workflows</h2><p>The controller coordinates Android templates and dynamically discovered greenServeFE release packages.</p></div><div class="grid">
+<article class="card"><div class="icon"><i class="fa-solid fa-download"></i></div><h3>Refresh components</h3><p>Refresh the managed ecosystem under <code class="inline-code">~/.macoraone/</code> by cloning the configured component repositories again.</p><pre class="code">one install</pre></article>
+<article class="card"><div class="icon"><i class="fa-brands fa-android"></i></div><h3>Create an Android app</h3><p>Authenticate with GitHub CLI, choose Java or Kotlin, then create a local project and GitHub repository from the matching NativeFlexi template.</p><pre class="code">one create WeatherApp</pre></article>
+<article class="card"><div class="icon"><i class="fa-solid fa-cloud-arrow-up"></i></div><h3>Push project changes</h3><p>Push the local app tree to the target repository. This workflow is documented as an override of the target branch's current tree—check the destination before running it.</p><pre class="code">one push WeatherApp WeatherApp
+one push WeatherApp owner/WeatherApp</pre></article>
+<article class="card"><div class="icon"><i class="fa-solid fa-hammer"></i></div><h3>Build through Actions</h3><p>Dispatch the matching Java/Kotlin workflow, follow its logs, and show the GitHub Actions artifact page after a successful build.</p><pre class="code">one build WeatherApp</pre></article>
+<article class="card"><div class="icon"><i class="fa-solid fa-cubes"></i></div><h3>Install native packages</h3><p>Discover release assets from the greenServeFE GitHub Releases API and install an engine or module by package name.</p><pre class="code">one install greenServeFE
+one install gsnum
+one install gsnum@1.0.0
+one list-available</pre></article>
+<article class="card"><div class="icon"><i class="fa-solid fa-box-open"></i></div><h3>Manage installed packages</h3><p>List installed versions or remove a managed package. The global uninstall removes the whole MacoraOne managed directory.</p><pre class="code">one list
+one uninstall gsnum
+one uninstall</pre></article>
+</div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Project lifecycle</div><h2>From template to APK</h2></div><div class="steps"><div class="step"><strong>Authenticate with GitHub</strong><p>Install GitHub CLI (<code class="inline-code">gh</code>) and sign in using its browser-based login when prompted.</p></div><div class="step"><strong>Choose a template</strong><p><code class="inline-code">one create AppName</code> refreshes NativeFlexi, asks for Java or Kotlin, and copies only that template and its matching manual workflow.</p></div><div class="step"><strong>Edit ordinary Android files</strong><p>Use Gradle, Java/Kotlin, XML layouts, resources and AndroidManifest.xml as usual. There is no custom NativeFlexi language.</p></div><div class="step"><strong>Push and build</strong><p>Push your app and dispatch the corresponding GitHub Actions workflow; download the APK from the resulting artifact page.</p></div></div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Architecture</div><h2>Existing projects remain the source of truth</h2></div><div class="table-wrap"><table><thead><tr><th>Component</th><th>Role</th><th>Implementation</th></tr></thead><tbody><tr><td><a href="/nativeflexi.html">NativeFlexi</a></td><td>Android app templates</td><td>Java/Kotlin + Gradle + Android SDK</td></tr><tr><td><a href="/greenservefe.html">greenServeFE</a></td><td>Bytecode runtime and native modules</td><td>C11, Makefile, release ZIP assets</td></tr><tr><td><a href="/cmll.html">CMLL</a></td><td>Command-oriented scripting language</td><td>C implementation and .cmll source</td></tr></tbody></table></div><div class="notice"><i class="fa-solid fa-shield-halved"></i> <strong>Security note:</strong> GitHub credentials are handled through GitHub CLI. Do not store tokens, passwords or Android signing keys in source files. Review a push target before using the documented override workflow.</div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Source</div><h2>Explore the repositories</h2></div><div class="list"><a href="https://github.com/MacoraOne/MacoraOne"><span><strong>MacoraOne source</strong><br><span>Native C CLI and project coordination</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://github.com/dominexmacedon-docs/NativeFlexi-android"><span><strong>NativeFlexi Android</strong><br><span>Java and Kotlin templates</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://github.com/dominexmacedon-docs/greenServeFE-"><span><strong>greenServeFE releases</strong><br><span>Runtime and shared-library modules</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://github.com/dominexmacedon-docs/CMLL"><span><strong>CMLL</strong><br><span>Language source, syntax and installation</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></section></main><footer class="footer"><div class="wrap footer-row"><div><strong>MacoraOne</strong><br>Programming tools and developer projects by Dominex Macedon.</div><div class="footer-links"><a href="/index.html">Overview</a><a href="/macoraone.html">CLI guide</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html">greenServeFE</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub</a></div></div></footer></body></html>
