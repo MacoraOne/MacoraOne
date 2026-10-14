@@ -1,71 +1,345 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>greenServeFE — Bytecode Runtime and Virtual Machine</title>
-<meta name="description" content="greenServeFE is the VM-based execution engine for greenServe. It compiles .gsve source into bytecode, runs it on an explicit virtual machine and loads native .so modules at runtime.">
-<meta name="keywords" content="greenServeFE, greenServe Fast Execution, .gsve, bytecode, virtual machine, C runtime, native modules, shared libraries, interpreter, compiler">
+<title>greenServeFE Examples &amp; VM Guide | MacoraOne</title>
+<meta name="description" content="Explore greenServeFE .gsve examples for print, loops, arrays, objects, functions, native imports, HTTP routes, JSON APIs, query parameters, and server-side templates.">
+<meta name="keywords" content="greenServeFE examples, GSVE tutorial, print, loops, arrays, objects, import, native modules, HTTP server, API, templates, bytecode VM">
 <meta name="author" content="Dominex Macedon">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#080b10">
 <link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MacoraOne">
-<meta property="og:title" content="greenServeFE — Bytecode Runtime and Virtual Machine">
-<meta property="og:description" content="greenServeFE is the VM-based execution engine for greenServe. It compiles .gsve source into bytecode, runs it on an explicit virtual machine and loads native .so modules at runtime.">
+<meta property="og:title" content="greenServeFE Examples &amp; VM Guide">
+<meta property="og:description" content="Clickable .gsve example files for core syntax, native imports, and HTTP server programming.">
 <meta property="og:url" content="https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="greenServeFE — Bytecode Runtime and Virtual Machine">
-<meta name="twitter:description" content="greenServeFE is the VM-based execution engine for greenServe. It compiles .gsve source into bytecode, runs it on an explicit virtual machine and loads native .so modules at runtime.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="greenServeFE Examples &amp; VM Guide">
+<meta name="twitter:description" content="Clickable .gsve example files for core syntax, native imports, and HTTP server programming.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel="stylesheet" href="/assets/site.css">
 <script defer src="/assets/site.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"greenServeFE runtime guide","description":"Understand greenServeFE bytecode execution, example syntax and native module packages.","url":"https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"isPartOf":{"@type":"WebSite","name":"MacoraOne","url":"https://macoraone.dominextechdocumentary.workers.dev/"}}</script></head><body><a class="skip" href="#main">Skip to content</a>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"greenServeFE Examples and VM Guide","description":"Clickable greenServeFE source examples covering core syntax, native module imports, and HTTP server usage.","url":"https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"isPartOf":{"@type":"WebSite","name":"MacoraOne","url":"https://macoraone.dominextechdocumentary.workers.dev/"}}</script>
+<style>
+.example-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:20px 0}
+.example-filter{flex:1;min-width:230px;width:100%;padding:13px 15px;border:1px solid var(--border,#293241);border-radius:12px;background:var(--surface,#101722);color:inherit;font:inherit}
+.example-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:14px}
+.example-file{border:1px solid var(--border,#293241);border-radius:14px;background:var(--surface,#101722);overflow:hidden;min-width:0}
+.example-file[hidden]{display:none}
+.example-file summary{cursor:pointer;list-style:none;display:flex;gap:12px;align-items:center;padding:16px;min-height:78px}
+.example-file summary::-webkit-details-marker{display:none}
+.file-icon{width:42px;height:46px;display:grid;place-items:center;border-radius:9px;background:rgba(90,170,120,.13);color:#79d69a;flex:0 0 auto;font-size:20px}
+.file-meta{min-width:0;flex:1}
+.file-meta strong{display:block;overflow-wrap:anywhere}
+.file-meta small{display:block;margin-top:5px;opacity:.7}
+.file-chevron{opacity:.65;transition:transform .15s}
+.example-file[open] .file-chevron{transform:rotate(180deg)}
+.example-content{padding:0 14px 15px;border-top:1px solid var(--border,#293241)}
+.example-content pre{margin:14px 0;overflow:auto;max-width:100%;white-space:pre;tab-size:4}
+.example-content code{font-size:.86rem}
+.file-actions{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;font-size:.88rem}
+.file-actions a{overflow-wrap:anywhere}
+.example-count{font-size:.9rem;opacity:.75}
+.topic-label{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;opacity:.75;margin-bottom:8px}
+@media(max-width:520px){.example-file summary{padding:13px}.example-content{padding:0 10px 12px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
 <div class="topbar"><div class="wrap nav">
 <a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></span>MacoraOne</a>
 <nav class="navlinks" aria-label="Main navigation">
-<a href="/index.html">Overview</a>
-<a href="/macoraone.html">MacoraOne CLI</a>
-<a href="/nativeflexi.html">NativeFlexi</a>
-<a href="/cmll.html">CMLL</a>
-<a href="/greenservefe.html" aria-current="page">greenServeFE</a>
-<a href="https://github.com/MacoraOne/MacoraOne" aria-label="MacoraOne on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+<a href="/index.html">Overview</a><a href="/macoraone.html">MacoraOne CLI</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html" aria-current="page">greenServeFE</a><a href="https://github.com/MacoraOne/MacoraOne" aria-label="MacoraOne on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
 </nav></div></div>
-<header class="hero"><div class="wrap"><div class="breadcrumbs"><a href="/index.html">Home</a> / greenServeFE</div><div class="eyebrow"><i class="fa-solid fa-microchip"></i> Bytecode runtime</div><h1>Compile to bytecode.<br>Execute on a VM.</h1><p class="lead">greenServeFE (greenServe Fast Execution) is a C-based execution engine for the greenServe language. It parses <code class="inline-code">.gsve</code> source, compiles it into bytecode and executes that bytecode in an explicit virtual machine. Runtime modules can be loaded from native shared libraries.</p><div class="actions"><a class="btn primary" href="https://github.com/dominexmacedon-docs/greenServeFE-"><i class="fa-brands fa-github"></i> Runtime and releases</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build"><i class="fa-solid fa-code"></i> Build source</a></div></div></header>
-<main id="main" class="wrap"><section class="section"><div class="section-head"><div class="eyebrow">Search</div><h2>Search the ecosystem docs</h2><p>Search for commands, source syntax, runtime architecture or module packages.</p><div class="search-wrap" role="search"><label class="search-box"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input data-site-search type="search" placeholder="Search projects, commands, examples…" aria-label="Search the MacoraOne documentation" autocomplete="off"><span class="tag">/</span></label><div class="search-results" data-search-results role="listbox" aria-label="Search results"></div></div></div></section>
-<section class="section"><div class="section-head"><div class="eyebrow">Execution model</div><h2>From source to bytecode</h2><p>The frontend keeps the greenServe lexer/parser language model, while execution moves from recursive AST evaluation to a bytecode compiler and VM.</p></div><div class="grid three"><article class="card"><div class="icon"><i class="fa-solid fa-file-code"></i></div><h3>1. Source</h3><p>Programs are written in <code class="inline-code">.gsve</code> files.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-diagram-project"></i></div><h3>2. Frontend</h3><p>The lexer and parser build the program representation.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-gears"></i></div><h3>3. Compiler</h3><p>The compiler produces instructions, constants, names and child function code objects.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-layer-group"></i></div><h3>4. Virtual machine</h3><p>Frames track instruction pointers, operand stack bases and lexical environments.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-plug"></i></div><h3>5. Native modules</h3><p>Runtime-loadable <code class="inline-code">.so</code> modules extend the engine through its native module layer.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-terminal"></i></div><h3>6. CLI</h3><p>Run source directly, inspect bytecode, or trace execution from the command line.</p></article></div><pre class="code">.gsve source
-   → lexer
-   → parser / AST
-   → bytecode compiler
-   → GSCode instructions
-   → virtual machine
-   → output</pre></section>
-<section class="section"><div class="section-head"><div class="eyebrow">Build and run</div><h2>Run a program</h2><p>Build the engine from the build repository using its existing C11 Makefile.</p></div><pre class="code">git clone https://github.com/dominexmacedon-docs/greenServeFE-build.git
-cd greenServeFE-build
+<header class="hero"><div class="wrap">
+<div class="breadcrumbs"><a href="/index.html">Home</a> / greenServeFE</div>
+<div class="eyebrow"><i class="fa-solid fa-file-code" aria-hidden="true"></i> Bytecode runtime · GSVE examples</div>
+<h1>Explore greenServeFE<br>one file at a time.</h1>
+<p class="lead">greenServeFE (greenServe Fast Execution) is a C-based runtime that compiles <code class="inline-code">.gsve</code> programs into bytecode and executes them on a virtual machine. Browse the examples as file cards: click any filename to open its code.</p>
+<div class="actions"><a class="btn primary" href="#examples"><i class="fa-solid fa-folder-open" aria-hidden="true"></i> Browse examples</a><a class="btn" href="https://github.com/MacoraOne/MacoraOne/tree/main/greenServeFE-source-codes"><i class="fa-brands fa-github" aria-hidden="true"></i> Source archive</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-/releases">Runtime releases</a></div>
+</div></header>
+<main id="main" class="wrap">
+<section class="section"><div class="section-head"><div class="eyebrow">How it runs</div><h2>Source → compiler → virtual machine</h2><p>The lexer and parser process the language syntax; the compiler emits bytecode, and the VM executes instructions using values, environments and native functions.</p></div>
+<div class="grid three">
+<article class="card"><div class="icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></div><h3>1. Write GSVE</h3><p>Save a program with the <code class="inline-code">.gsve</code> extension.</p></article>
+<article class="card"><div class="icon"><i class="fa-solid fa-gears" aria-hidden="true"></i></div><h3>2. Compile</h3><p>The compiler produces instructions, constants, names and child function code objects.</p></article>
+<article class="card"><div class="icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div><h3>3. Execute</h3><p>The VM runs bytecode with operand stacks, frames and lexical environments.</p></article>
+</div>
+<pre class="code">.gsve → lexer → parser / AST → bytecode compiler → GSCode → VM → output</pre>
+</section>
+<section class="section"><div class="section-head"><div class="eyebrow">Quick start</div><h2>Build and run</h2><p>Build the source archive on a Linux environment with the required native development libraries installed.</p></div>
+<pre class="code">git clone https://github.com/MacoraOne/MacoraOne.git
+cd MacoraOne/greenServeFE-source-codes
 make clean all
 ./greenServeFE test.gsve
 ./greenServeFE --dump test.gsve
-./greenServeFE --trace test.gsve</pre><p class="muted">The published runtime repository contains Linux x86_64 release packages. Follow its README for the current engine and module installation instructions.</p></section>
-<section class="section"><div class="section-head"><div class="eyebrow">Example program</div><h2>Variables, iteration, functions and objects</h2><p>This example is based on the included <code class="inline-code">test.gsve</code> program in the build repository.</p></div><pre class="code">define total = 0;
-for (n in [1, 2, 3, 4]) {
+./greenServeFE --trace test.gsve</pre>
+<p class="muted">The <code class="inline-code">--dump</code> option displays bytecode disassembly; <code class="inline-code">--trace</code> enables execution tracing. Follow the source archive and release README for dependencies and package installation.</p>
+</section>
+<section class="section" id="examples">
+<div class="section-head"><div class="eyebrow">Interactive file browser</div><h2>GSVE example files</h2><p>These examples follow the syntax and file names in the <code class="inline-code">greenServeFE-source-codes/docs/examples</code> archive. Select a file card to expand and read its complete example, then open the original source file on GitHub.</p></div>
+<div class="example-toolbar">
+<input class="example-filter" id="example-filter" type="search" placeholder="Filter files: loop, array, import, server…" aria-label="Filter GSVE example files">
+<span class="example-count" id="example-count" aria-live="polite">18 example files</span>
+</div>
+<div class="example-grid" id="example-grid">
+<details class="example-file" data-tags="hello print output basics"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>01-hello.gsve</strong><small>Basics · print output</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>print("Hello, greenServeFE");</code></pre><div class="file-actions"><span>First program</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/01-hello.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="variables define strings print str"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>02-variables.gsve</strong><small>Variables · strings</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define name = "greenServeFE";
+define version = 1;
+define message = name + " " + str(version);
+print(message);</code></pre><div class="file-actions"><span>Define values and convert to text</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/02-variables.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="arithmetic math numbers print"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>03-arithmetic.gsve</strong><small>Arithmetic · operators</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define a = 20;
+define b = 6;
+print(a + b);
+print(a - b);
+print(a * b);
+print(a / b);
+print(a % b);</code></pre><div class="file-actions"><span>Math operators</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/03-arithmetic.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="arrays indexing loop for iteration values"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>06-arrays.gsve</strong><small>Arrays · indexing · iteration</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define values = [10, 20, 30, 40];
+print(values[0]);
+values[1] = 25;
+print(values);
+for (value in values) {
+    print(value);
+}</code></pre><div class="file-actions"><span>Read, update and loop over an array</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/06-arrays.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="objects keys members properties loop for data"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>07-objects.gsve</strong><small>Objects · properties · keys</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define user = {
+    name: "Alex",
+    role: "developer",
+    active: true
+};
+print(user.name);
+user.active = false;
+print(user.active);
+for (key in user) {
+    print(key);
+    print(user[key]);
+}</code></pre><div class="file-actions"><span>Read and update object members</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/07-objects.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="nested arrays objects records data processing"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>20-data-processing.gsve</strong><small>Nested data · records · totals</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define products = [
+    {name: "Notebook", price: 12},
+    {name: "Keyboard", price: 45},
+    {name: "Mouse", price: 25}
+];
+
+define total = 0;
+for (product in products) {
+    total = total + product.price;
+}
+print(total);</code></pre><div class="file-actions"><span>Combine arrays, objects and loops</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/20-data-processing.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="while loop iteration condition total"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>10-while.gsve</strong><small>Loops · while condition</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define n = 1;
+define total = 0;
+while (n &lt;= 5) {
+    total = total + n;
+    n = n + 1;
+}
+print(total);</code></pre><div class="file-actions"><span>Repeat while a condition is true</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/10-while.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="for loop array sum iteration"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>11-for-array.gsve</strong><small>Loops · for/in · sum</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define total = 0;
+for (n in [1, 2, 3, 4, 5]) {
     total = total + n;
 }
-
-func add(a, b) {
+print(total);</code></pre><div class="file-actions"><span>Iterate over array values</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/11-for-array.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="if else conditional branching score"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>09-if-else.gsve</strong><small>Conditions · if / else if</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define score = 82;
+if (score &gt;= 90) {
+    print("excellent");
+} else if (score &gt;= 70) {
+    print("pass");
+} else {
+    print("retry");
+}</code></pre><div class="file-actions"><span>Choose a branch by condition</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/09-if-else.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="break loop stop"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>13-break.gsve</strong><small>Loops · break</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>for (n in [1, 2, 3, 4, 5]) {
+    if (n == 4) {
+        break;
+    }
+    print(n);
+}</code></pre><div class="file-actions"><span>Exit a loop early</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/13-break.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="continue loop skip"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>14-continue.gsve</strong><small>Loops · continue</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>for (n in [1, 2, 3, 4, 5]) {
+    if (n == 3) {
+        continue;
+    }
+    print(n);
+}</code></pre><div class="file-actions"><span>Skip an iteration</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/14-continue.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="functions func return parameters"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>15-functions.gsve</strong><small>Functions · parameters · return</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>func add(a, b) {
     return a + b;
 }
 
-define result = add(total, 5);
-show("total:", total);
-show("result:", result);
-show("array:", [1, 2, result]);
-show("object:", {name: "greenServe", version: 1});
+func square(value) {
+    return value * value;
+}
 
-if (result >= 15 && total == 10) {
-    show("vm ok");
-} else {
-    show("vm failed");
-}</pre><p>Run the sample:</p><pre class="code">./greenServeFE test.gsve</pre><p class="muted">The example uses the implementation's documented <code class="inline-code">define</code>, <code class="inline-code">for</code>, <code class="inline-code">func</code>, <code class="inline-code">show</code>, array and object syntax.</p></section>
-<section class="section"><div class="section-head"><div class="eyebrow">Runtime features</div><h2>What the VM supports</h2></div><div class="grid"><article class="card"><h3>Language values</h3><p>Numbers, strings, booleans, null, arrays and objects.</p></article><article class="card"><h3>Control flow</h3><p>Conditions, while loops, for/in iteration, break and continue.</p></article><article class="card"><h3>Functions</h3><p>Function calls, recursion and captured lexical environments.</p></article><article class="card"><h3>Expressions</h3><p>Arithmetic, comparisons, logical operators, assignment, indexing and member access.</p></article><article class="card"><h3>Built-ins</h3><p><code class="inline-code">print</code>, <code class="inline-code">show</code>, <code class="inline-code">len</code>, <code class="inline-code">str</code>, <code class="inline-code">num</code> and <code class="inline-code">type</code>.</p></article><article class="card"><h3>Inspection</h3><p>Bytecode disassembly via <code class="inline-code">--dump</code> and execution tracing via <code class="inline-code">--trace</code>.</p></article></div><div class="notice">The build README notes that the full Node.js HTTP/server bridge from the earlier greenSERVE runtime has not yet been ported to the new VM native ABI. Treat network/server functionality as separate integration work rather than an already completed VM feature.</div></section>
-<section class="section"><div class="section-head"><div class="eyebrow">Native packages</div><h2>Extensible modules</h2><p>The release repository publishes the engine and modules as separate Linux x86_64 ZIP assets. MacoraOne can discover these packages from GitHub Releases rather than requiring package names to be hard-coded in its own source.</p></div><div class="table-wrap"><table><thead><tr><th>Module</th><th>Purpose (from package name)</th><th>Library</th></tr></thead><tbody><tr><td>gsnum</td><td>Numeric helpers</td><td><code class="inline-code">gsnum.so</code></td></tr><tr><td>gs_table</td><td>Table utilities</td><td><code class="inline-code">gs_table.so</code></td></tr><tr><td>server</td><td>Server module layer</td><td><code class="inline-code">server.so</code></td></tr><tr><td>gs_string</td><td>String utilities</td><td><code class="inline-code">gs_string.so</code></td></tr><tr><td>gs_json</td><td>JSON utilities</td><td><code class="inline-code">gs_json.so</code></td></tr><tr><td>gs_uuid / gs_time / gs_random</td><td>Common utility modules</td><td>Individual <code class="inline-code">.so</code> files</td></tr></tbody></table></div><p>Install the engine and modules using the official release instructions:</p><div class="actions"><a class="btn primary" href="https://github.com/dominexmacedon-docs/greenServeFE-#linux-installation">Installation guide <i class="fa-solid fa-arrow-up-right-from-square"></i></a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-/releases">Browse releases</a></div></section>
-<section class="section"><div class="section-head"><div class="eyebrow">Source code</div><h2>Explore the runtime</h2></div><div class="list"><a href="https://github.com/dominexmacedon-docs/greenServeFE-build"><span><strong>greenServeFE-build</strong><br><span>C source, Makefile, frontend, bytecode compiler and VM</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://github.com/dominexmacedon-docs/greenServeFE-"><span><strong>greenServeFE-</strong><br><span>Linux x86_64 runtime and native module releases</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="/macoraone.html"><span><strong>MacoraOne CLI</strong><br><span>Install packages discovered from published release assets</span></span><i class="fa-solid fa-arrow-right"></i></a></div></section></main><footer class="footer"><div class="wrap footer-row"><div><strong>MacoraOne</strong><br>Programming tools and developer projects by Dominex Macedon.</div><div class="footer-links"><a href="/index.html">Overview</a><a href="/macoraone.html">CLI guide</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html">greenServeFE</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub</a></div></div></footer></body></html>
+print(add(4, 5));
+print(square(7));</code></pre><div class="file-actions"><span>Define and call functions</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/15-functions.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="closures captured environments functions"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>18-closure.gsve</strong><small>Functions · closures</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>func make_adder(base) {
+    func add(value) {
+        return base + value;
+    }
+    return add;
+}
+
+define add10 = make_adder(10);
+print(add10(5));
+print(add10(20));</code></pre><div class="file-actions"><span>Capture a value from an outer function</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/18-closure.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="len type str num builtin functions"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>24-lengths.gsve</strong><small>Built-ins · len</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>define text = "greenServe";
+define items = [1, 2, 3, 4];
+define object = {a: 1, b: 2};
+
+print(len(text));
+print(len(items));
+print(len(object));</code></pre><div class="file-actions"><span>Get string, array and object lengths</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/24-lengths.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="import module gsnum native sum mean sqrt"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>26-gsnum-import.gsve</strong><small>Modules · import gsnum</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>import gsnum;
+
+print(gsnum.sum(1, 2, 3, 4));
+print(gsnum.mean([10, 20, 30]));
+print(gsnum.sqrt(144));</code></pre><div class="file-actions"><span>Call functions from a native package</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/26-gsnum-import.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="from import module sum average native"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>27-gsnum-from-import.gsve</strong><small>Modules · from-import</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>from gsnum import sum, average;
+
+print(sum(1, 2, 3, 4));
+print(average(10, 20, 30));</code></pre><div class="file-actions"><span>Import named functions</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/27-gsnum-from-import.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="import gs_table csv markdown tables arrays objects"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>28-gs-table.gsve</strong><small>Modules · tables · CSV</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>import gs_table;
+
+define headers = ["Name", "Score", "Role"];
+define rows = [
+    ["Alex", 95, "developer"],
+    ["Sam", 88, "designer"]
+];
+
+print(gs_table.render(headers, rows, {
+    title: "Scores",
+    align: ["left", "right", "left"]
+}));
+
+print(gs_table.csv(headers, rows));
+print(gs_table.markdown(headers, rows));</code></pre><div class="file-actions"><span>Format data with a native package</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/28-gs-table.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="server http route static website get send"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>29-server-basic.gsve</strong><small>Server · route · static files</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>import server;
+
+func home(req, res) {
+    res.send("Hello from greenServeFE");
+}
+
+server.get("/", home);
+
+server.serve(".", 8080, {
+    index: "index.html",
+    static: true
+});</code></pre><div class="file-actions"><span>Register a GET route and serve a directory</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/29-server-basic.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="server api json status headers endpoint"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>30-server-api.gsve</strong><small>Server · JSON API · headers</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>import server;
+
+func status(req, res) {
+    res.status(200);
+    res.set("X-App", "greenServeFE");
+    res.json({
+        ok: true,
+        method: req.method,
+        path: req.path
+    });
+}
+
+server.get("/api/status", status);
+
+server.serve(".", 8080, {
+    static: true
+});</code></pre><div class="file-actions"><span>Return JSON from an API route</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/30-server-api.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="server route params users id path api"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>31-server-params.gsve</strong><small>Server · route parameters</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>import server;
+
+func user(req, res) {
+    res.json({
+        id: req.params.id,
+        path: req.path
+    });
+}
+
+server.get("/users/:id", user);
+
+server.serve(".", 8080, {
+    static: true
+});</code></pre><div class="file-actions"><span>Read a path parameter such as /users/42</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/31-server-params.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="server query string search request query api"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>32-server-query.gsve</strong><small>Server · query parameters</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>import server;
+
+func search(req, res) {
+    res.json({
+        query: req.query,
+        raw: req.queryString
+    });
+}
+
+server.get("/search", search);
+
+server.serve(".", 8080, {
+    static: true
+});</code></pre><div class="file-actions"><span>Read query-string values</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/32-server-query.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="server render template html title message placeholders"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>33-server-render.gsve</strong><small>Server · HTML templates</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>import server;
+
+func home(req, res) {
+    res.render("index.html", {
+        title: "greenServeFE",
+        message: "Server-side rendering works"
+    });
+}
+
+server.get("/", home);
+
+server.serve(".", 8080, {
+    index: "index.html",
+    static: true
+});</code></pre><div class="file-actions"><span>Insert data into an HTML template</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/33-server-render.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+<details class="example-file" data-tags="server http_get external API client request response"><summary><span class="file-icon"><i class="fa-solid fa-file-code" aria-hidden="true"></i></span><span class="file-meta"><strong>34-server-api-client.gsve</strong><small>Server · outbound HTTP request</small></span><i class="fa-solid fa-chevron-down file-chevron" aria-hidden="true"></i></summary><div class="example-content"><pre class="code"><code>import server;
+
+define response = server.http_get("https://example.com/");
+
+func home(req, res) {
+    res.json({
+        status: response.status,
+        contentType: response.contentType,
+        url: response.url,
+        error: response.error
+    });
+}
+
+server.get("/", home);
+
+server.serve(".", 8080, {
+    static: true
+});</code></pre><div class="file-actions"><span>Call an external URL from the server runtime</span><a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/docs/examples/34-server-api-client.gsve" target="_blank" rel="noopener">View original <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div></details>
+</div>
+<p class="muted" style="margin-top:16px">Examples that import <code class="inline-code">gsnum</code>, <code class="inline-code">gs_table</code>, or <code class="inline-code">server</code> require the matching native module built for your greenServeFE ABI. Server examples need the server module and should be run from a directory containing any referenced static files or templates.</p>
+</section>
+<section class="section"><div class="section-head"><div class="eyebrow">Runtime features</div><h2>Language and VM capabilities</h2></div>
+<div class="grid"><article class="card"><h3>Values</h3><p>Numbers, strings, booleans, null, arrays and objects.</p></article><article class="card"><h3>Control flow</h3><p><code class="inline-code">if</code>, <code class="inline-code">while</code>, <code class="inline-code">for/in</code>, <code class="inline-code">break</code> and <code class="inline-code">continue</code>.</p></article><article class="card"><h3>Functions</h3><p>Function calls, recursion, closures and captured lexical environments.</p></article><article class="card"><h3>Expressions</h3><p>Arithmetic, comparisons, logical operators, assignment, indexing and member access.</p></article><article class="card"><h3>Built-ins</h3><p><code class="inline-code">print</code>, <code class="inline-code">len</code>, <code class="inline-code">str</code>, <code class="inline-code">num</code> and <code class="inline-code">type</code>.</p></article><article class="card"><h3>Debugging</h3><p>Inspect generated bytecode with <code class="inline-code">--dump</code> and follow execution with <code class="inline-code">--trace</code>.</p></article></div>
+</section>
+<section class="section"><div class="section-head"><div class="eyebrow">Native modules</div><h2>Import functionality when needed</h2><p>Native modules are shared libraries loaded by the runtime. The loader can search direct paths, the current directory, <code class="inline-code">./modules</code>, and paths in <code class="inline-code">GREENSERVE_MODULE_PATH</code>.</p></div>
+<div class="table-wrap"><table><thead><tr><th>Module</th><th>Example usage</th><th>Purpose</th></tr></thead><tbody><tr><td><code class="inline-code">gsnum</code></td><td><code class="inline-code">import gsnum;</code></td><td>Numeric helpers such as sum, mean and square root.</td></tr><tr><td><code class="inline-code">gs_table</code></td><td><code class="inline-code">import gs_table;</code></td><td>Render tabular data as text, CSV or Markdown.</td></tr><tr><td><code class="inline-code">server</code></td><td><code class="inline-code">import server;</code></td><td>HTTP routes, serving static files, responses, templates and outbound HTTP helpers.</td></tr></tbody></table></div>
+<div class="notice">Install the matching module shared library before running an import example. Module binaries must match the runtime's native ABI. Never commit private TLS keys or secrets into the source repository.</div>
+<div class="actions"><a class="btn primary" href="https://github.com/dominexmacedon-docs/greenServeFE-/releases">Browse runtime releases</a><a class="btn" href="https://github.com/MacoraOne/MacoraOne/tree/main/greenServeFE-source-codes/docs">Read the source docs</a></div>
+</section>
+<section class="section"><div class="section-head"><div class="eyebrow">Source code</div><h2>Explore the implementation</h2></div>
+<div class="list">
+<a href="https://github.com/MacoraOne/MacoraOne/tree/main/greenServeFE-source-codes"><span><strong>greenServeFE source archive</strong><br><span>Compiler, lexer, parser, bytecode, VM, native modules, examples and docs</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="https://github.com/MacoraOne/MacoraOne/tree/main/greenServeFE-source-codes/docs/examples"><span><strong>All GSVE examples</strong><br><span>Open the original example files in GitHub</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="https://github.com/MacoraOne/MacoraOne/blob/main/greenServeFE-source-codes/SOURCE-GUIDE.md"><span><strong>Source guide</strong><br><span>Archive layout and file index</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="https://github.com/dominexmacedon-docs/greenServeFE-build"><span><strong>Original build project</strong><br><span>Development repository for the VM-based runtime</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+</div>
+</section>
+</main>
+<footer class="footer"><div class="wrap footer-row"><div><strong>MacoraOne</strong><br>Programming tools and developer projects by Dominex Macedon.</div><div class="footer-links"><a href="/index.html">Overview</a><a href="/macoraone.html">CLI guide</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html">greenServeFE</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub</a></div></div></footer>
+<script>
+(function(){
+ const filter=document.getElementById('example-filter');
+ const cards=Array.from(document.querySelectorAll('.example-file'));
+ const count=document.getElementById('example-count');
+ function update(){
+  const query=(filter.value||'').trim().toLowerCase();
+  let visible=0;
+  cards.forEach(function(card){
+   const match=!query||((card.textContent+' '+(card.dataset.tags||'')).toLowerCase().includes(query));
+   card.hidden=!match;
+   if(match) visible++;
+  });
+  count.textContent=visible+' of '+cards.length+' example files';
+ }
+ filter.addEventListener('input',update);
+ update();
+})();
+</script>
+</body>
+</html>
