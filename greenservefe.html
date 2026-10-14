@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>greenServeFE — Bytecode Runtime and Virtual Machine</title>
+<meta name="description" content="greenServeFE is the VM-based execution engine for greenServe. It compiles .gsve source into bytecode, runs it on an explicit virtual machine and loads native .so modules at runtime.">
+<meta name="keywords" content="greenServeFE, greenServe Fast Execution, .gsve, bytecode, virtual machine, C runtime, native modules, shared libraries, interpreter, compiler">
+<meta name="author" content="Dominex Macedon">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#080b10">
+<link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MacoraOne">
+<meta property="og:title" content="greenServeFE — Bytecode Runtime and Virtual Machine">
+<meta property="og:description" content="greenServeFE is the VM-based execution engine for greenServe. It compiles .gsve source into bytecode, runs it on an explicit virtual machine and loads native .so modules at runtime.">
+<meta property="og:url" content="https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html">
+<meta property="og:image" content="https://macoraone.dominextechdocumentary.workers.dev/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="greenServeFE — Bytecode Runtime and Virtual Machine">
+<meta name="twitter:description" content="greenServeFE is the VM-based execution engine for greenServe. It compiles .gsve source into bytecode, runs it on an explicit virtual machine and loads native .so modules at runtime.">
+<meta name="twitter:image" content="https://macoraone.dominextechdocumentary.workers.dev/og-card.png">
+<link rel="icon" href="https://github.com/favicon.ico" sizes="any">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="/assets/site.css">
+<script defer src="/assets/site.js"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"greenServeFE runtime guide","description":"Understand greenServeFE bytecode execution, example syntax and native module packages.","url":"https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"isPartOf":{"@type":"WebSite","name":"MacoraOne","url":"https://macoraone.dominextechdocumentary.workers.dev/"}}</script></head><body><a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap nav">
+<a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></span>MacoraOne</a>
+<nav class="navlinks" aria-label="Main navigation">
+<a href="/index.html">Overview</a>
+<a href="/macoraone.html">MacoraOne CLI</a>
+<a href="/nativeflexi.html">NativeFlexi</a>
+<a href="/cmll.html">CMLL</a>
+<a href="/greenservefe.html" aria-current="page">greenServeFE</a>
+<a href="https://github.com/MacoraOne/MacoraOne" aria-label="MacoraOne on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+</nav></div></div>
+<header class="hero"><div class="wrap"><div class="breadcrumbs"><a href="/index.html">Home</a> / greenServeFE</div><div class="eyebrow"><i class="fa-solid fa-microchip"></i> Bytecode runtime</div><h1>Compile to bytecode.<br>Execute on a VM.</h1><p class="lead">greenServeFE (greenServe Fast Execution) is a C-based execution engine for the greenServe language. It parses <code class="inline-code">.gsve</code> source, compiles it into bytecode and executes that bytecode in an explicit virtual machine. Runtime modules can be loaded from native shared libraries.</p><div class="actions"><a class="btn primary" href="https://github.com/dominexmacedon-docs/greenServeFE-"><i class="fa-brands fa-github"></i> Runtime and releases</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build"><i class="fa-solid fa-code"></i> Build source</a></div></div></header>
+<main id="main" class="wrap"><section class="section"><div class="section-head"><div class="eyebrow">Search</div><h2>Search the ecosystem docs</h2><p>Search for commands, source syntax, runtime architecture or module packages.</p><div class="search-wrap" role="search"><label class="search-box"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input data-site-search type="search" placeholder="Search projects, commands, examples…" aria-label="Search the MacoraOne documentation" autocomplete="off"><span class="tag">/</span></label><div class="search-results" data-search-results role="listbox" aria-label="Search results"></div></div></div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Execution model</div><h2>From source to bytecode</h2><p>The frontend keeps the greenServe lexer/parser language model, while execution moves from recursive AST evaluation to a bytecode compiler and VM.</p></div><div class="grid three"><article class="card"><div class="icon"><i class="fa-solid fa-file-code"></i></div><h3>1. Source</h3><p>Programs are written in <code class="inline-code">.gsve</code> files.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-diagram-project"></i></div><h3>2. Frontend</h3><p>The lexer and parser build the program representation.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-gears"></i></div><h3>3. Compiler</h3><p>The compiler produces instructions, constants, names and child function code objects.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-layer-group"></i></div><h3>4. Virtual machine</h3><p>Frames track instruction pointers, operand stack bases and lexical environments.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-plug"></i></div><h3>5. Native modules</h3><p>Runtime-loadable <code class="inline-code">.so</code> modules extend the engine through its native module layer.</p></article><article class="card"><div class="icon"><i class="fa-solid fa-terminal"></i></div><h3>6. CLI</h3><p>Run source directly, inspect bytecode, or trace execution from the command line.</p></article></div><pre class="code">.gsve source
+   → lexer
+   → parser / AST
+   → bytecode compiler
+   → GSCode instructions
+   → virtual machine
+   → output</pre></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Build and run</div><h2>Run a program</h2><p>Build the engine from the build repository using its existing C11 Makefile.</p></div><pre class="code">git clone https://github.com/dominexmacedon-docs/greenServeFE-build.git
+cd greenServeFE-build
+make clean all
+./greenServeFE test.gsve
+./greenServeFE --dump test.gsve
+./greenServeFE --trace test.gsve</pre><p class="muted">The published runtime repository contains Linux x86_64 release packages. Follow its README for the current engine and module installation instructions.</p></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Example program</div><h2>Variables, iteration, functions and objects</h2><p>This example is based on the included <code class="inline-code">test.gsve</code> program in the build repository.</p></div><pre class="code">define total = 0;
+for (n in [1, 2, 3, 4]) {
+    total = total + n;
+}
+
+func add(a, b) {
+    return a + b;
+}
+
+define result = add(total, 5);
+show("total:", total);
+show("result:", result);
+show("array:", [1, 2, result]);
+show("object:", {name: "greenServe", version: 1});
+
+if (result >= 15 && total == 10) {
+    show("vm ok");
+} else {
+    show("vm failed");
+}</pre><p>Run the sample:</p><pre class="code">./greenServeFE test.gsve</pre><p class="muted">The example uses the implementation's documented <code class="inline-code">define</code>, <code class="inline-code">for</code>, <code class="inline-code">func</code>, <code class="inline-code">show</code>, array and object syntax.</p></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Runtime features</div><h2>What the VM supports</h2></div><div class="grid"><article class="card"><h3>Language values</h3><p>Numbers, strings, booleans, null, arrays and objects.</p></article><article class="card"><h3>Control flow</h3><p>Conditions, while loops, for/in iteration, break and continue.</p></article><article class="card"><h3>Functions</h3><p>Function calls, recursion and captured lexical environments.</p></article><article class="card"><h3>Expressions</h3><p>Arithmetic, comparisons, logical operators, assignment, indexing and member access.</p></article><article class="card"><h3>Built-ins</h3><p><code class="inline-code">print</code>, <code class="inline-code">show</code>, <code class="inline-code">len</code>, <code class="inline-code">str</code>, <code class="inline-code">num</code> and <code class="inline-code">type</code>.</p></article><article class="card"><h3>Inspection</h3><p>Bytecode disassembly via <code class="inline-code">--dump</code> and execution tracing via <code class="inline-code">--trace</code>.</p></article></div><div class="notice">The build README notes that the full Node.js HTTP/server bridge from the earlier greenSERVE runtime has not yet been ported to the new VM native ABI. Treat network/server functionality as separate integration work rather than an already completed VM feature.</div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Native packages</div><h2>Extensible modules</h2><p>The release repository publishes the engine and modules as separate Linux x86_64 ZIP assets. MacoraOne can discover these packages from GitHub Releases rather than requiring package names to be hard-coded in its own source.</p></div><div class="table-wrap"><table><thead><tr><th>Module</th><th>Purpose (from package name)</th><th>Library</th></tr></thead><tbody><tr><td>gsnum</td><td>Numeric helpers</td><td><code class="inline-code">gsnum.so</code></td></tr><tr><td>gs_table</td><td>Table utilities</td><td><code class="inline-code">gs_table.so</code></td></tr><tr><td>server</td><td>Server module layer</td><td><code class="inline-code">server.so</code></td></tr><tr><td>gs_string</td><td>String utilities</td><td><code class="inline-code">gs_string.so</code></td></tr><tr><td>gs_json</td><td>JSON utilities</td><td><code class="inline-code">gs_json.so</code></td></tr><tr><td>gs_uuid / gs_time / gs_random</td><td>Common utility modules</td><td>Individual <code class="inline-code">.so</code> files</td></tr></tbody></table></div><p>Install the engine and modules using the official release instructions:</p><div class="actions"><a class="btn primary" href="https://github.com/dominexmacedon-docs/greenServeFE-#linux-installation">Installation guide <i class="fa-solid fa-arrow-up-right-from-square"></i></a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-/releases">Browse releases</a></div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Source code</div><h2>Explore the runtime</h2></div><div class="list"><a href="https://github.com/dominexmacedon-docs/greenServeFE-build"><span><strong>greenServeFE-build</strong><br><span>C source, Makefile, frontend, bytecode compiler and VM</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://github.com/dominexmacedon-docs/greenServeFE-"><span><strong>greenServeFE-</strong><br><span>Linux x86_64 runtime and native module releases</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="/macoraone.html"><span><strong>MacoraOne CLI</strong><br><span>Install packages discovered from published release assets</span></span><i class="fa-solid fa-arrow-right"></i></a></div></section></main><footer class="footer"><div class="wrap footer-row"><div><strong>MacoraOne</strong><br>Programming tools and developer projects by Dominex Macedon.</div><div class="footer-links"><a href="/index.html">Overview</a><a href="/macoraone.html">CLI guide</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html">greenServeFE</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub</a></div></div></footer></body></html>
