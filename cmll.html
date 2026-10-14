@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CMLL — Command Language Made Legible</title>
+<meta name="description" content="CMLL is a small C-implemented command-line programming language. Learn installation, .cmll source files, statements, variables, conditions, loops, functions, arrays and objects.">
+<meta name="keywords" content="CMLL, Command Language Made Legible, command language, .cmll, C programming language implementation, CLI scripting, variables, loops, functions">
+<meta name="author" content="Dominex Macedon">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#080b10">
+<link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/cmll.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MacoraOne">
+<meta property="og:title" content="CMLL — Command Language Made Legible">
+<meta property="og:description" content="CMLL is a small C-implemented command-line programming language. Learn installation, .cmll source files, statements, variables, conditions, loops, functions, arrays and objects.">
+<meta property="og:url" content="https://macoraone.dominextechdocumentary.workers.dev/cmll.html">
+<meta property="og:image" content="https://macoraone.dominextechdocumentary.workers.dev/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CMLL — Command Language Made Legible">
+<meta name="twitter:description" content="CMLL is a small C-implemented command-line programming language. Learn installation, .cmll source files, statements, variables, conditions, loops, functions, arrays and objects.">
+<meta name="twitter:image" content="https://macoraone.dominextechdocumentary.workers.dev/og-card.png">
+<link rel="icon" href="https://github.com/favicon.ico" sizes="any">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="/assets/site.css">
+<script defer src="/assets/site.js"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"CMLL language guide","description":"Syntax and usage examples for the CMLL command-line programming language.","url":"https://macoraone.dominextechdocumentary.workers.dev/cmll.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"isPartOf":{"@type":"WebSite","name":"MacoraOne","url":"https://macoraone.dominextechdocumentary.workers.dev/"}}</script></head><body><a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap nav">
+<a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></span>MacoraOne</a>
+<nav class="navlinks" aria-label="Main navigation">
+<a href="/index.html">Overview</a>
+<a href="/macoraone.html">MacoraOne CLI</a>
+<a href="/nativeflexi.html">NativeFlexi</a>
+<a href="/cmll.html" aria-current="page">CMLL</a>
+<a href="/greenservefe.html">greenServeFE</a>
+<a href="https://github.com/MacoraOne/MacoraOne" aria-label="MacoraOne on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+</nav></div></div>
+<header class="hero"><div class="wrap"><div class="breadcrumbs"><a href="/index.html">Home</a> / CMLL</div><div class="eyebrow"><i class="fa-solid fa-terminal"></i> Command-line language</div><h1>Make command-line<br>programs legible.</h1><p class="lead">CMLL — Command Language Made Legible — is a small programming language implemented in C. Its <code class="inline-code">.cmll</code> files can express variables, expressions, functions, control flow, arrays, objects, file operations and shell commands.</p><div class="actions"><a class="btn primary" href="https://github.com/dominexmacedon-docs/CMLL"><i class="fa-brands fa-github"></i> Source and releases</a><a class="btn" href="https://github.com/dominexmacedon-docs/CMLL/releases"><i class="fa-solid fa-box"></i> Linux releases</a></div></div></header>
+<main id="main" class="wrap"><section class="section"><div class="section-head"><div class="eyebrow">Search docs</div><h2>Search all project guides</h2><p>Find CMLL syntax, installation instructions or related ecosystem projects.</p><div class="search-wrap" role="search"><label class="search-box"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input data-site-search type="search" placeholder="Search projects, commands, examples…" aria-label="Search the MacoraOne documentation" autocomplete="off"><span class="tag">/</span></label><div class="search-results" data-search-results role="listbox" aria-label="Search results"></div></div></div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Install</div><h2>Linux x86_64 release</h2><p>The project README documents a release ZIP for the <code class="inline-code">cmll</code> executable and a separate VS Code extension package. Its complete installation recipe uses curl, unzip, sudo and optionally the VS Code <code class="inline-code">code</code> command.</p></div><pre class="code">cmll --version
+cmll --help
+cmll hello.cmll</pre><div class="notice">For the current release download and full installation command, follow the project README. This page intentionally links to the canonical instructions instead of duplicating a long version-specific installer.</div><a class="btn" href="https://github.com/dominexmacedon-docs/CMLL#installation">Read official installation instructions <i class="fa-solid fa-arrow-up-right-from-square"></i></a></section>
+<section class="section"><div class="section-head"><div class="eyebrow">First program</div><h2>A CMLL script</h2><p>Save as <code class="inline-code">hello.cmll</code>. CMLL ignores newlines as statement separators, so use semicolons.</p></div><pre class="code">project "Hello World";
+set name = "CMLL";
+set version = 1;
+
+say "Hello from CMLL!";
+show "Language: " + name;
+show "Version: " + version;</pre><p>Run it with:</p><pre class="code">cmll hello.cmll</pre></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Core syntax</div><h2>Examples you can adapt</h2><p>The examples below use the documented current syntax, not hypothetical language features.</p></div><div class="grid">
+<article class="card"><h3>Variables and expressions</h3><pre class="code">set price = 12;
+set quantity = 4;
+set total = price * quantity;
+show total;</pre><p class="muted">Use <code class="inline-code">set</code> to make variable declarations clear. Values include numbers, strings, booleans, null, arrays, objects and functions.</p></article>
+<article class="card"><h3>Conditions</h3><pre class="code">set score = 85;
+
+if score >= 90 {
+    say "excellent";
+} else {
+    if score >= 70 {
+        say "good";
+    } else {
+        say "keep practicing";
+    }
+}</pre><p class="muted">Conditions use braces. Separate statements inside blocks with semicolons.</p></article>
+<article class="card"><h3>Loops</h3><pre class="code">set total = 0;
+for (n in [1, 2, 3, 4]) {
+    total = total + n;
+}
+show total;</pre><p class="muted">The documented implementation supports array iteration with <code class="inline-code">for</code>. Do not assume general array indexing is available.</p></article>
+<article class="card"><h3>Functions</h3><pre class="code">func add(a, b) {
+    return a + b;
+}
+
+set result = add(20, 22);
+show result;</pre><p class="muted">Functions can return expression values and be called from other expressions.</p></article>
+<article class="card"><h3>Arrays and objects</h3><pre class="code">set user = {
+    name: "Dominex",
+    active: true,
+    tools: ["CMLL", "MacoraOne"]
+};
+
+show user.name;
+show user.active;</pre><p class="muted">Access object properties using dot notation. The current README notes that general array indexing such as <code class="inline-code">items[0]</code> is not implemented.</p></article>
+<article class="card"><h3>Comments and output</h3><pre class="code"># A one-line comment
+set status = true;
+say "Ready";
+show status;</pre><p class="muted">The lexer uses <code class="inline-code">#</code> for single-line comments. <code class="inline-code">say</code> and <code class="inline-code">show</code> are documented statements.</p></article>
+</div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Statement reference</div><h2>Language features</h2></div><div class="table-wrap"><table><thead><tr><th>Feature</th><th>Examples / notes</th></tr></thead><tbody><tr><td>Declarations</td><td><code class="inline-code">set name = "CMLL";</code></td></tr><tr><td>Assignment</td><td><code class="inline-code">total = total + 1;</code></td></tr><tr><td>Control flow</td><td><code class="inline-code">if</code>, <code class="inline-code">else</code>, <code class="inline-code">while</code>, <code class="inline-code">for</code></td></tr><tr><td>Functions</td><td><code class="inline-code">func</code>, <code class="inline-code">return</code>, <code class="inline-code">task</code></td></tr><tr><td>Output and shell</td><td><code class="inline-code">say</code>, <code class="inline-code">show</code>, <code class="inline-code">run</code></td></tr><tr><td>Files and environment</td><td><code class="inline-code">read file</code>, <code class="inline-code">write file</code>, <code class="inline-code">env</code></td></tr><tr><td>Data</td><td>Arrays, objects, dot property access and expression operators</td></tr></tbody></table></div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Important details</div><h2>Write for the current implementation</h2></div><div class="grid"><article class="card"><h3>Semicolons matter</h3><p>Newlines are ignored by the lexer. Use semicolons between statements, including statements inside blocks.</p><pre class="code">set first = 1;
+set second = 2;
+show first + second;</pre></article><article class="card"><h3>Know the supported subset</h3><p>Use the source README as the authoritative feature list. For example, general array indexing is not currently implemented, even though arrays and iteration are supported.</p><a href="https://github.com/dominexmacedon-docs/CMLL#language-structure">Read the language reference <i class="fa-solid fa-arrow-up-right-from-square"></i></a></article></div></section>
+<section class="section"><div class="section-head"><div class="eyebrow">Source code</div><h2>Explore CMLL</h2></div><div class="list"><a href="https://github.com/dominexmacedon-docs/CMLL"><span><strong>CMLL repository</strong><br><span>Implementation, documentation and examples</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://github.com/dominexmacedon-docs/CMLL/releases"><span><strong>Releases</strong><br><span>Linux x86_64 executable and VS Code extension packages</span></span><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></section></main><footer class="footer"><div class="wrap footer-row"><div><strong>MacoraOne</strong><br>Programming tools and developer projects by Dominex Macedon.</div><div class="footer-links"><a href="/index.html">Overview</a><a href="/macoraone.html">CLI guide</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html">greenServeFE</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub</a></div></div></footer></body></html>
