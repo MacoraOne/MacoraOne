@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://macoraone.dominextechdocumentary.workers.dev/sitemap.xml
