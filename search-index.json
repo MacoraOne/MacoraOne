@@ -1,0 +1,132 @@
+[
+  {
+    "title": "MacoraOne ecosystem",
+    "url": "/index.html",
+    "category": "overview",
+    "description": "Overview of the MacoraOne technology ecosystem and its projects.",
+    "keywords": [
+      "MacoraOne",
+      "Dominex Macedon",
+      "projects",
+      "ecosystem",
+      "programming",
+      "developer"
+    ]
+  },
+  {
+    "title": "MacoraOne CLI guide",
+    "url": "/macoraone.html",
+    "category": "command line",
+    "description": "Install, create Android apps, refresh packages, push code and build with the one command.",
+    "keywords": [
+      "one",
+      "CLI",
+      "install",
+      "create",
+      "build",
+      "push",
+      "GitHub CLI",
+      "Actions",
+      "packages"
+    ]
+  },
+  {
+    "title": "NativeFlexi Android",
+    "url": "/nativeflexi.html",
+    "category": "Android",
+    "description": "Java and Kotlin Android templates with Gradle and manually triggered GitHub Actions builds.",
+    "keywords": [
+      "Android",
+      "Java",
+      "Kotlin",
+      "Gradle",
+      "APK",
+      "Android Studio",
+      "template",
+      "native"
+    ]
+  },
+  {
+    "title": "CMLL language guide",
+    "url": "/cmll.html",
+    "category": "programming language",
+    "description": "Command Language Made Legible: .cmll scripts, syntax, variables, loops, functions and installation.",
+    "keywords": [
+      "CMLL",
+      "cmll",
+      "C language",
+      "script",
+      "CLI",
+      "variables",
+      "functions",
+      "loops",
+      "arrays",
+      "objects"
+    ]
+  },
+  {
+    "title": "greenServeFE guide",
+    "url": "/greenservefe.html",
+    "category": "runtime",
+    "description": "Bytecode compiler and virtual machine for .gsve source files, with native shared-library modules.",
+    "keywords": [
+      "greenServeFE",
+      "greenServe",
+      "gsve",
+      "bytecode",
+      "VM",
+      "virtual machine",
+      "native modules",
+      "so",
+      "module",
+      "C"
+    ]
+  },
+  {
+    "title": "MacoraOne GitHub repository",
+    "url": "https://github.com/MacoraOne/MacoraOne",
+    "category": "source code",
+    "description": "Browse the MacoraOne repository and ecosystem documentation.",
+    "keywords": [
+      "GitHub",
+      "source",
+      "repository",
+      "code"
+    ]
+  },
+  {
+    "title": "CMLL source repository",
+    "url": "https://github.com/dominexmacedon-docs/CMLL",
+    "category": "source code",
+    "description": "CMLL language implementation and documentation.",
+    "keywords": [
+      "GitHub",
+      "CMLL",
+      "source"
+    ]
+  },
+  {
+    "title": "greenServeFE source repository",
+    "url": "https://github.com/dominexmacedon-docs/greenServeFE-",
+    "category": "source code",
+    "description": "greenServeFE runtime release packages and documentation.",
+    "keywords": [
+      "GitHub",
+      "greenServeFE",
+      "source",
+      "releases"
+    ]
+  },
+  {
+    "title": "NativeFlexi Android source",
+    "url": "https://github.com/dominexmacedon-docs/NativeFlexi-android",
+    "category": "source code",
+    "description": "Java and Kotlin Android starter templates.",
+    "keywords": [
+      "GitHub",
+      "NativeFlexi",
+      "Android",
+      "source"
+    ]
+  }
+]\n
