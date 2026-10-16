@@ -123,6 +123,61 @@ The command removes `~/.macoraone/` and attempts to remove the currently executi
 
 If `one` was installed into `/usr/local/bin`, use sufficient permissions when necessary.
 
+## greenServeFE Package Manager
+
+MacoraOne installs versioned Linux x86_64 release packages from the [greenServeFE- GitHub Releases](https://github.com/dominexmacedon-docs/greenServeFE-/releases). It checks the published release tag and exact asset filename before downloading.
+
+Requirements for package commands: `curl`, `jq`, `unzip`, and `sudo` access. The release catalogue is read from GitHub's Releases API.
+
+### Install a package
+
+Install the newest published version:
+
+```text
+one install gsnum
+one install greenServeFE
+```
+
+Pin an exact version with either syntax:
+
+```text
+one install gsnum@1.0.0
+one install gsnum 1.0.0
+```
+
+If a package or requested version does not exist, MacoraOne reports an error. The ZIP is downloaded and checked for its expected executable or `.so` file before the installed file is replaced.
+
+### Installation locations
+
+Following the greenServeFE README:
+
+- Engine: `/usr/local/bin/greenServeFE`
+- Native modules: `/usr/local/lib/modules/<module>.so`
+- Module path: `/etc/profile.d/greenServeFE.sh`
+
+Package names are **not compiled into MacoraOne**. Each install/list command queries the GitHub Releases API and discovers available packages from published Linux x86_64 ZIP assets. MacoraOne derives the public package name from the asset filename (for example, `gs_object` from `greenServeFE-gs-object-linux-x86_64.zip`) and obtains versions and download URLs from the matching release metadata. Publishing a correctly named release asset makes a package discoverable without editing MacoraOne's C source.
+
+The current asset naming convention is:
+
+- Engine: `greenServeFE-linux-x86_64.zip`, with release tags such as `greenServeFE-v1.0.2`.
+- Native modules: `<module-name>-linux-x86_64.zip`, with release tags ending in `-v<version>`.
+- If an asset uses the legacy `greenServeFE-<module-name>-linux-x86_64.zip` form, the prefix is removed and hyphens become underscores for the installed package name.
+
+### Versions, listing, and uninstall
+
+MacoraOne records installed package names and versions in `~/.macoraone/packages.tsv`. Each package has one canonical destination, so installing a new version replaces the prior file rather than leaving overlapping versions. Reinstalling the same recorded version is a no-op.
+
+```text
+one list
+one list-available
+one uninstall gsnum
+one uninstall greenServeFE
+```
+
+`one list` shows installed versions and discovers package names from the current GitHub Releases catalogue. `one list-available` queries GitHub and lists versions actually published with matching Linux x86_64 assets. `one uninstall package` removes that package's managed file and manifest entry. The existing `one uninstall` with no argument still removes the overall MacoraOne managed data directory, preserving the original behavior.
+
+The `gs_object` package is published under `gsobject-vX.Y.Z` and its asset is `greenServeFE-gs-object-linux-x86_64.zip`; the installed module filename is `gs_object.so`.
+
 ## `one create AppName`
 
 This is the main Android project creation workflow.

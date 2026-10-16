@@ -1,6 +1,8 @@
 name: Build MacoraOne
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -14,7 +16,7 @@ jobs:
       - name: Install build tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential git curl
+          sudo apt-get install -y build-essential git curl jq unzip
 
       - name: Compile Linux executable
         run: make clean all
@@ -24,6 +26,16 @@ jobs:
           ./one --version
           ./one --help
           make test
+          ./one list-available
+          ./one install gsnum@1.0.0
+          grep -q '^gsnum[[:space:]]1.0.0$' "$HOME/.macoraone/packages.tsv"
+          ./one uninstall gsnum
+          ./one install greenServeFE@1.0.1
+          ./one install greenServeFE@1.0.2
+          grep -q '^greenServeFE[[:space:]]1.0.2$' "$HOME/.macoraone/packages.tsv"
+          test "$(grep -c '^greenServeFE[[:space:]]' "$HOME/.macoraone/packages.tsv")" -eq 1
+          ./one uninstall greenServeFE
+          if ./one install gsnum@99.99.99; then echo 'ERROR: nonexistent version unexpectedly installed'; exit 1; else echo 'Nonexistent version correctly rejected'; fi
 
       - name: Upload Linux executable
         uses: actions/upload-artifact@v4

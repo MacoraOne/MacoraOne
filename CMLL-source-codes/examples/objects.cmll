@@ -1,0 +1,8 @@
+# Objects and dot-property access
+set user = {
+    name: "Dominex",
+    active: true,
+    tools: ["CMLL", "MacoraOne"]
+};
+show user.name;
+show user.active;

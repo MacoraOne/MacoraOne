@@ -1,28 +1,16 @@
-# MacoraOne Source Code Archive
+# MacoraOne Source Archive
 
-# Purpose
+This directory mirrors the current build implementation from [dominexmacedon-docs/MarocaOne-build](https://github.com/dominexmacedon-docs/MarocaOne-build).
 
-Browse MacoraOne source code, build files, command-line implementation, and project documentation.
+## Build sources
 
-# Source repository
+- `main.c` — CLI entry point and project/component workflows.
+- `module_manager.c` — dynamic release catalogue, versioned package install/list/uninstall, and greenServeFE package discovery.
+- `macoraone.h` — shared declarations and version information.
+- `Makefile` — C11 build, install, uninstall, and smoke-test targets.
+- `.github/workflows/build.yml` — push/manual build and validation workflow.
+- `README.md` — full command reference and architecture documentation.
 
-- Repository: https://github.com/dominexmacedon-docs/MarocaOne-build
-- Branch: `main`
-- Source tree snapshot: `3956c8a14896f9a961fe8ff7dc489511ccce997f`
-- Original files copied: 5
+Build with `make clean all`; test with `make test`. This archive is source code, not the installed `one` executable.
 
-# Browse and copy
-
-Open [index.html](index.html) to search file names and source text, copy an individual code block, or copy all source files. The viewer uses local relative paths and includes SEO metadata and structured data.
-
-# Explanation and source integrity
-
-Original files are preserved without inserting comments that could break their languages. Use these Markdown `#` headings as the archive explanation; original README files and documentation remain in their source paths.
-
-# File index
-
-- `.github/workflows/build.yml`
-- `Makefile`
-- `README.md`
-- `main.c`
-- `macoraone.h`
+Related pages: [MacoraOne CLI guide](../macoraone.html), [complete one command reference](../one-commands.html), [greenServeFE examples](../greenservefe-examples.html), and [CMLL examples](../cmll-examples.html).

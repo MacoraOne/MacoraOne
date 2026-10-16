@@ -1,0 +1,6 @@
+# Iterate over an array and calculate a total
+set total = 0;
+for (n in [1, 2, 3, 4, 5]) {
+    total = total + n;
+}
+show total;

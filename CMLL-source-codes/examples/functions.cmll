@@ -1,0 +1,6 @@
+# Functions can return values
+func add(a, b) {
+    return a + b;
+}
+set result = add(20, 22);
+show result;

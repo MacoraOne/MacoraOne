@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CMLL Examples | MacoraOne</title><meta name="description" content="Multiple .cmll examples using the documented current syntax: variables, expressions, conditions, loops, functions and objects."><meta name="robots" content="index,follow"><link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/cmll-examples.html"><style>:root{color-scheme:dark}body{font:16px/1.65 system-ui,sans-serif;max-width:1100px;margin:auto;padding:20px;background:#080b10;color:#e8edf5}a{color:#9fc4ff}.nav{display:flex;gap:14px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid #293241}.hero,.card{padding:20px;margin:18px 0;border:1px solid #293241;border-radius:14px;background:#101722}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:14px}.card{margin:0}pre{padding:15px;background:#07090d;border:1px solid #293241;border-radius:9px;overflow:auto;white-space:pre}code{font-family:ui-monospace,Consolas,monospace;color:#c6dcff}.muted{opacity:.78}.btn{display:inline-block;padding:8px 12px;border:1px solid #3a4657;border-radius:8px;text-decoration:none;margin:4px 4px 4px 0}h1{line-height:1.15}</style></head><body><nav class="nav"><a href="/index.html">Overview</a><a href="/macoraone.html">MacoraOne CLI</a><a href="/one-commands.html">one commands</a><a href="/cmll.html">CMLL guide</a><a href="/cmll-examples.html">CMLL examples</a><a href="/greenservefe.html">greenServeFE guide</a><a href="/greenservefe-examples.html">GSVE examples</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub source</a></nav><header class="hero"><p class="muted">MACORAONE / DEVELOPER DOCUMENTATION</p><h1>CMLL Examples</h1><p>Multiple .cmll examples using the documented current syntax: variables, expressions, conditions, loops, functions and objects.</p></header><main class="grid"><article class="card"><h2>hello.cmll</h2><p class="muted">Project metadata and output.</p><pre><code># A minimal CMLL program
+project "Hello World";
+set name = "CMLL";
+say "Hello from CMLL!";
+show "Language: " + name;
+</code></pre><a class="btn" href="/CMLL-source-codes/examples/hello.cmll">Open .cmll source</a></article><article class="card"><h2>variables.cmll</h2><p class="muted">Declarations, arithmetic and string output.</p><pre><code># Variables and arithmetic
+set price = 12;
+set quantity = 4;
+set total = price * quantity;
+show "Total: " + total;
+</code></pre><a class="btn" href="/CMLL-source-codes/examples/variables.cmll">Open .cmll source</a></article><article class="card"><h2>conditions.cmll</h2><p class="muted">Comparisons and nested if/else.</p><pre><code># Branch on a score
+set score = 85;
+if score &gt;= 90 {
+    say "excellent";
+} else {
+    if score &gt;= 70 {
+        say "good";
+    } else {
+        say "keep practicing";
+    }
+}
+</code></pre><a class="btn" href="/CMLL-source-codes/examples/conditions.cmll">Open .cmll source</a></article><article class="card"><h2>loops.cmll</h2><p class="muted">Array iteration and accumulation.</p><pre><code># Iterate over an array and calculate a total
+set total = 0;
+for (n in [1, 2, 3, 4, 5]) {
+    total = total + n;
+}
+show total;
+</code></pre><a class="btn" href="/CMLL-source-codes/examples/loops.cmll">Open .cmll source</a></article><article class="card"><h2>functions.cmll</h2><p class="muted">Function declarations, calls and return values.</p><pre><code># Functions can return values
+func add(a, b) {
+    return a + b;
+}
+set result = add(20, 22);
+show result;
+</code></pre><a class="btn" href="/CMLL-source-codes/examples/functions.cmll">Open .cmll source</a></article><article class="card"><h2>objects.cmll</h2><p class="muted">Object literals and property access.</p><pre><code># Objects and dot-property access
+set user = {
+    name: "Dominex",
+    active: true,
+    tools: ["CMLL", "MacoraOne"]
+};
+show user.name;
+show user.active;
+</code></pre><a class="btn" href="/CMLL-source-codes/examples/objects.cmll">Open .cmll source</a></article></main><section class="hero"><h2>Run a program</h2><pre><code>cmll --version
+cmll --help
+cmll CMLL-source-codes/examples/hello.cmll</code></pre><p>CMLL statements use semicolons because newlines are ignored by the lexer. These examples follow the current language guide; general array indexing is not assumed.</p><a class="btn" href="/cmll.html">Read the CMLL language guide</a><a class="btn" href="https://github.com/dominexmacedon-docs/CMLL">CMLL repository</a></section><footer class="hero"><a href="/index.html">Back to overview</a> · <a href="https://github.com/MacoraOne/MacoraOne">Source repository</a></footer></body></html>

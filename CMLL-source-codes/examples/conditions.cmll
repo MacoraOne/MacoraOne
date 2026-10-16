@@ -1,0 +1,11 @@
+# Branch on a score
+set score = 85;
+if score >= 90 {
+    say "excellent";
+} else {
+    if score >= 70 {
+        say "good";
+    } else {
+        say "keep practicing";
+    }
+}

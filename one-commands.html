@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>one Commands | MacoraOne</title><meta name="description" content="Complete documented command reference for MacoraOne's one CLI: package discovery, versioned installs, Android project creation, push and build workflows."><meta name="robots" content="index,follow"><link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/one-commands.html"><style>:root{color-scheme:dark}body{font:16px/1.65 system-ui,sans-serif;max-width:1100px;margin:auto;padding:20px;background:#080b10;color:#e8edf5}a{color:#9fc4ff}.nav{display:flex;gap:14px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid #293241}.hero,.card{padding:20px;margin:18px 0;border:1px solid #293241;border-radius:14px;background:#101722}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:14px}.card{margin:0}pre{padding:15px;background:#07090d;border:1px solid #293241;border-radius:9px;overflow:auto;white-space:pre}code{font-family:ui-monospace,Consolas,monospace;color:#c6dcff}.muted{opacity:.78}.btn{display:inline-block;padding:8px 12px;border:1px solid #3a4657;border-radius:8px;text-decoration:none;margin:4px 4px 4px 0}h1{line-height:1.15}</style></head><body><nav class="nav"><a href="/index.html">Overview</a><a href="/macoraone.html">MacoraOne CLI</a><a href="/one-commands.html">one commands</a><a href="/cmll.html">CMLL guide</a><a href="/cmll-examples.html">CMLL examples</a><a href="/greenservefe.html">greenServeFE guide</a><a href="/greenservefe-examples.html">GSVE examples</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub source</a></nav><header class="hero"><p class="muted">MACORAONE / DEVELOPER DOCUMENTATION</p><h1>one Commands</h1><p>Complete documented command reference for MacoraOne's one CLI: package discovery, versioned installs, Android project creation, push and build workflows.</p></header><main class="grid">
+<article class="card"><h2>Help and version</h2><pre><code>one --version
+one --help</code></pre></article>
+<article class="card"><h2>Install / remove ecosystem</h2><pre><code>one install
+one uninstall</code></pre><p class="muted">Manage the full ~/.macoraone installation and components.</p></article>
+<article class="card"><h2>List packages</h2><pre><code>one list
+one list-available</code></pre><p class="muted">Query installed packages and discover published Linux x86_64 release assets.</p></article>
+<article class="card"><h2>Install a package</h2><pre><code>one install gsnum
+one install gsnum@1.0.0
+one install gsnum 1.0.0
+one install greenServeFE@1.0.2
+one install gs_db@1.0.0
+one install gs_crypto@1.0.0
+one install gs_http@1.0.0
+one install gs_form@1.0.0
+one install gs_log@1.0.0</code></pre><p class="muted">Package names and versions are discovered from published release assets, not hard-coded into the CLI.</p></article>
+<article class="card"><h2>Uninstall one package</h2><pre><code>one uninstall gsnum
+one uninstall greenServeFE
+one uninstall gs_db</code></pre></article>
+<article class="card"><h2>Create Android app</h2><pre><code>one create WeatherApp</code></pre><p class="muted">Select Java or Kotlin when prompted.</p></article>
+<article class="card"><h2>Push app changes</h2><pre><code>one push WeatherApp WeatherApp
+one push WeatherApp dominexmacedon-docs/WeatherApp</code></pre></article>
+<article class="card"><h2>Build app</h2><pre><code>one build WeatherApp</code></pre><p class="muted">Dispatches the selected GitHub Actions workflow and reports the artifact URL.</p></article></main>
+<section class="hero"><h2>Build and install the CLI from source</h2><pre><code>make clean all
+make test
+sudo make install
+sudo make uninstall</code></pre><p>Typical dependencies: GCC/Clang C11 compiler, make, git, GitHub CLI (for project workflows), curl, jq, unzip, and sudo for system-level install operations. Package installation requires network access to the release catalogue.</p><a class="btn" href="/macoraone.html">MacoraOne CLI guide</a><a class="btn" href="/MacoraOne-source-codes/index.html">Source archive</a></section><footer class="hero"><a href="/index.html">Back to overview</a> · <a href="https://github.com/MacoraOne/MacoraOne">Source repository</a></footer></body></html>

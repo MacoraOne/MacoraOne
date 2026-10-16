@@ -4,7 +4,7 @@ LDFLAGS ?=
 LDLIBS ?=
 
 TARGET := one
-OBJS := main.o
+OBJS := main.o module_manager.o
 
 .PHONY: all clean install uninstall test
 
@@ -16,6 +16,9 @@ $(TARGET): $(OBJS)
 main.o: main.c macoraone.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
+module_manager.o: module_manager.c macoraone.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
 install: $(TARGET)
 	install -Dm755 $(TARGET) /usr/local/bin/one
 
@@ -25,6 +28,7 @@ uninstall:
 test: $(TARGET)
 	./$(TARGET) --version
 	./$(TARGET) --help >/dev/null
+	./$(TARGET) list >/dev/null
 
 clean:
 	rm -f $(TARGET) $(OBJS)

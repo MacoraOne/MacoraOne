@@ -1,0 +1,5 @@
+# Variables and arithmetic
+set price = 12;
+set quantity = 4;
+set total = price * quantity;
+show "Total: " + total;
