@@ -62,7 +62,7 @@
 </section>
 <section class="section" id="quickstart"><div class="section-head"><div class="eyebrow">Quick start</div><h2>Build the module and run a real-data example</h2><p>Use a Linux environment with GCC, Make, pkg-config and libcurl development headers. Follow the current repository README if build instructions have changed.</p></div>
 <pre class="code">git clone https://github.com/dominexmacedon-docs/greenServeFE-.git
-cd greenServeFE-build
+cd /path/to/your/greenServeFE-build
 make clean all
 mkdir -p dist
 cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic \
@@ -111,12 +111,12 @@ if (accuracy == 1 && model.loss < 0.1) {
 } else {
     print("CHECK: inspect model output and training settings");
 }</code></pre>
-<div class="actions"><a class="btn primary" href="#quickstart">Open committed test.gsve</a><a class="btn" href="#data">Open small CSV fixture</a><a class="btn" href="https://archive.ics.uci.edu/dataset/53/iris">Iris dataset source</a></div>
+<div class="actions"><a class="btn primary" href="#quickstart">Run the example shown here</a><a class="btn" href="#data">Dataset collection guide</a><a class="btn" href="https://archive.ics.uci.edu/dataset/53/iris">Iris dataset source</a></div>
 <h3>Example 2 — Test numeric and training components</h3>
 <p>The component test in the private development checkout is intended to exercise independent primitives before scaling an experiment: matrix multiplication and mean, gradient propagation, one-hot encoding, SGD updates and checkpoint save/load.</p>
 <pre class="code"><code>// Run the repository's component test with the same module path.
 greenServeFE tests/gs_brain-components.gsve</code></pre>
-<p>The component test source and manual GitHub Actions workflow are available inside the private build-source checkout to authorized collaborators. Run the workflow and inspect its logs before treating the current checkout as validated.</p>
+<p>The component test source and manual GitHub Actions workflow are available inside the private build-source checkout to authorized collaborators. Run the workflow and inspect its logs before treating the current checkout as validated. Public visitors can use the GSVE examples and public release information linked below.</p>
 </section>
 <section class="section" id="pipeline"><div class="section-head"><div class="eyebrow">End-to-end workflow</div><h2>The complete AI training pipeline</h2><p>Every model—from a small CPU classifier to a cluster-scale language model—needs traceable data, reproducible preprocessing, honest evaluation and a reliable artifact lifecycle.</p></div>
 <div class="pipeline">
