@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>gs_brain AI Training Pipeline | greenServeFE &amp; MacoraOne</title>
+<meta name="description" content="A practical gs_brain guide for greenServeFE: working GSVE examples, real-data collection, licensing and cleaning, CPU/GPU/HPC planning, evaluation, checkpointing, reproducibility, and a scalable AI training roadmap.">
+<meta name="keywords" content="gs_brain, greenServeFE AI, AI training pipeline, GSVE, machine learning in C, logistic regression, CPU training, GPU training, HPC, supercomputer, dataset collection, data provenance, model evaluation, checkpointing, autograd, AI framework">
+<meta name="author" content="Dominex Macedon">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#080b10">
+<link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/gs_brain.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MacoraOne">
+<meta property="og:title" content="gs_brain: AI Training Pipeline for greenServeFE">
+<meta property="og:description" content="From licensed data collection and a small CPU baseline to GPU and supercomputer-scale training: examples, steps, caveats and roadmap.">
+<meta property="og:url" content="https://macoraone.dominextechdocumentary.workers.dev/gs_brain.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gs_brain AI Training Pipeline">
+<meta name="twitter:description" content="Practical greenServeFE examples and an end-to-end responsible AI training plan for CPUs, GPUs and HPC clusters.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="/assets/site.css">
+<script defer src="/assets/site.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"gs_brain AI Training Pipeline for greenServeFE","description":"Working GSVE examples and an end-to-end guide to data collection, validation, CPU/GPU/HPC planning, evaluation and reproducible AI training.","url":"https://macoraone.dominextechdocumentary.workers.dev/gs_brain.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"isPartOf":{"@type":"WebSite","name":"MacoraOne","url":"https://macoraone.dominextechdocumentary.workers.dev/"},"about":[{"@type":"Thing","name":"Machine learning"},{"@type":"SoftwareApplication","name":"greenServeFE"},{"@type":"SoftwareApplication","name":"gs_brain"}]}
+</script>
+<style>
+.pipeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.pipeline-step{border:1px solid var(--border,#293241);border-radius:13px;padding:16px;background:var(--surface,#101722)}
+.pipeline-step .number{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:9px;background:rgba(90,170,120,.15);color:#79d69a;font-weight:700;margin-bottom:10px}
+.pipeline-step h3{margin:0 0 7px}
+.pipeline-step p{margin:0}
+.code-note{font-size:.92rem;opacity:.82}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.pill-row span{border:1px solid var(--border,#293241);padding:5px 9px;border-radius:999px;font-size:.82rem}
+.section h3{margin-top:22px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap nav">
+<a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></span>MacoraOne</a>
+<nav class="navlinks" aria-label="Main navigation">
+<a href="/index.html">Overview</a><a href="/macoraone.html">MacoraOne CLI</a><a href="/one-commands.html">one Commands</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/cmll-examples.html">CMLL Examples</a><a href="/greenservefe.html">greenServeFE</a><a href="/greenservefe-examples.html">GSVE Examples</a><a href="/gs_brain.html" aria-current="page">gs_brain AI</a><a href="https://github.com/MacoraOne/MacoraOne" aria-label="MacoraOne on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+</nav></div></div>
+<header class="hero"><div class="wrap">
+<div class="breadcrumbs"><a href="/index.html">Home</a> / <a href="/greenservefe.html">greenServeFE</a> / gs_brain AI pipeline</div>
+<div class="eyebrow"><i class="fa-solid fa-brain" aria-hidden="true"></i> greenServeFE native AI module</div>
+<h1>gs_brain: from data<br>to trained models.</h1>
+<p class="lead">A practical guide to using <code class="inline-code">gs_brain</code> from greenServeFE, building a small reproducible baseline, preparing trustworthy datasets, and planning larger CPU, GPU and supercomputer workloads without confusing today's implemented features with future engineering work.</p>
+<div class="actions"><a class="btn primary" href="#quickstart"><i class="fa-solid fa-play" aria-hidden="true"></i> Run a training example</a><a class="btn" href="#pipeline"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> View the full pipeline</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build"><i class="fa-brands fa-github" aria-hidden="true"></i> gs_brain source</a></div>
+</div></header>
+<main id="main" class="wrap">
+<section class="section" id="status"><div class="section-head"><div class="eyebrow">Start with accurate expectations</div><h2>What gs_brain can do today</h2><p><code class="inline-code">gs_brain</code> is a native C shared-library module imported by a <code class="inline-code">.gsve</code> program. The documented development examples cover small CPU-oriented machine-learning operations and training utilities. Treat the source repository and passing tests as the authority for the exact API in the version you build.</p></div>
+<div class="grid">
+<article class="card"><h3><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Small supervised learning</h3><p>The current example uses logistic regression on a tiny subset of the Iris measurements, then evaluates predictions on held-out examples.</p></article>
+<article class="card"><h3><i class="fa-solid fa-calculator" aria-hidden="true"></i> Numeric building blocks</h3><p>Examples exercise matrix multiplication, means, one-hot encoding, a small reverse-mode autograd path, SGD updates and vector checkpoint save/load.</p></article>
+<article class="card"><h3><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Not a foundation-model trainer yet</h3><p>Do not assume transformer pretraining, GPU kernels, multi-GPU collectives, distributed optimizers, mixed precision or cluster scheduling are implemented. Those require separate verified backends and tests.</p></article>
+</div>
+<div class="notice">The Iris example is a correctness smoke test, not evidence of general intelligence or production-grade model quality. Four held-out records are too few for a reliable scientific performance claim.</div>
+</section>
+<section class="section" id="quickstart"><div class="section-head"><div class="eyebrow">Quick start</div><h2>Build the module and run a real-data example</h2><p>Use a Linux environment with GCC, Make, pkg-config and libcurl development headers. Follow the current repository README if build instructions have changed.</p></div>
+<pre class="code">git clone https://github.com/dominexmacedon-docs/greenServeFE-build.git
+cd greenServeFE-build
+make clean all
+mkdir -p dist
+cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic \
+  -Wno-unused-parameter -fPIC -shared -I. $(pkg-config --cflags libcurl) \
+  -o dist/gs_brain.so ai-modules/gs_brain.c \
+  $(pkg-config --libs libcurl) -lm
+export GREENSERVE_MODULE_PATH="$PWD/dist"
+</pre>
+<p class="code-note">Run the GSVE script with the greenServeFE executable built by your checkout, for example <code class="inline-code">./greenServeFE test.gsve</code> if that executable is present at the repository root. Some distributions install the runtime separately; use that runtime's actual path.</p>
+<h3>Example 1 — Train and evaluate logistic regression</h3>
+<p>This small, reproducible binary-classification example uses petal length and width from the public Iris dataset. Labels are simplified to setosa = 0 and versicolor = 1. The values below are embedded so this example does not depend on an unimplemented CSV reader.</p>
+<pre class="code"><code>import gs_brain;
+
+// Four training examples per class from the Iris measurements.
+define X_train = [
+    [1.4, 0.2], [1.3, 0.2], [1.5, 0.2], [1.7, 0.4],
+    [4.7, 1.4], [4.5, 1.5], [4.9, 1.5], [4.0, 1.3]
+];
+define y_train = [0, 0, 0, 0, 1, 1, 1, 1];
+
+// Keep separate records for a simple held-out check.
+define X_test = [[1.9, 0.4], [1.4, 0.3], [4.6, 1.3], [4.2, 1.5]];
+define y_test = [0, 0, 1, 1];
+
+define model = gs_brain.learn.train_logistic(
+    X_train, y_train, 3000, 0.05, 0.001
+);
+define probabilities = gs_brain.learn.predict_proba(X_test, model);
+define predictions = gs_brain.learn.predict_logistic(X_test, model);
+define accuracy = gs_brain.learn.accuracy_score(y_test, predictions);
+define report = gs_brain.learn.classification_report(y_test, predictions, 1);
+
+print("Training loss:");
+print(model.loss);
+print("Held-out accuracy:");
+print(accuracy);
+print("Probabilities:");
+print(probabilities);
+print("Predictions:");
+print(predictions);
+print("Classification report:");
+print(report);
+
+if (accuracy == 1 && model.loss < 0.1) {
+    print("PASS: Iris training and held-out smoke test");
+} else {
+    print("CHECK: inspect model output and training settings");
+}</code></pre>
+<div class="actions"><a class="btn primary" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/test.gsve">Open committed test.gsve</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/tests/data/iris-binary-small.csv">Open small CSV fixture</a><a class="btn" href="https://archive.ics.uci.edu/dataset/53/iris">Iris dataset source</a></div>
+<h3>Example 2 — Test numeric and training components</h3>
+<p>The component test is intended to exercise independent primitives before scaling an experiment: matrix multiplication and mean, gradient propagation, one-hot encoding, SGD updates and checkpoint save/load.</p>
+<pre class="code"><code>// Run the repository's component test with the same module path.
+greenServeFE tests/gs_brain-components.gsve</code></pre>
+<p>See the <a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/tests/gs_brain-components.gsve">component test source</a> and the <a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/.github/workflows/test.yml">manual GitHub Actions test workflow</a>. Run the workflow and inspect its logs before treating the current checkout as validated.</p>
+</section>
+<section class="section" id="pipeline"><div class="section-head"><div class="eyebrow">End-to-end workflow</div><h2>The complete AI training pipeline</h2><p>Every model—from a small CPU classifier to a cluster-scale language model—needs traceable data, reproducible preprocessing, honest evaluation and a reliable artifact lifecycle.</p></div>
+<div class="pipeline">
+<article class="pipeline-step"><span class="number">01</span><h3>Define the task</h3><p>Specify intended users, target behavior, input/output format, success metrics, failure modes and a baseline before collecting data.</p></article>
+<article class="pipeline-step"><span class="number">02</span><h3>Collect lawful data</h3><p>Use public datasets with compatible licenses, permissioned documents, opt-in contributions or content you created. Record source, date, license and restrictions.</p></article>
+<article class="pipeline-step"><span class="number">03</span><h3>Validate and clean</h3><p>Decode consistently; remove corrupt records, spam and exact/near duplicates; normalize text carefully; filter secrets and personal data you do not need.</p></article>
+<article class="pipeline-step"><span class="number">04</span><h3>Split without leakage</h3><p>Create train, validation and test partitions before fitting transformations. Group related documents and near-duplicates together so test data cannot leak into training.</p></article>
+<article class="pipeline-step"><span class="number">05</span><h3>Build features</h3><p>For numeric models, make matrices and labels. For language models, define tokenizer, vocabulary, sequence packing, masks and next-token targets in a separately tested data pipeline.</p></article>
+<article class="pipeline-step"><span class="number">06</span><h3>Establish a baseline</h3><p>Run a small CPU experiment first. Check loss movement, gradient correctness, a trivial baseline, held-out metrics and reproducibility.</p></article>
+<article class="pipeline-step"><span class="number">07</span><h3>Scale the compute</h3><p>Profile memory and throughput, then choose CPU parallelism, one GPU, multi-GPU or a scheduled HPC cluster. Scale only after the numerical path is correct.</p></article>
+<article class="pipeline-step"><span class="number">08</span><h3>Evaluate and audit</h3><p>Use untouched test data, task-appropriate metrics, subgroup/error analysis, memorization checks and human review for high-impact use cases.</p></article>
+<article class="pipeline-step"><span class="number">09</span><h3>Checkpoint and version</h3><p>Save model state, optimizer state when supported, step/epoch, random seeds, configuration, data manifest and source revision. Test recovery after interruption.</p></article>
+<article class="pipeline-step"><span class="number">10</span><h3>Package and monitor</h3><p>Publish versioned artifacts with a model card, intended-use limits, dataset citations and a rollback plan. Monitor drift and failures after deployment.</p></article>
+</div>
+</section>
+<section class="section" id="data"><div class="section-head"><div class="eyebrow">Dataset engineering</div><h2>How to collect useful training data</h2><p>More data is not automatically better. Relevant, diverse, accurately labeled, legally usable and well-documented records usually beat a much larger noisy dump.</p></div>
+<div class="grid">
+<article class="card"><h3>Reliable sources</h3><p>Start with UCI and other research datasets, government open-data portals, public-domain material, repositories whose licenses permit your use, opt-in community submissions, and your own authored examples. Check each dataset's actual license and terms.</p></article>
+<article class="card"><h3>Web crawling responsibly</h3><p>Prefer documented APIs and bulk downloads. Respect terms of service, robots instructions where applicable, rate limits, copyright and database rights. Identify your crawler, cache responses, avoid login walls and do not bypass access controls.</p></article>
+<article class="card"><h3>Quality and provenance</h3><p>Keep a manifest with URL or dataset ID, retrieval timestamp, license, language, document ID, preprocessing version and checksums. Track filtering counts so data loss is explainable.</p></article>
+<article class="card"><h3>Privacy and safety</h3><p>Exclude credentials, private messages and sensitive personal information unless there is a valid, reviewed basis to process them. Redact secrets, limit retention and document deletion requests.</p></article>
+</div>
+<h3>Suggested corpus layout</h3>
+<pre class="code">data/
+  raw/            # immutable source snapshots; access controlled
+  manifests/      # source, license, timestamp, checksum, provenance
+  interim/        # decoded records and validation reports
+  processed/      # deduplicated, normalized, filtered records
+  splits/
+    train/
+    validation/
+    test/
+  tokenizer/      # tokenizer config and versioned vocabulary
+  reports/        # quality, duplication, language and leakage reports
+artifacts/
+  checkpoints/
+  evaluation/
+  model-card.md</pre>
+<p class="code-note">Keep large raw corpora and credentials out of Git history. Use dataset hosting or object storage with access controls and versioned manifests; publish only data you are authorized to redistribute.</p>
+<h3>Language-model data preparation</h3>
+<ol>
+<li>Collect permitted text and store provenance separately from the text itself.</li>
+<li>Decode UTF-8, normalize line endings, detect language and remove malformed or unwanted records.</li>
+<li>Deduplicate documents and overlapping passages before creating data splits.</li>
+<li>Train or select a tokenizer; freeze and version its configuration before large training runs.</li>
+<li>Pack token sequences into fixed-length blocks, create next-token labels and apply correct masks for padding or ignored tokens.</li>
+<li>Inspect examples manually, test the loader, and estimate token count, storage size and training steps.</li>
+</ol>
+<p><strong>Important:</strong> the current gs_brain module does not automatically perform all of these steps. Tokenization, scalable corpus loading, batching and sequence packing must be implemented and validated in the data pipeline before claiming end-to-end language-model training.</p>
+</section>
+<section class="section" id="hardware"><div class="section-head"><div class="eyebrow">Hardware planning</div><h2>CPU, GPU and supercomputer guidance</h2><p>Choose hardware from model size, sequence length, batch size, precision and throughput goals—not from the word “AI” alone. Benchmark the actual workload and include data loading and checkpoint time.</p></div>
+<div class="table-wrap"><table><thead><tr><th>Hardware</th><th>Good starting point</th><th>What to plan for</th></tr></thead><tbody>
+<tr><td>CPU laptop / desktop</td><td>Data cleaning, tokenization experiments, unit tests, small tabular models and CPU baselines.</td><td>RAM, vectorization, thread count, disk speed and elapsed time. Start with small batches and measure memory.</td></tr>
+<tr><td>Multi-core CPU server</td><td>Parallel preprocessing, feature extraction, classical ML and data preparation for accelerators.</td><td>NUMA effects, memory bandwidth, worker oversubscription and throughput across cores.</td></tr>
+<tr><td>One GPU</td><td>Neural-network experiments after a supported GPU backend exists.</td><td>VRAM for parameters, gradients, optimizer state, activations and batch; driver/runtime compatibility and transfer overhead.</td></tr>
+<tr><td>Multiple GPUs</td><td>Data/model parallel training when a distributed implementation exists and the model or workload benefits.</td><td>Collective communication, interconnect bandwidth, synchronization, checkpoint coordination and fault recovery.</td></tr>
+<tr><td>HPC / supercomputer</td><td>Large distributed workloads with a tested multi-node implementation, scheduler integration and a measured scaling plan.</td><td>Site policies, scheduler allocation, high-speed fabric, scratch storage, quotas, containers/modules and coordinated restarts.</td></tr>
+</tbody></table></div>
+<h3>Practical scaling sequence</h3>
+<ol>
+<li><strong>Prove correctness on CPU.</strong> Unit-test matrix operations, gradients, loss, optimizer updates, checkpoint round trips and deterministic data batches.</li>
+<li><strong>Profile before optimizing.</strong> Measure examples/tokens per second, peak host/device memory, input pipeline utilization and time spent in each operation.</li>
+<li><strong>Choose a supported backend.</strong> A GPU is useful only if the framework has working kernels and memory management for it. The current gs_brain C module should be treated as CPU-oriented unless the exact revision proves otherwise.</li>
+<li><strong>Scale one dimension at a time.</strong> Try larger batches or one accelerator, then multiple devices. Compare throughput and numerical behavior to the baseline.</li>
+<li><strong>Use the cluster scheduler.</strong> Ask the HPC administrator for approved job scripts, CUDA/ROCm or other accelerator modules, MPI/runtime versions, scratch-space rules and wall-time limits. Do not run long jobs on login nodes.</li>
+<li><strong>Test interruption and recovery.</strong> Deliberately restart a short job from a checkpoint before allocating expensive compute.</li>
+</ol>
+<h3>Example: Slurm job template for a future GPU-enabled trainer</h3>
+<p>This is an infrastructure template only. It will not make gs_brain GPU-capable by itself; replace the executable and arguments with the real, tested GPU-enabled training program for your cluster.</p>
+<pre class="code">#!/bin/bash
+#SBATCH --job-name=gs-brain-train
+#SBATCH --output=logs/%x-%j.out
+#SBATCH --error=logs/%x-%j.err
+#SBATCH --time=02:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G
+
+set -euo pipefail
+mkdir -p logs artifacts/checkpoints
+module list
+nvidia-smi
+# Replace with your real, validated GPU training command:
+./trainer-gpu --config configs/experiment.yaml \
+  --data data/processed --output artifacts/checkpoints</pre>
+<p class="code-note">Cluster directives differ by site; some use <code class="inline-code">--gpus</code>, partitions, account/project IDs, containers or different accelerator resource syntax. Follow local documentation. Do not submit this template unchanged and assume it will train a model.</p>
+</section>
+<section class="section" id="roadmap"><div class="section-head"><div class="eyebrow">Engineering roadmap</div><h2>What a complete gs_brain training stack still needs</h2><p>For a credible general-purpose AI framework, build and test these layers incrementally rather than claiming a feature from a hardware diagram alone.</p></div>
+<div class="grid">
+<article class="card"><h3>1. Data APIs</h3><p>CSV/JSONL or binary dataset readers, streaming iterators, shuffling, batching, deterministic splits, schema checks and resumable data cursors.</p></article>
+<article class="card"><h3>2. Tensor and autograd</h3><p>Explicit tensor shapes, dtype/device semantics, broadcasting rules, stable loss functions, gradient checks and broad operator coverage.</p></article>
+<article class="card"><h3>3. Optimizers and training loop</h3><p>Mini-batches, optimizer state, learning-rate schedules, gradient clipping, metrics, early stopping and reliable checkpoint/resume.</p></article>
+<article class="card"><h3>4. Accelerator backend</h3><p>A device abstraction and tested GPU kernels for core operations, memory allocation, transfers, synchronization and numerical parity against CPU.</p></article>
+<article class="card"><h3>5. Distributed training</h3><p>Multi-process launch, gradient synchronization, data sharding, failure handling, distributed checkpoints and measured scaling efficiency.</p></article>
+<article class="card"><h3>6. Language-model stack</h3><p>Tokenizer, embedding, attention, normalization, transformer blocks, next-token loss, efficient sequence batching, generation and evaluation suites.</p></article>
+</div>
+<div class="notice">A framework can orchestrate a training pipeline before it can train large language models. Keep a public capability matrix distinguishing implemented, tested, experimental and planned features. Publish benchmark hardware, dataset version, code revision and evaluation method with every result.</div>
+</section>
+<section class="section" id="reproducibility"><div class="section-head"><div class="eyebrow">Trustworthy experiments</div><h2>Checklist before calling a run successful</h2></div>
+<div class="list">
+<a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/test.gsve"><span><strong>Training smoke test</strong><br><span>Small Iris binary-classification example and held-out evaluation</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/tests/gs_brain-components.gsve"><span><strong>Component tests</strong><br><span>Numerics, autograd, one-hot, optimizer and checkpoint checks</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/.github/workflows/test.yml"><span><strong>Manual CI workflow</strong><br><span>Build runtime and native module, then execute smoke tests on GitHub Actions</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="https://github.com/dominexmacedon-docs/greenServeFE-build"><span><strong>greenServeFE build repository</strong><br><span>Source of truth for the VM runtime and gs_brain implementation</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+</div>
+<ul>
+<li>Record source revision, compiler flags, OS, CPU/GPU model, driver and library versions.</li>
+<li>Keep train, validation and test datasets separate; never tune on the test set.</li>
+<li>Log the metric definition, evaluation data version and the number of evaluated examples.</li>
+<li>Store configuration and checkpoints atomically, and verify a fresh process can reload them.</li>
+<li>Report failures and limitations, not just the best run.</li>
+</ul>
+</section>
+<section class="section"><div class="section-head"><div class="eyebrow">Related documentation</div><h2>Continue exploring</h2></div>
+<div class="grid"><article class="card"><h3>greenServeFE runtime</h3><p>Understand the GSVE syntax, bytecode VM and native module loader.</p><a href="/greenservefe.html">Runtime guide →</a></article><article class="card"><h3>GSVE examples</h3><p>Browse the existing examples for language constructs and module usage.</p><a href="/greenservefe-examples.html">Examples →</a></article><article class="card"><h3>Source and tests</h3><p>Inspect the native C implementation, Iris fixture and component tests.</p><a href="https://github.com/dominexmacedon-docs/greenServeFE-build">Open source repository →</a></article></div>
+</section>
+</main>
+<footer class="footer"><div class="wrap footer-row"><div><strong>MacoraOne</strong><br>Programming tools and developer projects by Dominex Macedon.</div><div class="footer-links"><a href="/index.html">Overview</a><a href="/greenservefe.html">greenServeFE</a><a href="/greenservefe-examples.html">GSVE Examples</a><a href="/gs_brain.html">gs_brain AI</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub</a></div></div></footer>
+</body>
+</html>
