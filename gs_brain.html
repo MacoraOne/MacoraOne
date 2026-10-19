@@ -49,7 +49,7 @@
 <div class="eyebrow"><i class="fa-solid fa-brain" aria-hidden="true"></i> greenServeFE native AI module</div>
 <h1>gs_brain: from data<br>to trained models.</h1>
 <p class="lead">A practical guide to using <code class="inline-code">gs_brain</code> from greenServeFE, building a small reproducible baseline, preparing trustworthy datasets, and planning larger CPU, GPU and supercomputer workloads without confusing today's implemented features with future engineering work.</p>
-<div class="actions"><a class="btn primary" href="#quickstart"><i class="fa-solid fa-play" aria-hidden="true"></i> Run a training example</a><a class="btn" href="#pipeline"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> View the full pipeline</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build"><i class="fa-brands fa-github" aria-hidden="true"></i> gs_brain source</a></div>
+<div class="actions"><a class="btn primary" href="#quickstart"><i class="fa-solid fa-play" aria-hidden="true"></i> Run a training example</a><a class="btn" href="#pipeline"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> View the full pipeline</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-"><i class="fa-brands fa-github" aria-hidden="true"></i> gs_brain source</a></div>
 </div></header>
 <main id="main" class="wrap">
 <section class="section" id="status"><div class="section-head"><div class="eyebrow">Start with accurate expectations</div><h2>What gs_brain can do today</h2><p><code class="inline-code">gs_brain</code> is a native C shared-library module imported by a <code class="inline-code">.gsve</code> program. The documented development examples cover small CPU-oriented machine-learning operations and training utilities. Treat the source repository and passing tests as the authority for the exact API in the version you build.</p></div>
@@ -61,7 +61,7 @@
 <div class="notice">The Iris example is a correctness smoke test, not evidence of general intelligence or production-grade model quality. Four held-out records are too few for a reliable scientific performance claim.</div>
 </section>
 <section class="section" id="quickstart"><div class="section-head"><div class="eyebrow">Quick start</div><h2>Build the module and run a real-data example</h2><p>Use a Linux environment with GCC, Make, pkg-config and libcurl development headers. Follow the current repository README if build instructions have changed.</p></div>
-<pre class="code">git clone https://github.com/dominexmacedon-docs/greenServeFE-build.git
+<pre class="code">git clone https://github.com/dominexmacedon-docs/greenServeFE-.git
 cd greenServeFE-build
 make clean all
 mkdir -p dist
@@ -111,12 +111,12 @@ if (accuracy == 1 && model.loss < 0.1) {
 } else {
     print("CHECK: inspect model output and training settings");
 }</code></pre>
-<div class="actions"><a class="btn primary" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/test.gsve">Open committed test.gsve</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/tests/data/iris-binary-small.csv">Open small CSV fixture</a><a class="btn" href="https://archive.ics.uci.edu/dataset/53/iris">Iris dataset source</a></div>
+<div class="actions"><a class="btn primary" href="#quickstart">Open committed test.gsve</a><a class="btn" href="#data">Open small CSV fixture</a><a class="btn" href="https://archive.ics.uci.edu/dataset/53/iris">Iris dataset source</a></div>
 <h3>Example 2 — Test numeric and training components</h3>
-<p>The component test is intended to exercise independent primitives before scaling an experiment: matrix multiplication and mean, gradient propagation, one-hot encoding, SGD updates and checkpoint save/load.</p>
+<p>The component test in the private development checkout is intended to exercise independent primitives before scaling an experiment: matrix multiplication and mean, gradient propagation, one-hot encoding, SGD updates and checkpoint save/load.</p>
 <pre class="code"><code>// Run the repository's component test with the same module path.
 greenServeFE tests/gs_brain-components.gsve</code></pre>
-<p>See the <a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/tests/gs_brain-components.gsve">component test source</a> and the <a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/.github/workflows/test.yml">manual GitHub Actions test workflow</a>. Run the workflow and inspect its logs before treating the current checkout as validated.</p>
+<p>The component test source and manual GitHub Actions workflow are available inside the private build-source checkout to authorized collaborators. Run the workflow and inspect its logs before treating the current checkout as validated.</p>
 </section>
 <section class="section" id="pipeline"><div class="section-head"><div class="eyebrow">End-to-end workflow</div><h2>The complete AI training pipeline</h2><p>Every model—from a small CPU classifier to a cluster-scale language model—needs traceable data, reproducible preprocessing, honest evaluation and a reliable artifact lifecycle.</p></div>
 <div class="pipeline">
@@ -219,10 +219,10 @@ nvidia-smi
 </section>
 <section class="section" id="reproducibility"><div class="section-head"><div class="eyebrow">Trustworthy experiments</div><h2>Checklist before calling a run successful</h2></div>
 <div class="list">
-<a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/test.gsve"><span><strong>Training smoke test</strong><br><span>Small Iris binary-classification example and held-out evaluation</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-<a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/tests/gs_brain-components.gsve"><span><strong>Component tests</strong><br><span>Numerics, autograd, one-hot, optimizer and checkpoint checks</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-<a href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/.github/workflows/test.yml"><span><strong>Manual CI workflow</strong><br><span>Build runtime and native module, then execute smoke tests on GitHub Actions</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-<a href="https://github.com/dominexmacedon-docs/greenServeFE-build"><span><strong>greenServeFE build repository</strong><br><span>Source of truth for the VM runtime and gs_brain implementation</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="#quickstart"><span><strong>Training smoke test</strong><br><span>Small Iris binary-classification example and held-out evaluation</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="#quickstart"><span><strong>Component tests</strong><br><span>Numerics, autograd, one-hot, optimizer and checkpoint checks</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="#reproducibility"><span><strong>Manual CI workflow</strong><br><span>Build runtime and native module, then execute smoke tests on GitHub Actions</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+<a href="https://github.com/dominexmacedon-docs/greenServeFE-"><span><strong>greenServeFE build repository</strong><br><span>Source of truth for the VM runtime and gs_brain implementation</span></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
 </div>
 <ul>
 <li>Record source revision, compiler flags, OS, CPU/GPU model, driver and library versions.</li>
@@ -233,7 +233,7 @@ nvidia-smi
 </ul>
 </section>
 <section class="section"><div class="section-head"><div class="eyebrow">Related documentation</div><h2>Continue exploring</h2></div>
-<div class="grid"><article class="card"><h3>greenServeFE runtime</h3><p>Understand the GSVE syntax, bytecode VM and native module loader.</p><a href="/greenservefe.html">Runtime guide →</a></article><article class="card"><h3>GSVE examples</h3><p>Browse the existing examples for language constructs and module usage.</p><a href="/greenservefe-examples.html">Examples →</a></article><article class="card"><h3>Source and tests</h3><p>Inspect the native C implementation, Iris fixture and component tests.</p><a href="https://github.com/dominexmacedon-docs/greenServeFE-build">Open source repository →</a></article></div>
+<div class="grid"><article class="card"><h3>greenServeFE runtime</h3><p>Understand the GSVE syntax, bytecode VM and native module loader.</p><a href="/greenservefe.html">Runtime guide →</a></article><article class="card"><h3>GSVE examples</h3><p>Browse the existing examples for language constructs and module usage.</p><a href="/greenservefe-examples.html">Examples →</a></article><article class="card"><h3>Public releases</h3><p>Find public-facing greenServeFE runtime releases. The implementation source and internal tests are in a private development repository.</p><a href="https://github.com/dominexmacedon-docs/greenServeFE-">Public releases →</a></article></div>
 </section>
 </main>
 <footer class="footer"><div class="wrap footer-row"><div><strong>MacoraOne</strong><br>Programming tools and developer projects by Dominex Macedon.</div><div class="footer-links"><a href="/index.html">Overview</a><a href="/greenservefe.html">greenServeFE</a><a href="/greenservefe-examples.html">GSVE Examples</a><a href="/gs_brain.html">gs_brain AI</a><a href="https://github.com/MacoraOne/MacoraOne">GitHub</a></div></div></footer>
