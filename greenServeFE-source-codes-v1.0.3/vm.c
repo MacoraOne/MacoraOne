@@ -30,6 +30,50 @@ static GSValue native_str(GSValue*a,size_t n){return n?gs_string(gs_cstring(a[0]
 static GSValue native_num(GSValue*a,size_t n){return n?gs_number(gs_number_value(a[0])):gs_number(0);}
 static GSValue native_type(GSValue*a,size_t n){if(!n)return gs_string("null");const char*s="null";switch(a[0].type){case V_NULL:s="null";break;case V_NUMBER:s="number";break;case V_BOOL:s="bool";break;case V_STRING:s="string";break;case V_ARRAY:s="array";break;case V_OBJECT:s="object";break;case V_FUNCTION:case V_NATIVE:s="function";break;case V_ITER:s="iterator";break;}return gs_string(s);}
 
+/* Core collection and iteration helpers. Native functions return owned GSValues. */
+static GSValue native_range(GSValue*a,size_t n){
+    double start=0,stop=0,step=1;
+    if(n==1){stop=gs_number_value(a[0]);}
+    else if(n>=2){start=gs_number_value(a[0]);stop=gs_number_value(a[1]);if(n>=3)step=gs_number_value(a[2]);}
+    else return gs_array();
+    GSValue out=gs_array();
+    if(step==0){fprintf(stderr,"greenServeFE: range() step cannot be zero.\n");return out;}
+    double x=start;size_t count=0;
+    while((step>0&&x<stop)||(step<0&&x>stop)){
+        if(count>=100000){fprintf(stderr,"greenServeFE: range() limit is 100000 items; returning the items generated so far.\n");break;}
+        gs_array_push(&out,gs_number(x));count++;double next=x+step;
+        if(next==x)break;
+        x=next;
+    }
+    return out;
+}
+static GSValue native_push(GSValue*a,size_t n){
+    if(n<2||a[0].type!=V_ARRAY)return gs_null();
+    gs_array_push(&a[0],a[1]);
+    return gs_number((double)gs_array_count(a[0]));
+}
+static GSValue native_pop(GSValue*a,size_t n){
+    if(!n||a[0].type!=V_ARRAY)return gs_null();
+    return gs_array_pop(&a[0]);
+}
+static GSValue native_keys(GSValue*a,size_t n){
+    GSValue out=gs_array();if(!n||a[0].type!=V_OBJECT)return out;
+    for(size_t i=0;i<gs_object_count(a[0]);i++){const char*k=gs_object_key(a[0],i);GSValue x=gs_string(k?k:"");gs_array_push(&out,x);gs_release(x);}
+    return out;
+}
+static GSValue native_values(GSValue*a,size_t n){
+    GSValue out=gs_array();if(!n||a[0].type!=V_OBJECT)return out;
+    for(size_t i=0;i<gs_object_count(a[0]);i++){const char*k=gs_object_key(a[0],i);GSValue x=gs_object_get(a[0],k?k:"");gs_array_push(&out,x);gs_release(x);}
+    return out;
+}
+static GSValue native_contains(GSValue*a,size_t n){
+    if(n<2)return gs_bool(0);
+    if(a[0].type==V_STRING)return gs_bool(strstr(a[0].as.string.data,gs_cstring(a[1]))!=NULL);
+    if(a[0].type==V_ARRAY){for(size_t i=0;i<gs_array_count(a[0]);i++){GSValue x=gs_array_get(a[0],i);int same=gs_equal(x,a[1]);gs_release(x);if(same)return gs_bool(1);}return gs_bool(0);}
+    if(a[0].type==V_OBJECT){const char*k=gs_cstring(a[1]);for(size_t i=0;i<gs_object_count(a[0]);i++){const char*x=gs_object_key(a[0],i);if(x&&strcmp(x,k)==0)return gs_bool(1);}return gs_bool(0);}
+    return gs_bool(0);
+}
+
 static int has_suffix(const char*s,const char*suffix){size_t a=strlen(s),b=strlen(suffix);return a>=b&&!strcmp(s+a-b,suffix);}
 static int has_slash(const char*s){return strchr(s,'/')!=NULL;}
 static void module_error(GSVM*v,Frame*f,const char*module,const char*detail){
@@ -99,7 +143,7 @@ static int module_load(GSVM*v,Frame*f,const char*name,GSValue*out){
     *out=module;
     return 1;
 }
-static void install(GSEnvironment*g){GSValue v=gs_native(native_print);env_define(g,"print",v);env_define(g,"show",v);v=gs_native(native_len);env_define(g,"len",v);v=gs_native(native_str);env_define(g,"str",v);v=gs_native(native_num);env_define(g,"num",v);v=gs_native(native_type);env_define(g,"type",v);}
+static void install(GSEnvironment*g){GSValue v=gs_native(native_print);env_define(g,"print",v);env_define(g,"show",v);v=gs_native(native_len);env_define(g,"len",v);v=gs_native(native_str);env_define(g,"str",v);v=gs_native(native_num);env_define(g,"num",v);v=gs_native(native_type);env_define(g,"type",v);v=gs_native(native_range);env_define(g,"range",v);v=gs_native(native_push);env_define(g,"push",v);v=gs_native(native_pop);env_define(g,"pop",v);v=gs_native(native_keys);env_define(g,"keys",v);v=gs_native(native_values);env_define(g,"values",v);v=gs_native(native_contains);env_define(g,"contains",v);}
 GSVM*vm_new(void){GSVM*v=calloc(1,sizeof*v);if(!v)exit(2);v->stack_cap=256;v->stack=calloc(v->stack_cap,sizeof*v->stack);v->frame_cap=64;v->frames=calloc(v->frame_cap,sizeof*v->frames);v->globals=env_new(NULL);install(v->globals);return v;}
 void vm_free(GSVM*v){if(!v)return;while(v->sp)drop(popv(v));for(size_t i=0;i<v->fp;i++)env_release(v->frames[i].env);env_release(v->globals);for(size_t i=0;i<v->module_count;i++){drop(v->modules[i].value);free(v->modules[i].name);dlclose(v->modules[i].handle);}free(v->modules);free(v->stack);free(v->frames);free(v);}
 void vm_set_trace(GSVM*v,int x){v->trace=x;}int vm_runtime_errors(const GSVM*v){return v?v->errors:1;}
