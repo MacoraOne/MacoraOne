@@ -1,3 +1,24 @@
+# greenServeFE 1.0.3 — Source Snapshot
+
+This versioned folder preserves the public source archive for **greenServeFE 1.0.3**. The core lexer, parser, bytecode compiler, value model, VM, module interface, and Makefile have been synchronized from the private build repository. Selected canonical `.gsve` examples have also been refreshed.
+
+- [Source archive index](index.html)
+- [Core runtime source files](.)
+- [Examples](docs/examples/)
+- [Canonical private build repository](https://github.com/dominexmacedon-docs/greenServeFE-build)
+
+## Build
+
+Run `make clean all`, then `./greenServeFE docs/examples/01-hello.gsve`.
+
+## Version note
+
+The `1.0.3` label identifies this archived source snapshot. It does not itself publish or rebuild a release binary.
+
+---
+
+## Upstream project notes
+
 # greenServeFE
 
 **greenServeFE** (greenServe Fast Execution) is the VM-based execution engine for the greenServe language.
@@ -52,7 +73,7 @@ The VM currently supports:
 - import/from-import for the built-in module layer;
 - bytecode disassembly and execution tracing.
 
-Built-ins are `print`, `show`, `len`, `str`, `num` and `type`.
+Built-ins include `print`, `show`, `len`, `str`, `num`, `type`, `range`, `push`, `pop`, `keys`, `values`, and `contains`. Logical `&&` and `||` use short-circuit evaluation, so the right operand is skipped when the left operand determines the result.
 
 The `server` import currently exposes the VM-native print/show surface. The existing greenSERVE Node.js HTTP/server bridge is deliberately kept as a separate host-runtime integration step rather than falsely claiming that its full networking implementation has already been ported to the new VM ABI.
 
@@ -91,6 +112,43 @@ print(gs_url.query_encode("hello world & greenServeFE"));
 
 **Security note:** `gs_file` reads and writes paths with the permissions of the process running greenServeFE. Only import it for trusted scripts; it is not a sandbox. `gs_random` and `gs_hash` are general-purpose utilities, not cryptographic security tools.
 
+
+## Native AI workspace: `gs_cortex`
+
+`gs_cortex` is an independently imported native C module for AI-oriented work in greenServeFE. It does **not** modify the language syntax, compiler, VM, or module ABI, and it has no Python or TensorFlow runtime dependency. Import it like any other native module after building and installing `gs_cortex.so`.
+
+The module keeps backward-compatible top-level utilities and also exposes grouped APIs:
+
+- `gs_cortex.data`: fetch web content, extract HTML text/tags, clean text, flatten JSON text, tokenize, ingest supported files, and append JSONL dataset records.
+- `gs_cortex.tensor`: inspect matrix shape, create zero matrices, add matrices, multiply matrices, transpose matrices, calculate vector dot products, and apply ReLU/sigmoid activations to numeric vectors or matrices.
+- `gs_cortex.workspace()`: report the native workspace version and current capability status.
+- Existing top-level `train`, `generate`, and `model_info`: a small weighted-bigram text baseline, retained as a demonstration model—not a deep-learning system.
+
+Example greenServeFE script:
+
+```gsve
+import gs_cortex;
+
+print(gs_cortex.workspace());
+
+let a = [[1, 2], [3, 4]];
+let b = [[5, 6], [7, 8]];
+print(gs_cortex.tensor.shape(a));
+print(gs_cortex.tensor.matmul(a, b));
+print(gs_cortex.tensor.transpose(a));
+print(gs_cortex.tensor.relu([[-2, 3], [4, -5]]));
+print(gs_cortex.tensor.sigmoid([0, 1, -1]));
+
+let page = gs_cortex.data.scrape("https://example.com");
+if (page.ok) {
+    print(gs_cortex.data.tokenize(page.text));
+}
+```
+
+The current tensor API uses nested arrays of numbers and validates rectangular matrix shapes. Matrix operations are bounded to avoid unreasonably large allocations. Web ingestion depends on libcurl. The module is an initial native foundation, not yet equivalent to mature Python libraries such as NumPy, PyTorch, or scikit-learn. Separate modules now provide initial optimizer kernels, mini-batches, train/test splitting, basic losses, a dense forward pass, and evaluation metrics; general reverse-mode automatic differentiation, multi-layer training, GPU execution, richer dataset loaders, experiment tracking, and versioned model checkpoints remain future work.
+
+**Design rule:** add future AI/ML capabilities as native module APIs or separate native modules. Keep greenServeFE core language and VM unchanged.
+
 ## Additional native modules
 
 Five additional native modules are now implemented as independent C sources and have individual manually triggered GitHub Actions workflows. Their workflows build Linux x86-64 shared objects, package the source and ABI headers, and include SHA-256 checksums.
@@ -125,3 +183,31 @@ make clean all
 ```
 
 The included test exercises bytecode execution through iteration, arithmetic, a function call, arrays, objects and conditional execution.
+
+
+## Unified native AI/ML module
+
+The eight AI/ML C implementations are consolidated into one native shared-library module, `gs_brain`. The greenServeFE language, compiler, VM, value representation, and `GSNativeAPI` ABI remain unchanged. All subsystem APIs are exposed as namespaces from the single module:
+
+| Namespace | Main capabilities |
+|---|---|
+| `gs_brain.array` | Matrix operations, dot/matrix multiplication, reductions, statistics |
+| `gs_brain.neural` | Linear and small dense ReLU regression, prediction, activations, losses |
+| `gs_brain.optimizer` | SGD, momentum, Adam update kernels, gradient clipping |
+| `gs_brain.dataset` | Seeded shuffling, mini-batches, one-hot encoding, train/test splits |
+| `gs_brain.learn` | Logistic regression, standardization, regression/classification metrics |
+| `gs_brain.autograd` | Scalar reverse-mode computation graph and backward propagation |
+| `gs_brain.checkpoint` | Versioned numeric-vector save/load with checksum validation |
+| `gs_brain.cortex` | Text/data ingestion, cleaning, tokenization, token counts, workspace helpers |
+
+Example (after installing the compiled `gs_brain.so` where greenServeFE loads native modules):
+
+```gsve
+import gs_brain;
+
+print(gs_brain.array.shape([[1, 2], [3, 4]]));
+print(gs_brain.array.matmul([[1, 2], [3, 4]], [[5, 6], [7, 8]]));
+print(gs_brain.cortex.workspace());
+```
+
+Run **Actions → Build gs_brain native AI module → Run workflow** to compile and package one Linux x86-64 shared library. The workflow is manually triggered and uploads `gs_brain.so`, source, ABI headers, a ZIP archive, and SHA-256 checksums. A successful compile/package job does not by itself establish runtime integration or numerical conformance. This is a CPU-first foundation, not full API parity with NumPy, PyTorch, or scikit-learn. See [the AI ecosystem plan](docs/AI-ECOSYSTEM.md) and [AI ecosystem news](docs/AI-NEWS.md).
