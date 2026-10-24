@@ -1,0 +1,24 @@
+name: Build gs_db module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential libsqlite3-dev zip
+      - name: Build and test
+        run: |
+          set -e
+          mkdir -p dist
+          cc -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_db.so gs_db.c -lsqlite3
+          nm -D dist/gs_db.so | grep greenServeFE_module_init
+          cp gs_db.c dist/gs_db.c
+          zip -j dist/gs_db-linux-x86_64.zip dist/gs_db.so dist/gs_db.c
+          sha256sum dist/gs_db.so > dist/gs_db.so.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_db-linux-x86_64
+          path: dist/*
+          if-no-files-found: error

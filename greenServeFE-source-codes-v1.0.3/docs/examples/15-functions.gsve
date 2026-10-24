@@ -1,0 +1,10 @@
+func add(a, b) {
+    return a + b;
+}
+
+func square(value) {
+    return value * value;
+}
+
+print(add(4, 5));
+print(square(7));

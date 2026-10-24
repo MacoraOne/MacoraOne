@@ -1,0 +1,46 @@
+name: Build gs_table module
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Build gs_table.so
+        run: |
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_table.so table.c 
+          test -f dist/gs_table.so
+          file dist/gs_table.so
+
+      - name: Test gs_table.so
+        run: |
+          nm -D dist/gs_table.so | grep greenServeFE_module_init
+
+      - name: Package module
+        run: |
+          cp table.c dist/gs_table.c
+          zip -j dist/gs_table-linux-x86_64.zip dist/gs_table.so dist/gs_table.c
+          sha256sum dist/gs_table.so > dist/gs_table.so.sha256
+          sha256sum dist/gs_table-linux-x86_64.zip > dist/gs_table-linux-x86_64.zip.sha256
+          ls -lh dist
+
+      - name: Upload gs_table module
+        uses: actions/upload-artifact@v4
+        with:
+          name: gs_table-linux-x86_64
+          path: |
+            dist/gs_table.so
+            dist/gs_table.c
+            dist/gs_table-linux-x86_64.zip
+            dist/gs_table.so.sha256
+            dist/gs_table-linux-x86_64.zip.sha256

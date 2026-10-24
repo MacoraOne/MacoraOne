@@ -1,0 +1,21 @@
+import server;
+
+define wikipedia_url = "https://en.wikipedia.org/api/rest_v1/page/summary/Wikipedia";
+define wikipedia_response = server.http_get(wikipedia_url);
+
+func home(req, res) {
+    res.render("index.html", {
+        status: wikipedia_response.status,
+        contentType: wikipedia_response.contentType,
+        body: wikipedia_response.body,
+        error: wikipedia_response.error,
+        url: wikipedia_response.url
+    });
+}
+
+server.get("/", home);
+
+server.serve(".", 8080, {
+    index: "index.html",
+    static: true
+});

@@ -1,0 +1,13 @@
+#include "module.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+static const GSNativeAPI *api;
+static void json_string(FILE*f,const char*s){fputc('"',f);if(s)for(const unsigned char*p=(const unsigned char*)s;*p;p++){switch(*p){case '"':fputs("\\\"",f);break;case '\\':fputs("\\\\",f);break;case '\n':fputs("\\n",f);break;case '\r':fputs("\\r",f);break;case '\t':fputs("\\t",f);break;default:if(*p<32)fprintf(f,"\\u%04x",*p);else fputc(*p,f);}}fputc('"',f);}
+static GSValue log_fn(GSValue*a,size_t n){if(n<2)return api->boolean(0);const char*level=api->cstring(a[0]),*msg=api->cstring(a[1]);if(!level||!msg)return api->boolean(0);if(strcmp(level,"debug")&&strcmp(level,"info")&&strcmp(level,"warn")&&strcmp(level,"error"))return api->boolean(0);time_t now=time(NULL);struct tm tmv;if(!gmtime_r(&now,&tmv))return api->boolean(0);char stamp[32];if(!strftime(stamp,sizeof stamp,"%Y-%m-%dT%H:%M:%SZ",&tmv))return api->boolean(0);fputs("{\"time\":",stderr);json_string(stderr,stamp);fputs(",\"level\":",stderr);json_string(stderr,level);fputs(",\"message\":",stderr);json_string(stderr,msg);if(n>2&&a[2].type==V_OBJECT){size_t c=api->object_count(a[2]);for(size_t i=0;i<c;i++){const char*k=api->object_key(a[2],i);if(!k||!strcmp(k,"time")||!strcmp(k,"level")||!strcmp(k,"message"))continue;GSValue v=api->object_get(a[2],k);fputc(',',stderr);json_string(stderr,k);fputc(':',stderr);if(v.type==V_STRING)json_string(stderr,api->cstring(v));else if(v.type==V_NUMBER)fprintf(stderr,"%.17g",v.as.number);else if(v.type==V_BOOL)fputs(v.as.boolean?"true":"false",stderr);else fputs("null",stderr);}}fputs("}\n",stderr);return api->boolean(!ferror(stderr));}
+static GSValue debug_fn(GSValue*a,size_t n){if(n<1)return api->boolean(0);GSValue b[3]={api->string("debug"),api->copy(a[0]),n>1?api->copy(a[1]):api->null()};return log_fn(b,n>1?3:2);}
+static GSValue info_fn(GSValue*a,size_t n){if(n<1)return api->boolean(0);GSValue b[3]={api->string("info"),api->copy(a[0]),n>1?api->copy(a[1]):api->null()};return log_fn(b,n>1?3:2);}
+static GSValue warn_fn(GSValue*a,size_t n){if(n<1)return api->boolean(0);GSValue b[3]={api->string("warn"),api->copy(a[0]),n>1?api->copy(a[1]):api->null()};return log_fn(b,n>1?3:2);}
+static GSValue error_level_fn(GSValue*a,size_t n){if(n<1)return api->boolean(0);GSValue b[3]={api->string("error"),api->copy(a[0]),n>1?api->copy(a[1]):api->null()};return log_fn(b,n>1?3:2);}
+GSValue greenServeFE_module_init(const GSNativeAPI*napi){api=napi;GSValue m=api->object();api->object_set(&m,"log",api->native(log_fn));api->object_set(&m,"debug",api->native(debug_fn));api->object_set(&m,"info",api->native(info_fn));api->object_set(&m,"warn",api->native(warn_fn));api->object_set(&m,"error",api->native(error_level_fn));return m;}

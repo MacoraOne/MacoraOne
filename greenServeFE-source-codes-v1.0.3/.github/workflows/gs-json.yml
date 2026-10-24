@@ -1,0 +1,21 @@
+name: Build gs_json module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          set -e
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_json.so gs_json.c
+          nm -D dist/gs_json.so | grep greenServeFE_module_init
+          cp gs_json.c dist/gs_json.c
+          zip -j dist/gs_json-linux-x86_64.zip dist/gs_json.so dist/gs_json.c
+          sha256sum dist/gs_json.so > dist/gs_json.so.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_json-linux-x86_64
+          path: dist/*

@@ -1,0 +1,8 @@
+define user = {
+    name: "greenServeFE",
+    version: 1
+};
+
+print(user.name);
+user.version = 2;
+print(user.version);

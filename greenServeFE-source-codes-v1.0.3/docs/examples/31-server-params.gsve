@@ -1,0 +1,14 @@
+import server;
+
+func user(req, res) {
+    res.json({
+        id: req.params.id,
+        path: req.path
+    });
+}
+
+server.get("/users/:id", user);
+
+server.serve(".", 8080, {
+    static: true
+});

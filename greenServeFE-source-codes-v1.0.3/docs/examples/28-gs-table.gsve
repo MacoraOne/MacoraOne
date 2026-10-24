@@ -1,0 +1,15 @@
+import gs_table;
+
+define headers = ["Name", "Score", "Role"];
+define rows = [
+    ["Alex", 95, "developer"],
+    ["Sam", 88, "designer"]
+];
+
+print(gs_table.render(headers, rows, {
+    title: "Scores",
+    align: ["left", "right", "left"]
+}));
+
+print(gs_table.csv(headers, rows));
+print(gs_table.markdown(headers, rows));

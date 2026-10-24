@@ -1,0 +1,24 @@
+name: Build gs_form module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential zip
+      - name: Build and test
+        run: |
+          set -e
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_form.so gs_form.c -lm
+          nm -D dist/gs_form.so | grep greenServeFE_module_init
+          cp gs_form.c dist/gs_form.c
+          zip -j dist/gs_form-linux-x86_64.zip dist/gs_form.so dist/gs_form.c
+          sha256sum dist/gs_form.so > dist/gs_form.so.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_form-linux-x86_64
+          path: dist/*
+          if-no-files-found: error

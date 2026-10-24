@@ -1,0 +1,15 @@
+import server;
+
+func home(req, res) {
+    res.render("index.html", {
+        title: "greenServeFE",
+        message: "Server-side rendering works"
+    });
+}
+
+server.get("/", home);
+
+server.serve(".", 8080, {
+    index: "index.html",
+    static: true
+});

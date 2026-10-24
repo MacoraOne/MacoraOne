@@ -1,0 +1,21 @@
+name: Build gs_random module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          set -e
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_random.so gs_random.c
+          nm -D dist/gs_random.so | grep greenServeFE_module_init
+          cp gs_random.c dist/gs_random.c
+          zip -j dist/gs_random-linux-x86_64.zip dist/gs_random.so dist/gs_random.c
+          sha256sum dist/gs_random.so > dist/gs_random.so.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_random-linux-x86_64
+          path: dist/*

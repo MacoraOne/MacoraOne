@@ -1,0 +1,9 @@
+func make_adder(value) {
+    func add_value(other) {
+        return value + other;
+    }
+    return add_value;
+}
+
+define add_five = make_adder(5);
+print(add_five(7));

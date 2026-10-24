@@ -1,0 +1,7 @@
+define n = 1;
+define total = 0;
+while (n <= 5) {
+    total = total + n;
+    n = n + 1;
+}
+print(total);

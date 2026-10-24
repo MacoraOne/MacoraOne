@@ -1,0 +1,7 @@
+define values = [10, 20, 30, 40];
+print(values[0]);
+values[1] = 25;
+print(values);
+for (value in values) {
+    print(value);
+}

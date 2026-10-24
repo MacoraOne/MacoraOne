@@ -1,0 +1,136 @@
+name: Build greenServeFE documentation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install documentation tools
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-xetex
+
+      - name: Build greenServeFE
+        run: |
+          set -euo pipefail
+          make clean all
+          ./greenServeFE --version
+
+      - name: Run core examples
+        run: |
+          set -euo pipefail
+
+          examples=(
+            docs/examples/01-hello.gsve
+            docs/examples/02-variables.gsve
+            docs/examples/03-arithmetic.gsve
+            docs/examples/04-comparisons.gsve
+            docs/examples/05-logical.gsve
+            docs/examples/06-arrays.gsve
+            docs/examples/07-objects.gsve
+            docs/examples/08-nested-data.gsve
+            docs/examples/09-if-else.gsve
+            docs/examples/10-while.gsve
+            docs/examples/11-for-array.gsve
+            docs/examples/12-for-string.gsve
+            docs/examples/13-break.gsve
+            docs/examples/14-continue.gsve
+            docs/examples/15-functions.gsve
+            docs/examples/16-optional-argument.gsve
+            docs/examples/17-function-value.gsve
+            docs/examples/18-closure.gsve
+            docs/examples/19-counter-closure.gsve
+            docs/examples/20-data-processing.gsve
+            docs/examples/21-functions-and-data.gsve
+            docs/examples/22-matrix.gsve
+            docs/examples/23-type-inspection.gsve
+            docs/examples/24-lengths.gsve
+            docs/examples/25-dump-target.gsve
+          )
+
+          for file in "${examples[@]}"; do
+            echo "Running $file"
+            ./greenServeFE "$file"
+          done
+
+      - name: Verify documentation coverage
+        run: |
+          set -euo pipefail
+
+          test -f docs/README.md
+          test -f docs/book/00-preface.md
+          test -f docs/book/15-language-reference.md
+          test -f docs/reference/language.md
+          test -f docs/reference/native-api.md
+          test -f docs/reference/server.md
+          test -f docs/reference/gsnum.md
+          test -f docs/reference/gs-table.md
+          test -f docs/examples/README.md
+          test -f docs/examples/29-server-basic.gsve
+          test -f docs/examples/34-server-api-client.gsve
+
+          test "$(find docs/book -maxdepth 1 -name '*.md' | wc -l)" -ge 16
+          test "$(find docs/examples -maxdepth 1 -name '*.gsve' | wc -l)" -ge 30
+
+      - name: Assemble book
+        run: |
+          set -euo pipefail
+
+          rm -rf dist
+          mkdir -p dist
+
+          for file in docs/book/*.md; do
+            cat "$file"
+            printf '\n\n'
+          done > dist/greenServeFE-book.md
+
+      - name: Build HTML edition
+        run: |
+          set -euo pipefail
+
+          pandoc dist/greenServeFE-book.md \
+            --standalone \
+            --toc \
+            --number-sections \
+            --metadata title="greenServeFE Book" \
+            --metadata author="greenServe" \
+            -o dist/greenServeFE-book.html
+
+      - name: Build PDF edition
+        run: |
+          set -euo pipefail
+
+          pandoc dist/greenServeFE-book.md \
+            --pdf-engine=xelatex \
+            --toc \
+            --number-sections \
+            --metadata title="greenServeFE Book" \
+            --metadata author="greenServe" \
+            -V geometry:margin=25mm \
+            -V fontsize=11pt \
+            -o dist/greenServeFE-book.pdf
+
+      - name: Build documentation manifest
+        run: |
+          set -euo pipefail
+          find docs -type f -print | sort > dist/documentation-files.txt
+
+      - name: Upload book artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: greenServeFE-book
+          path: |
+            dist/greenServeFE-book.pdf
+            dist/greenServeFE-book.html
+            dist/greenServeFE-book.md
+            dist/documentation-files.txt

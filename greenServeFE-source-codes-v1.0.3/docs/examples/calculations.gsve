@@ -1,0 +1,7 @@
+define a = 12;
+define b = 5;
+print("add:", a + b);
+print("subtract:", a - b);
+print("multiply:", a * b);
+print("divide:", a / b);
+print("mod:", a % b);

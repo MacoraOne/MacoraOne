@@ -1,0 +1,20 @@
+define total = 0;
+for (n in [1, 2, 3, 4]) {
+    total = total + n;
+}
+
+func add(a, b) {
+    return a + b;
+}
+
+define result = add(total, 5);
+show("total:", total);
+show("result:", result);
+show("array:", [1, 2, result]);
+show("object:", {name: "greenServe", version: 1});
+
+if (result >= 15 && total == 10) {
+    show("vm ok");
+} else {
+    show("vm failed");
+}

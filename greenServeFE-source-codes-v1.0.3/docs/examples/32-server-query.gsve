@@ -1,0 +1,14 @@
+import server;
+
+func search(req, res) {
+    res.json({
+        query: req.query,
+        raw: req.queryString
+    });
+}
+
+server.get("/search", search);
+
+server.serve(".", 8080, {
+    static: true
+});

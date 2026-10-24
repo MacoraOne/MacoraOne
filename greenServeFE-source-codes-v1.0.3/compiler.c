@@ -39,25 +39,7 @@ static void expr(Compiler*c,Expr*e){
  case EX_ARRAY:for(size_t i=0;i<e->as.array.count;i++)expr(c,e->as.array.items[i]);emit(c,OP_BUILD_ARRAY,(int)e->as.array.count,e->line);break;
  case EX_OBJECT:for(size_t i=0;i<e->as.object.count;i++){GSValue key=gs_string(e->as.object.items[i].key);k=code_add_const(c->code,key);gs_release(key);emit(c,OP_LOAD_CONST,k,e->line);expr(c,e->as.object.items[i].value);}emit(c,OP_BUILD_OBJECT,(int)e->as.object.count,e->line);break;
  case EX_UNARY:expr(c,e->as.unary.value);if(e->as.unary.op==TOK_MINUS)emit(c,OP_NEG,0,e->line);else if(e->as.unary.op==TOK_BANG)emit(c,OP_NOT,0,e->line);break;
- case EX_BINARY:{
-    if(e->as.binary.op==TOK_AND_AND||e->as.binary.op==TOK_OR_OR){
-        expr(c,e->as.binary.left);
-        int jump=emit(c,e->as.binary.op==TOK_AND_AND?OP_JUMP_IF_FALSE:OP_JUMP_IF_TRUE,0,e->line);
-        expr(c,e->as.binary.right);
-        emit(c,OP_NOT,0,e->line);
-        emit(c,OP_NOT,0,e->line);
-        int end=emit(c,OP_JUMP,0,e->line);
-        patch(c,jump,(int)c->code->count);
-        GSValue result=gs_bool(e->as.binary.op==TOK_OR_OR);
-        k=code_add_const(c->code,result);
-        emit(c,OP_LOAD_CONST,k,e->line);
-        patch(c,end,(int)c->code->count);
-        break;
-    }
-    expr(c,e->as.binary.left);expr(c,e->as.binary.right);
-    switch(e->as.binary.op){case TOK_PLUS:emit(c,OP_ADD,0,e->line);break;case TOK_MINUS:emit(c,OP_SUB,0,e->line);break;case TOK_STAR:emit(c,OP_MUL,0,e->line);break;case TOK_SLASH:emit(c,OP_DIV,0,e->line);break;case TOK_PERCENT:emit(c,OP_MOD,0,e->line);break;case TOK_EQUAL_EQUAL:emit(c,OP_EQ,0,e->line);break;case TOK_BANG_EQUAL:emit(c,OP_NE,0,e->line);break;case TOK_LESS:emit(c,OP_LT,0,e->line);break;case TOK_LESS_EQUAL:emit(c,OP_LE,0,e->line);break;case TOK_GREATER:emit(c,OP_GT,0,e->line);break;case TOK_GREATER_EQUAL:emit(c,OP_GE,0,e->line);break;default:emit(c,OP_NOP,0,e->line);break;}
-    break;
- }
+ case EX_BINARY:expr(c,e->as.binary.left);expr(c,e->as.binary.right);switch(e->as.binary.op){case TOK_PLUS:emit(c,OP_ADD,0,e->line);break;case TOK_MINUS:emit(c,OP_SUB,0,e->line);break;case TOK_STAR:emit(c,OP_MUL,0,e->line);break;case TOK_SLASH:emit(c,OP_DIV,0,e->line);break;case TOK_PERCENT:emit(c,OP_MOD,0,e->line);break;case TOK_EQUAL_EQUAL:emit(c,OP_EQ,0,e->line);break;case TOK_BANG_EQUAL:emit(c,OP_NE,0,e->line);break;case TOK_LESS:emit(c,OP_LT,0,e->line);break;case TOK_LESS_EQUAL:emit(c,OP_LE,0,e->line);break;case TOK_GREATER:emit(c,OP_GT,0,e->line);break;case TOK_GREATER_EQUAL:emit(c,OP_GE,0,e->line);break;case TOK_AND_AND:emit(c,OP_AND,0,e->line);break;case TOK_OR_OR:emit(c,OP_OR,0,e->line);break;default:emit(c,OP_NOP,0,e->line);break;}break;
  case EX_ASSIGN:{Expr*t=e->as.assign.target;if(t->type==EX_IDENTIFIER){expr(c,e->as.assign.value);emit(c,OP_STORE_NAME,code_add_name(c->code,t->as.identifier),e->line);}else if(t->type==EX_INDEX){expr(c,t->as.index.object);expr(c,t->as.index.index);expr(c,e->as.assign.value);emit(c,OP_SET_INDEX,0,e->line);}else if(t->type==EX_MEMBER){expr(c,t->as.member.object);GSValue key=gs_string(t->as.member.name);k=code_add_const(c->code,key);gs_release(key);emit(c,OP_LOAD_CONST,k,e->line);expr(c,e->as.assign.value);emit(c,OP_SET_MEMBER,0,e->line);}else{err_at(c,e->line,e->column,"invalid assignment target; expected a variable, index, or member target");}break;}
  case EX_CALL:expr(c,e->as.call.callee);for(size_t i=0;i<e->as.call.count;i++)expr(c,e->as.call.args[i]);emit(c,OP_CALL,(int)e->as.call.count,e->line);break;
  case EX_INDEX:expr(c,e->as.index.object);expr(c,e->as.index.index);emit(c,OP_GET_INDEX,0,e->line);break;

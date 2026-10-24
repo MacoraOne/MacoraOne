@@ -68,7 +68,7 @@ static void print_diagnostics_with_source(FILE *captured,const char *source){
 
 int main(int argc,char**argv){
     if(argc<2||argc>3){usage(argv[0]);return 2;}
-    if(!strcmp(argv[1],"--version")){puts("greenServeFE 1.0.3");return 0;}
+    if(!strcmp(argv[1],"--version")){puts("greenServeFE 1.0.2");return 0;}
     int dump=0,trace=0;
     const char*path=argv[1];
     if(!strcmp(argv[1],"--dump")||!strcmp(argv[1],"--trace")){

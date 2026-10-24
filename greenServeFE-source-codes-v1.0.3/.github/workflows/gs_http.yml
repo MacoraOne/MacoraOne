@@ -1,0 +1,24 @@
+name: Build gs_http module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential libcurl4-openssl-dev zip
+      - name: Build and test
+        run: |
+          set -e
+          mkdir -p dist
+          cc -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_http.so gs_http.c $(pkg-config --cflags --libs libcurl)
+          nm -D dist/gs_http.so | grep greenServeFE_module_init
+          cp gs_http.c dist/gs_http.c
+          zip -j dist/gs_http-linux-x86_64.zip dist/gs_http.so dist/gs_http.c
+          sha256sum dist/gs_http.so > dist/gs_http.so.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_http-linux-x86_64
+          path: dist/*
+          if-no-files-found: error

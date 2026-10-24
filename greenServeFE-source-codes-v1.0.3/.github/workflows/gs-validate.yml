@@ -1,0 +1,21 @@
+name: Build gs_validate module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          set -e
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_validate.so gs_validate.c
+          nm -D dist/gs_validate.so | grep greenServeFE_module_init
+          cp gs_validate.c dist/gs_validate.c
+          zip -j dist/gs_validate-linux-x86_64.zip dist/gs_validate.so dist/gs_validate.c
+          sha256sum dist/gs_validate.so > dist/gs_validate.so.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_validate-linux-x86_64
+          path: dist/*

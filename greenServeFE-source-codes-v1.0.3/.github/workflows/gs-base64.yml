@@ -1,0 +1,21 @@
+name: Build gs_base64 module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          set -e
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_base64.so gs_base64.c
+          nm -D dist/gs_base64.so | grep greenServeFE_module_init
+          cp gs_base64.c dist/gs_base64.c
+          zip -j dist/gs_base64-linux-x86_64.zip dist/gs_base64.so dist/gs_base64.c
+          sha256sum dist/gs_base64.so > dist/gs_base64.so.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_base64-linux-x86_64
+          path: dist/*

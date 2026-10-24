@@ -1,0 +1,6 @@
+define active = true;
+define verified = true;
+define blocked = false;
+print(active && verified);
+print(active || blocked);
+print(!blocked);

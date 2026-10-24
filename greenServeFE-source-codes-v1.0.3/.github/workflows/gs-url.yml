@@ -1,0 +1,22 @@
+name: Build gs_url module
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and package
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cc -D_POSIX_C_SOURCE=200809L -std=c11 -O2 -Wall -Wextra -Wpedantic -fPIC -shared -I. -o dist/gs_url.so gs_url.c
+          nm -D dist/gs_url.so | grep greenServeFE_module_init
+          cp gs_url.c dist/gs_url.c
+          zip -j dist/gs_url-linux-x86_64.zip dist/gs_url.so dist/gs_url.c
+          sha256sum dist/gs_url.so > dist/gs_url.so.sha256
+          sha256sum dist/gs_url-linux-x86_64.zip > dist/gs_url-linux-x86_64.zip.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gs_url-linux-x86_64
+          path: dist/*

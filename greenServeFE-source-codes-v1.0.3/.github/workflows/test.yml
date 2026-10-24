@@ -1,0 +1,49 @@
+name: Build and Test greenServeFE
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build greenServeFE
+        run: |
+          set -e
+          make clean all
+          test -x ./greenServeFE
+          ./greenServeFE --help || true
+
+      - name: Create test.gsve
+        run: |
+          cat > test.gsve <<'EOF'
+          func total_price(items) {
+              define total = 0;
+
+              for (item in items) {
+                  total = total + item.price;
+              }
+
+              return total;
+          }
+
+          define items = [
+              {name: "Book", price: 20},
+              {name: "Pen", price: 5},
+              {name: "Bag", price: 30}
+          ];
+
+          print(total_price(items));
+          EOF
+
+          test -f ./test.gsve
+          cat ./test.gsve
+
+      - name: Run test.gsve
+        run: |
+          set -e
+          ./greenServeFE ./test.gsve

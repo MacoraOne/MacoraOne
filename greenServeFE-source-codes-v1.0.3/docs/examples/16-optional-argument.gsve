@@ -1,0 +1,9 @@
+func greet(name) {
+    if (name == null) {
+        return "Hello";
+    }
+    return "Hello " + name;
+}
+
+print(greet());
+print(greet("Alex"));
