@@ -42,7 +42,31 @@ server.get("/", home);
 server.serve(".", 8080, {
     index: "index.html",
     static: true
-});</code></pre><a class="btn" href="/greenServeFE-source-codes-v1.0.3/docs/examples/29-server-basic.gsve">Open .gsve source</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/docs/examples/29-server-basic.gsve">Canonical source</a></article></main><section class="hero"><h2>Run examples</h2><pre><code>make clean all
+});</code></pre><a class="btn" href="/greenServeFE-source-codes-v1.0.3/docs/examples/29-server-basic.gsve">Open .gsve source</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/docs/examples/29-server-basic.gsve">Canonical source</a></article><article class="card"><h2>Arrays and iteration</h2><p class="muted">Store values in an array and process each element with a loop.</p><pre><code>define scores = [82, 95, 74, 88];
+define total = 0;
+for score in scores {
+    total = total + score;
+}
+print(total);
+print(len(scores));</code></pre><a class="btn" href="/greenServeFE-source-codes-v1.0.3/docs/examples/11-for-array.gsve">Open version 1.0.3 source</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/docs/examples/11-for-array.gsve">Canonical source</a></article><article class="card"><h2>Objects and nested data</h2><p class="muted">Represent structured application data with object properties.</p><pre><code>define user = {
+    name: "Ada",
+    role: "developer",
+    active: true
+};
+print(user.name);
+print(user.role);
+print(user.active);</code></pre><a class="btn" href="/greenServeFE-source-codes-v1.0.3/docs/examples/07-objects.gsve">Open version 1.0.3 source</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/docs/examples/07-objects.gsve">Canonical source</a></article><article class="card"><h2>Conditions and validation</h2><p class="muted">Use branches to choose behavior based on a value.</p><pre><code>define temperature = 28;
+if temperature >= 30 {
+    print("Hot");
+} else {
+    print("Comfortable");
+}</code></pre><a class="btn" href="/greenServeFE-source-codes-v1.0.3/docs/examples/09-if-else.gsve">Open version 1.0.3 source</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/docs/examples/09-if-else.gsve">Canonical source</a></article><article class="card"><h2>HTTP API response</h2><p class="muted">Explore the VM server interface and API-oriented route patterns. Networking support depends on the runtime build.</p><pre><code>import server;
+
+func health(req, res) {
+    res.send("greenServeFE 1.0.3 is running");
+}
+
+server.get("/health", health);</code></pre><a class="btn" href="/greenServeFE-source-codes-v1.0.3/docs/examples/30-server-api.gsve">Open version 1.0.3 source</a><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/blob/main/docs/examples/30-server-api.gsve">Canonical source</a></article></main><section class="hero"><h2>Run examples</h2><pre><code>make clean all
 ./greenServeFE docs/examples/01-hello.gsve
 ./greenServeFE --dump docs/examples/03-arithmetic.gsve
 ./greenServeFE --trace docs/examples/15-functions.gsve</code></pre><p>For native imports, install the matching module and ensure <code>GREENSERVE_MODULE_PATH</code> points to its shared-library directory. External HTTP/database/crypto dependencies and network access may be required for those module examples.</p><a class="btn" href="https://github.com/dominexmacedon-docs/greenServeFE-build/tree/main/docs/examples">Browse all canonical GSVE examples</a><a class="btn" href="/greenServeFE-source-codes-v1.0.3/index.html">Browse source archive</a></section><footer class="hero"><a href="/index.html">Back to overview</a> · <a href="https://github.com/MacoraOne/MacoraOne">Source repository</a></footer></body></html>
