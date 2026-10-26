@@ -16,3 +16,5 @@ developed by Dominex Macedon.
 - [greenServe](https://github.com/dominexmacedon-docs/greenServe-lang)
 - [greenServe Modules](https://github.com/dominexmacedon-docs/greenServe-modules)
 - [CMLL](https://github.com/dominexmacedon-docs/CMLL)
+- [MVM C Bytecode Virtual Machine](https://github.com/MacoraOne/MVM)
+- [MVM language integration guide](https://github.com/MacoraOne/MVM/blob/main/USAGE.md)
