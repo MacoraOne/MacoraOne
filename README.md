@@ -2,7 +2,7 @@
 
 **Website:** https://macoraone.dominextechdocumentary.workers.dev/
 
-Browse the [project directory](https://macoraone.dominextechdocumentary.workers.dev/), [MacoraOne CLI guide](https://macoraone.dominextechdocumentary.workers.dev/macoraone.html), [NativeFlexi](https://macoraone.dominextechdocumentary.workers.dev/nativeflexi.html), [CMLL](https://macoraone.dominextechdocumentary.workers.dev/cmll.html), and [greenServeFE](https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html).
+Browse the [project directory](https://macoraone.dominextechdocumentary.workers.dev/), [MacoraOne CLI guide](https://macoraone.dominextechdocumentary.workers.dev/macoraone.html), [NativeFlexi](https://macoraone.dominextechdocumentary.workers.dev/nativeflexi.html), [CMLL](https://macoraone.dominextechdocumentary.workers.dev/cmll.html), and [greenServeFE](https://macoraone.dominextechdocumentary.workers.dev/greenservefe.html), plus the [MVM virtual machine](https://github.com/MacoraOne/MVM).
 
 ---
 
@@ -1087,3 +1087,40 @@ Refer to the license file in each individual project before using, modifying, or
 # MacoraOne
 
 **Programming Languages • Android Development • Server Development • Developer Tools • AI Resources • Open Source**
+
+
+---
+
+# MacoraOne MVM — C Bytecode Virtual Machine
+
+**MVM is part of the MacoraOne ecosystem.** It is a standalone C11 stack-based bytecode virtual machine designed to provide a runtime that a programming-language implementation can embed and drive through a public C API.
+
+**Repository:** https://github.com/MacoraOne/MVM
+
+**Documentation:** [MVM README](https://github.com/MacoraOne/MVM/blob/main/README.md) · [Complete usage and language-integration guide](https://github.com/MacoraOne/MVM/blob/main/USAGE.md) · [Bytecode API reference](https://github.com/MacoraOne/MVM/blob/main/BYTECODE_API.md)
+
+## What MVM provides
+
+- A C API for creating, configuring, running and freeing a VM.
+- Bytecode emission for arithmetic, comparisons, jumps, local values and calls.
+- Runtime values including null, booleans, numbers, strings, arrays, maps, functions and closures.
+- Native C callbacks that let a host language expose its own built-ins and APIs.
+- Function-call frames, captured values, and array/map operations.
+- Text and JSON profiling support for investigating VM execution.
+- A Makefile and C test program, plus a manually triggered GitHub Actions test workflow.
+
+## Clone, build and test
+
+```sh
+git clone https://github.com/MacoraOne/MVM.git
+cd MVM
+make clean test
+```
+
+The test program reports `MACORAONE_VM_ALL_TESTS_PASS` when the complete test suite succeeds. The workflow is manual: open the repository's Actions tab and run the VM test workflow when you want to test it.
+
+## How MVM fits into the ecosystem
+
+MVM is a reusable runtime component, not a standalone source-language compiler. A language implementation can parse its own syntax, compile it into MVM bytecode, register native functions for host services, execute the resulting program, and use the profiler to inspect runtime behavior. The language's syntax and front end remain independent of the VM.
+
+The VM owns its heap objects until `mvm_free` is called; it does not currently provide a tracing garbage collector. MVM is not a security sandbox: native callbacks run as host C code with the process's permissions. Review the repository's API and usage documents for ownership rules and implementation limits.
