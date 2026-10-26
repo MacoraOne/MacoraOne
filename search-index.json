@@ -204,6 +204,33 @@
     ]
   },
   {
+    "title": "MVM C Bytecode Virtual Machine",
+    "url": "/mvm.html",
+    "category": "virtual machine",
+    "description": "C11 stack-based bytecode VM with arrays, maps, functions, closures, native callbacks and text/JSON profiling; includes language embedding usage.",
+    "keywords": [
+      "MVM",
+      "MacoraOne VM",
+      "C bytecode virtual machine",
+      "C11",
+      "stack VM",
+      "bytecode API",
+      "vm.h",
+      "vm.c",
+      "arrays",
+      "maps",
+      "functions",
+      "closures",
+      "native C callbacks",
+      "profiler",
+      "profiling",
+      "language implementation",
+      "USAGE.md",
+      "BYTECODE_API.md",
+      "make clean test"
+    ]
+  },
+  {
     "title": "gs_brain AI training pipeline",
     "url": "/gs_brain.html",
     "category": "AI training",
@@ -281,6 +308,21 @@
       "NativeFlexi",
       "Android",
       "source"
+    ]
+  },
+  {
+    "title": "MVM source repository",
+    "url": "https://github.com/MacoraOne/MVM",
+    "category": "source code",
+    "description": "MacoraOne's reusable C11 bytecode virtual machine, public API, tests and language integration guide.",
+    "keywords": [
+      "MVM",
+      "virtual machine",
+      "bytecode",
+      "C11",
+      "profiler",
+      "API",
+      "GitHub"
     ]
   }
 ]
