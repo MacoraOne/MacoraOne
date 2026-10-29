@@ -23,7 +23,7 @@ Run this complete command in a terminal:
 ```bash
 set -eu
 
-URL="https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.0/macoraone-linux-x86_64.zip"
+URL="https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.1/macoraone-linux-x86_64.zip"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -72,6 +72,6 @@ sudo rm -f /usr/local/bin/one
 
 ## Release
 
-Download: [MacoraOne v1.0.0 Linux x86_64](https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.0/macoraone-linux-x86_64.zip)
+Download: [MacoraOne v1.0.1 Linux x86_64](https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.1/macoraone-linux-x86_64.zip)
 
 Project: [MacoraOne on GitHub](https://github.com/MacoraOne/MacoraOne)
