@@ -99,6 +99,39 @@ The repository is intended to provide a clean starting point rather than hide An
 
 The MacoraOne `one` command provides the standard workflow for creating and building NativeFlexi Android applications.
 
+### Install MacoraOne One v1.0.1 on Linux (x86_64)
+
+Download and install the latest `one` release as `/usr/local/bin/one`:
+
+```bash
+set -eu
+
+URL="https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.1/macoraone-linux-x86_64.zip"
+TMP_DIR="$(mktemp -d)"
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+curl -fL "$URL" -o "$TMP_DIR/macoraone-linux-x86_64.zip"
+unzip -q "$TMP_DIR/macoraone-linux-x86_64.zip" -d "$TMP_DIR/extracted"
+
+BIN="$(find "$TMP_DIR/extracted" -type f \( -name 'macoraone' -o -name 'macoraone-linux-x86_64' -o -name 'one' \) -print -quit)"
+if [ -z "$BIN" ]; then
+    echo "Error: MacoraOne executable was not found in the release ZIP." >&2
+    find "$TMP_DIR/extracted" -maxdepth 3 -type f -print >&2
+    exit 1
+fi
+
+chmod +x "$BIN"
+sudo install -m 0755 "$BIN" /usr/local/bin/one
+
+one --version
+one --help
+```
+
+Requirements on Debian/Ubuntu: `curl`, `unzip`, and `sudo`. Install the dependencies with `sudo apt-get update && sudo apt-get install -y curl unzip` if needed.
+
+Release ZIP: [macoraone-linux-x86_64.zip (one-v1.0.1)](https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.1/macoraone-linux-x86_64.zip).
+
+
 ### Create an application
 
 ```text
