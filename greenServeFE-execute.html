@@ -4,21 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>greenServeFE Online Executor — Run GSVE in Your Browser | MacoraOne</title>
-<meta name="description" content="Write, syntax-highlight and execute greenServeFE (.gsve) programs directly in your browser using the greenServeFE WebAssembly runtime. Edit code on the left and inspect output on the right.">
-<meta name="keywords" content="greenServeFE online, greenServeFE playground, GSVE online compiler, run GSVE, WebAssembly, WASM, CodeMirror, programming language, bytecode virtual machine, Dominex Macedon, MacoraOne">
+<meta name="description" content="Write and execute greenServeFE (.gsve) programs directly in your browser. Edit code on the left and inspect output on the right.">
+<meta name="keywords" content="greenServeFE online, greenServeFE playground, GSVE online compiler, run GSVE, CodeMirror, programming language, bytecode virtual machine, Dominex Macedon, MacoraOne">
 <meta name="author" content="Dominex Macedon">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#080b10">
-<link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/greenServeFE-execute.html">
+<link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/greenservefe-execute.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MacoraOne">
 <meta property="og:title" content="greenServeFE Online Executor">
-<meta property="og:description" content="Write and run greenServeFE programs in your browser with WebAssembly and a syntax-highlighted GSVE editor.">
-<meta property="og:url" content="https://macoraone.dominextechdocumentary.workers.dev/greenServeFE-execute.html">
+<meta property="og:description" content="Write and run greenServeFE programs in your browser with a syntax-highlighted GSVE editor.">
+<meta property="og:url" content="https://macoraone.dominextechdocumentary.workers.dev/greenservefe-execute.html">
 <meta property="og:image" content="https://macoraone.dominextechdocumentary.workers.dev/macoraone.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="greenServeFE Online Executor">
-<meta name="twitter:description" content="A browser-based GSVE editor and WebAssembly runner by MacoraOne.">
+<meta name="twitter:description" content="A browser-based GSVE editor and runner by MacoraOne.">
 <meta name="twitter:image" content="https://macoraone.dominextechdocumentary.workers.dev/macoraone.png">
 <link rel="icon" type="image/png" href="/macoraone.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -29,7 +29,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
 <script src="./greenServeFE-wasm.js"></script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"greenServeFE Online Executor","applicationCategory":"DeveloperApplication","operatingSystem":"Any modern web browser","description":"A browser-based editor and WebAssembly runner for greenServeFE .gsve programs.","url":"https://macoraone.dominextechdocumentary.workers.dev/greenServeFE-execute.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"publisher":{"@type":"Organization","name":"MacoraOne","url":"https://macoraone.dominextechdocumentary.workers.dev/"},"softwareRequirements":"A modern browser with WebAssembly support"}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"greenServeFE Online Executor","applicationCategory":"DeveloperApplication","operatingSystem":"Any modern web browser","description":"A browser-based editor and runner for greenServeFE .gsve programs.","url":"https://macoraone.dominextechdocumentary.workers.dev/greenServeFE-execute.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"publisher":{"@type":"Organization","name":"MacoraOne","url":"https://macoraone.dominextechdocumentary.workers.dev/"},"softwareRequirements":"A modern browser with WebAssembly support"}
 </script>
 <style>
 :root{color-scheme:dark;--bg:#080b10;--surface:#101722;--surface2:#0c121b;--border:#293241;--muted:#9aa8b8;--text:#e8eef5;--accent:#79d69a}
@@ -81,16 +81,16 @@ h1{font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.15;margin:8px 0}
 <div class="topbar"><div class="wrap nav">
 <a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></span>MacoraOne</a>
 <nav class="navlinks" aria-label="Main navigation">
-<a href="/index.html">Overview</a><a href="/macoraone.html">MacoraOne CLI</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html">greenServeFE</a><a href="/greenservefe-examples.html">GSVE Examples</a><a href="/greenServeFE-execute.html" aria-current="page">Online Executor</a><a href="https://github.com/MacoraOne/MacoraOne"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+<a href="/index.html">Overview</a><a href="/macoraone.html">MacoraOne CLI</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html">greenServeFE</a><a href="/greenservefe-examples.html">GSVE Examples</a><a href="/greenservefe-execute.html" aria-current="page">Online Executor</a><a href="https://github.com/MacoraOne/MacoraOne"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
 </nav></div></div>
 <main id="main" class="wrap">
 <div class="page-heading">
-<div><div class="eyebrow"><i class="fa-solid fa-code" aria-hidden="true"></i> Browser-based GSVE playground</div><h1>greenServeFE Online Executor</h1><p class="lead">Write greenServeFE source on the left, run it with the WebAssembly runtime, and read program output or diagnostics on the right. No native installation is required.</p></div>
+<div><div class="eyebrow"><i class="fa-solid fa-code" aria-hidden="true"></i> GSVE playground</div><h1>greenServeFE Online Executor</h1><p class="lead">Write greenServeFE source on the left, run it, and read program output or diagnostics on the right. No installation is required.</p></div>
 </div>
 <div class="toolbar">
 <button class="run-button" id="run-button" type="button"><i class="fa-solid fa-play" aria-hidden="true"></i> Run</button>
 <span class="shortcut">Ctrl + Enter / Cmd + Enter</span>
-<span class="toolbar-note">Each run starts a fresh WebAssembly instance.</span>
+<span class="toolbar-note">Each run starts a fresh runtime instance.</span>
 </div>
 <div class="workspace">
 <section class="panel" aria-label="GSVE source editor">
@@ -120,9 +120,9 @@ print("Total: " + str(total(numbers)));</textarea></div>
 <pre class="output placeholder" id="output" aria-live="polite">Your program output will appear here after you click Run.</pre>
 </section>
 </div>
-<div class="info"><strong>WebAssembly runtime notes:</strong> This page loads <code>greenServeFE-wasm.js</code> and <code>greenServeFE-wasm.wasm</code> from this repository's root. The browser build supports core GSVE language execution, but native shared-library imports and dynamic modules are disabled in this WASM target. CodeMirror highlighting follows the lexer and parser syntax in the <a href="https://github.com/dominexmacedon-docs/greenServeFE-build">greenServeFE build source</a>. For the full native runtime and module support, see the <a href="/greenservefe.html">greenServeFE guide</a>.</div>
+<div class="info"><strong>Runtime notes:</strong> The browser runtime supports core GSVE language execution. Native shared-library imports and dynamic modules are not available in this version.</div>
 </main>
-<footer class="footer"><div class="wrap">MacoraOne · Programming languages and developer tools by Dominex Macedon · <a href="https://github.com/MacoraOne/MacoraOne">Source repository</a></div></footer>
+<footer class="footer"><div class="wrap">MacoraOne · Programming languages and developer tools by Dominex Macedon.</div></footer>
 <script>
 (function () {
   "use strict";
