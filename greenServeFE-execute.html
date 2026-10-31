@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>greenServeFE Online Executor — Run GSVE in Your Browser | MacoraOne</title>
+<meta name="description" content="Write, syntax-highlight and execute greenServeFE (.gsve) programs directly in your browser using the greenServeFE WebAssembly runtime. Edit code on the left and inspect output on the right.">
+<meta name="keywords" content="greenServeFE online, greenServeFE playground, GSVE online compiler, run GSVE, WebAssembly, WASM, CodeMirror, programming language, bytecode virtual machine, Dominex Macedon, MacoraOne">
+<meta name="author" content="Dominex Macedon">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#080b10">
+<link rel="canonical" href="https://macoraone.dominextechdocumentary.workers.dev/greenServeFE-execute.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MacoraOne">
+<meta property="og:title" content="greenServeFE Online Executor">
+<meta property="og:description" content="Write and run greenServeFE programs in your browser with WebAssembly and a syntax-highlighted GSVE editor.">
+<meta property="og:url" content="https://macoraone.dominextechdocumentary.workers.dev/greenServeFE-execute.html">
+<meta property="og:image" content="https://macoraone.dominextechdocumentary.workers.dev/macoraone.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="greenServeFE Online Executor">
+<meta name="twitter:description" content="A browser-based GSVE editor and WebAssembly runner by MacoraOne.">
+<meta name="twitter:image" content="https://macoraone.dominextechdocumentary.workers.dev/macoraone.png">
+<link rel="icon" type="image/png" href="/macoraone.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/mode/simple.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+<script src="./greenServeFE-wasm.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"greenServeFE Online Executor","applicationCategory":"DeveloperApplication","operatingSystem":"Any modern web browser","description":"A browser-based editor and WebAssembly runner for greenServeFE .gsve programs.","url":"https://macoraone.dominextechdocumentary.workers.dev/greenServeFE-execute.html","author":{"@type":"Person","name":"Dominex Macedon","url":"https://github.com/dominexmacedon-docs"},"publisher":{"@type":"Organization","name":"MacoraOne","url":"https://macoraone.dominextechdocumentary.workers.dev/"},"softwareRequirements":"A modern browser with WebAssembly support"}
+</script>
+<style>
+:root{color-scheme:dark;--bg:#080b10;--surface:#101722;--surface2:#0c121b;--border:#293241;--muted:#9aa8b8;--text:#e8eef5;--accent:#79d69a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;z-index:20;background:#111;padding:10px}
+.topbar{border-bottom:1px solid var(--border);background:#0b1018}
+.wrap{width:min(1500px,calc(100% - 40px));margin:auto}
+.nav{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:750;font-size:1.08rem;white-space:nowrap}
+.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#17251e;color:var(--accent)}
+.navlinks{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.navlinks a{color:#c5cfdb}.navlinks a[aria-current=page]{color:var(--accent)}
+main{padding:30px 0 44px}
+.page-heading{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}
+.eyebrow{color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+h1{font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.15;margin:8px 0}
+.lead{color:var(--muted);max-width:800px;margin:8px 0 0}
+.toolbar{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:14px;background:var(--surface);margin-bottom:14px}
+.run-button{border:0;border-radius:10px;background:#27834b;color:#fff;padding:11px 28px;font-weight:750;font-size:1rem;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+.run-button:hover{background:#31985a}.run-button:disabled{opacity:.55;cursor:wait}
+.shortcut,.toolbar-note{color:var(--muted);font-size:.82rem}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;min-height:570px}
+.panel{min-width:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--surface);display:flex;flex-direction:column}
+.panel-head{height:48px;flex:0 0 48px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);background:#121b27}
+.panel-title{font-weight:700;display:flex;align-items:center;gap:9px}.panel-title i{color:var(--accent)}
+.panel-meta{color:var(--muted);font-size:.78rem}
+.editor-host{flex:1;min-height:520px;background:#14191f}
+.CodeMirror{height:100%;min-height:520px;font:14px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}
+.CodeMirror-gutters{background:#111820;border-right:1px solid #293241}
+.CodeMirror-linenumber{color:#657487}
+.output{flex:1;min-height:520px;padding:16px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#0b1119;color:#dce6ef;font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}
+.output.placeholder{color:#758496}
+.output .stderr{color:#ff9b9b}
+.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.8rem}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#8392a4}
+.status.ready .status-dot{background:var(--accent)}.status.error .status-dot{background:#ff7777}
+.info{margin-top:16px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;color:var(--muted);background:var(--surface2);font-size:.9rem}
+.info strong{color:var(--text)}
+.footer{border-top:1px solid var(--border);padding:20px 0;color:var(--muted);font-size:.86rem}
+@media(max-width:850px){.workspace{grid-template-columns:1fr}.page-heading{align-items:start;flex-direction:column}.editor-host,.CodeMirror{min-height:420px}.output{min-height:280px}.nav{align-items:flex-start;flex-direction:column;padding:14px 0}.navlinks{gap:12px}}
+@media(max-width:520px){.wrap{width:min(100% - 22px,1500px)}main{padding-top:22px}.toolbar{flex-wrap:wrap}.toolbar-note{width:100%;text-align:center}.panel-head{padding:0 10px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap nav">
+<a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></span>MacoraOne</a>
+<nav class="navlinks" aria-label="Main navigation">
+<a href="/index.html">Overview</a><a href="/macoraone.html">MacoraOne CLI</a><a href="/nativeflexi.html">NativeFlexi</a><a href="/cmll.html">CMLL</a><a href="/greenservefe.html">greenServeFE</a><a href="/greenservefe-examples.html">GSVE Examples</a><a href="/greenServeFE-execute.html" aria-current="page">Online Executor</a><a href="https://github.com/MacoraOne/MacoraOne"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+</nav></div></div>
+<main id="main" class="wrap">
+<div class="page-heading">
+<div><div class="eyebrow"><i class="fa-solid fa-code" aria-hidden="true"></i> Browser-based GSVE playground</div><h1>greenServeFE Online Executor</h1><p class="lead">Write greenServeFE source on the left, run it with the WebAssembly runtime, and read program output or diagnostics on the right. No native installation is required.</p></div>
+</div>
+<div class="toolbar">
+<button class="run-button" id="run-button" type="button"><i class="fa-solid fa-play" aria-hidden="true"></i> Run</button>
+<span class="shortcut">Ctrl + Enter / Ctrl + S</span>
+<span class="toolbar-note">Each run starts a fresh WebAssembly instance.</span>
+</div>
+<div class="workspace">
+<section class="panel" aria-label="GSVE source editor">
+<div class="panel-head"><div class="panel-title"><i class="fa-solid fa-file-code" aria-hidden="true"></i> Code editor</div><span class="panel-meta">main.gsve</span></div>
+<div class="editor-host"><textarea id="gsve-source" aria-label="greenServeFE source code"># Welcome to the greenServeFE WebAssembly playground
+
+define language = "greenServeFE";
+define numbers = [10, 20, 30, 40];
+
+func total(values) {
+    define result = 0;
+    for (value in values) {
+        result = result + value;
+    }
+    return result;
+}
+
+print("Hello from " + language);
+print("Values:");
+for (number in numbers) {
+    print(number);
+}
+print("Total: " + str(total(numbers)));</textarea></div>
+</section>
+<section class="panel" aria-label="Program output">
+<div class="panel-head"><div class="panel-title"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Result</div><div class="status" id="run-status" aria-live="polite"><span class="status-dot"></span><span id="status-text">Ready</span></div></div>
+<pre class="output placeholder" id="output" aria-live="polite">Your program output will appear here after you click Run.</pre>
+</section>
+</div>
+<div class="info"><strong>WebAssembly runtime notes:</strong> This page loads <code>greenServeFE-wasm.js</code> and <code>greenServeFE-wasm.wasm</code> from this repository's root. The browser build supports core GSVE language execution, but native shared-library imports and dynamic modules are disabled in this WASM target. CodeMirror highlighting follows the lexer and parser syntax in the <a href="https://github.com/dominexmacedon-docs/greenServeFE-build">greenServeFE build source</a>. For the full native runtime and module support, see the <a href="/greenservefe.html">greenServeFE guide</a>.</div>
+</main>
+<footer class="footer"><div class="wrap">MacoraOne · Programming languages and developer tools by Dominex Macedon · <a href="https://github.com/MacoraOne/MacoraOne">Source repository</a></div></footer>
+<script>
+(function () {
+  "use strict";
+
+  CodeMirror.defineSimpleMode("gsve", {
+    start: [
+      {regex: /#.*/, token: "comment"},
+      {regex: /"(?:\\.|[^"\\])*"?|'(?:\\.|[^'\\])*'?/, token: "string"},
+      {regex: /\b(?:define|if|else|for|in|while|func|return|break|continue|import|from|true|false|null)\b/, token: "keyword"},
+      {regex: /\b(?:print|len|str|num|type)\b/, token: "builtin"},
+      {regex: /\b\d+(?:\.\d+)?\b/, token: "number"},
+      {regex: /(?:==|!=|<=|>=|&&|\|\||[+*/%<>=!-])/, token: "operator"},
+      {regex: /[{}()[\],.:;]/, token: "bracket"},
+      {regex: /[A-Za-z_][\w]*/, token: "variable"}
+    ],
+    meta: {dontIndentStates: ["comment"], lineComment: "#"}
+  });
+
+  const editor = CodeMirror.fromTextArea(document.getElementById("gsve-source"), {
+    mode: "gsve",
+    theme: "material-darker",
+    lineNumbers: true,
+    indentUnit: 4,
+    tabSize: 4,
+    indentWithTabs: false,
+    lineWrapping: false,
+    matchBrackets: true,
+    autoCloseBrackets: true,
+    viewportMargin: Infinity
+  });
+  editor.setSize("100%", "100%");
+
+  const runButton = document.getElementById("run-button");
+  const output = document.getElementById("output");
+  const status = document.getElementById("run-status");
+  const statusText = document.getElementById("status-text");
+
+  function setStatus(kind, message) {
+    status.className = "status" + (kind ? " " + kind : "");
+    statusText.textContent = message;
+  }
+
+  function appendOutput(target, text, isError) {
+    if (!text) return;
+    const line = document.createElement("span");
+    if (isError) line.className = "stderr";
+    line.textContent = text;
+    target.appendChild(line);
+    if (!text.endsWith("\n")) target.appendChild(document.createTextNode("\n"));
+  }
+
+  async function runProgram() {
+    const source = editor.getValue();
+    if (!source.trim()) {
+      output.textContent = "The editor is empty. Enter a .gsve program and try again.";
+      output.classList.remove("placeholder");
+      setStatus("error", "Empty source");
+      return;
+    }
+
+    runButton.disabled = true;
+    runButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Running…';
+    output.textContent = "";
+    output.classList.remove("placeholder");
+    setStatus("", "Starting WebAssembly…");
+
+    const stdout = [];
+    const stderr = [];
+    let exitCode = 0;
+
+    try {
+      if (typeof createGreenServeFE !== "function") {
+        throw new Error("The greenServeFE WebAssembly loader did not initialize. Check that greenServeFE-wasm.js is present and reachable.");
+      }
+
+      const wasmModule = await createGreenServeFE({
+        noInitialRun: true,
+        locateFile: function (path) {
+          return path.endsWith(".wasm") ? new URL("./greenServeFE-wasm.wasm", window.location.href).href : path;
+        },
+        print: function (line) { stdout.push(String(line)); },
+        printErr: function (line) { stderr.push(String(line)); }
+      });
+
+      if (!wasmModule.FS || typeof wasmModule.FS.writeFile !== "function") {
+        throw new Error("The WebAssembly filesystem is unavailable; the runtime must be built with FORCE_FILESYSTEM=1.");
+      }
+      if (typeof wasmModule.callMain !== "function") {
+        throw new Error("The WebAssembly runtime does not expose callMain. Rebuild with -sEXPORTED_RUNTIME_METHODS=callMain.");
+      }
+
+      try { wasmModule.FS.mkdir("/workspace"); } catch (_) {}
+      wasmModule.FS.writeFile("/workspace/main.gsve", source);
+      try {
+        const result = wasmModule.callMain(["/workspace/main.gsve"]);
+        if (typeof result === "number") exitCode = result;
+      } catch (error) {
+        if (error && error.name === "ExitStatus") {
+          exitCode = Number(error.status || 0);
+        } else {
+          throw error;
+        }
+      }
+
+      stdout.forEach(function (line) { appendOutput(output, line, false); });
+      stderr.forEach(function (line) { appendOutput(output, line, true); });
+
+      if (!stdout.length && !stderr.length) {
+        output.textContent = exitCode === 0 ? "Program finished successfully with no output." : "Program finished without captured output.";
+      }
+      if (exitCode === 0) {
+        setStatus("ready", "Finished");
+      } else {
+        setStatus("error", "Exited with code " + exitCode);
+      }
+    } catch (error) {
+      stdout.forEach(function (line) { appendOutput(output, line, false); });
+      stderr.forEach(function (line) { appendOutput(output, line, true); });
+      appendOutput(output, error && error.message ? error.message : String(error), true);
+      setStatus("error", "Execution failed");
+    } finally {
+      runButton.disabled = false;
+      runButton.innerHTML = '<i class="fa-solid fa-play" aria-hidden="true"></i> Run';
+      if (!output.textContent.trim()) output.textContent = "No output.";
+    }
+  }
+
+  runButton.addEventListener("click", runProgram);
+  editor.addKeyMap({"Ctrl-Enter": runProgram, "Cmd-Enter": runProgram});
+  window.addEventListener("resize", function () { editor.refresh(); });
+  window.addEventListener("load", function () { editor.refresh(); });
+})();
+</script>
+</body>
+</html>
