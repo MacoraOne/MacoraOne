@@ -23,7 +23,7 @@ Run this complete command in a terminal:
 ```bash
 set -eu
 
-URL="https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.1/macoraone-linux-x86_64.zip"
+URL="https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.2/macoraone-linux-x86_64.zip"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
