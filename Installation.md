@@ -16,7 +16,17 @@ sudo apt-get update
 sudo apt-get install -y curl unzip
 ```
 
-## Download and install
+## Quick installation using install.sh
+
+You can install MacoraOne with this one-line command. The installer downloads the Linux x86_64 release, extracts the executable, and installs it system-wide as `/usr/local/bin/one`.
+
+```bash
+curl -fsSL https://github.com/MacoraOne/MacoraOne/releases/download/installer-v1.0.2/install.sh | bash
+```
+
+This installer requires `sudo` access. If you prefer to inspect and run the complete installation command yourself, use the manual method below.
+
+## Download and install manually
 
 Run this complete command in a terminal:
 
@@ -72,6 +82,8 @@ sudo rm -f /usr/local/bin/one
 
 ## Release
 
-Download: [MacoraOne v1.0.1 Linux x86_64](https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.1/macoraone-linux-x86_64.zip)
+Download: [MacoraOne v1.0.2 Linux x86_64](https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.2/macoraone-linux-x86_64.zip)
+
+Installer: [install.sh v1.0.2](https://github.com/MacoraOne/MacoraOne/releases/download/installer-v1.0.2/install.sh)
 
 Project: [MacoraOne on GitHub](https://github.com/MacoraOne/MacoraOne)
