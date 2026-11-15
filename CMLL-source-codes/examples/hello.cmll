@@ -1,5 +1,0 @@
-# A minimal CMLL program
-project "Hello World";
-set name = "CMLL";
-say "Hello from CMLL!";
-show "Language: " + name;
