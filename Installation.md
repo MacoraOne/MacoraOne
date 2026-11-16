@@ -80,6 +80,35 @@ Because `/usr/local/bin` is normally included in the system `PATH`, `one` can be
 sudo rm -f /usr/local/bin/one
 ```
 
+
+## Install the greenServeFE VS Code extension
+
+The greenServeFE VS Code extension adds syntax highlighting and language support for `.gsve` files.
+
+Make sure the Visual Studio Code command-line interface (`code`) is available in your terminal. Then run:
+
+```bash
+# Check whether the VS Code CLI is installed
+if ! command -v code >/dev/null 2>&1; then
+    echo "VS Code CLI is not installed."
+    echo "Install Visual Studio Code first: https://code.visualstudio.com/"
+    exit 1
+fi
+
+# Download the greenServeFE VSIX extension v1.0.1
+curl -fL \
+  "https://github.com/dominexmacedon-docs/greenServeFE-/releases/download/gs-extension-v1.0.1/greenServeFE-syntax-1.0.1.vsix" \
+  -o greenServeFE-syntax-1.0.1.vsix
+
+# Install the extension
+code --install-extension greenServeFE-syntax-1.0.1.vsix
+
+# Confirm installation
+code --list-extensions | grep -i greenserve
+```
+
+If the extension is installed successfully, the final command should list its extension identifier. You can then open or create a `.gsve` file in VS Code.
+
 ## Release
 
 Download: [MacoraOne v1.0.2 Linux x86_64](https://github.com/MacoraOne/MacoraOne/releases/download/one-v1.0.2/macoraone-linux-x86_64.zip)
