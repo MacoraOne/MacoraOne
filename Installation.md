@@ -95,13 +95,13 @@ if ! command -v code >/dev/null 2>&1; then
     exit 1
 fi
 
-# Download the greenServeFE VSIX extension v1.0.1
+# Download the greenServeFE VSIX extension v1.0.2
 curl -fL \
-  "https://github.com/dominexmacedon-docs/greenServeFE-/releases/download/gs-extension-v1.0.1/greenServeFE-syntax-1.0.1.vsix" \
-  -o greenServeFE-syntax-1.0.1.vsix
+  "https://github.com/dominexmacedon-docs/greenServeFE-/releases/download/gs-extension-v1.0.2/greenServeFE-syntax-1.0.2.vsix" \
+  -o greenServeFE-syntax-1.0.2.vsix
 
 # Install the extension
-code --install-extension greenServeFE-syntax-1.0.1.vsix
+code --install-extension greenServeFE-syntax-1.0.2.vsix
 
 # Confirm installation
 code --list-extensions | grep -i greenserve
